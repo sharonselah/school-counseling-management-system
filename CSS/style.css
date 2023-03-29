@@ -1,0 +1,292 @@
+body{
+    padding: 10px; 
+    font-size: 19px; 
+    background-color: #F9F6EE;
+}
+
+header{
+   
+    display: flex; 
+    justify-content: space-between;
+    padding: 12px 0px; 
+   
+}
+
+.logo{
+    font-family: 'Times New Roman', Times, serif; 
+    font-size: 26px; 
+    color: brown; 
+}
+
+header ul{
+    display: flex;
+    width: 55%; 
+    justify-content: space-around;
+    margin-top: 0px; 
+    
+}
+
+header ul li{
+    list-style-type: none;
+    padding-top: 6px; 
+}
+
+a{
+    text-decoration: none;
+    color: black; 
+   
+}
+
+header ul a:hover{
+    text-decoration: underline;
+    color: brown; 
+}
+
+.button{
+    margin-top: 5px; 
+    width: 18%; 
+
+ 
+    
+}
+
+.button a{
+    
+    background-color: brown; 
+    color:white; 
+    border: 1px solid rgba(165, 42, 42, 0.15); 
+   
+    border-radius: 6px; 
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 20px;
+    list-style: none;
+    padding: 10px 10px;
+    transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+   
+    
+}
+
+.button a:hover{
+    background-color: black;
+}
+
+
+.call-to-action{
+    height: 450px; 
+    background: rgb(244,244,244);
+    background: linear-gradient(86deg, rgba(244,244,244,1) 0%, rgba(229,228,226,1) 100%);
+    
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+   
+}
+
+.call-to-action .emotions{
+    display: flex;
+    width: 45%; 
+    justify-content: space-around;
+    
+}
+
+.emotions p{
+    border: 1px solid #84888461; 
+    border-radius: 4px; 
+    font-size: 18px;
+    padding: 10px;
+    width: 135px;
+    text-align: center; 
+    
+}
+
+.call-to-action .button{
+    margin-left:35px; 
+    
+   
+}
+
+.call-to-action .button a{
+    padding: 15px 10px; 
+}
+
+.counselors-container{
+
+    min-height: 500px; 
+    background: rgb(255,255,255);
+    background: linear-gradient(86deg, rgba(255,255,255,1) 0%, rgba(249,246,238,1) 100%);
+    padding-top: 55px;
+    padding-bottom: 50px;
+    text-align: center; 
+   
+    
+}
+
+.counselors-container .button{
+    padding-top: 30px; 
+    margin: auto; 
+    width: 25%; 
+    
+}
+
+
+.counselors-container .button a, .counselor button, .services .button a{
+    
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: .25rem;
+    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+    box-sizing: border-box;
+    color: rgba(0, 0, 0, 0.85);
+    line-height: 1.25;
+    margin: 0;
+    min-height: 3rem;
+    padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+}
+
+
+
+.counselors-container .button a{
+    background-color: brown;
+    color: white; 
+    
+}
+
+.counselors-container .button a:hover{
+    background-color: black;
+    color: white;
+}
+
+.counselors-container .counselors{
+    display: flex; 
+
+}
+
+.counselor{
+    width: 30%; 
+    margin: 10px 5%; 
+    border: 1px solid #84888419; 
+    height: 585px; 
+    text-align: center;
+    padding: 5px 10px; 
+}
+
+.counselor img{
+    height: 250px; 
+    width: 90%;
+    padding: 0px; 
+ 
+}
+
+.counselor h2{
+  color: brown; 
+}
+
+.counselor p, .self-care p{
+    color: #848884; 
+    line-height: 1.4;
+   
+}
+
+.counselor button:hover{
+    background-color: brown; 
+}
+
+
+.services-container{
+    min-height: 600px; 
+    text-align: center;
+
+}
+
+.services{
+    width: 85%; 
+    margin: auto;
+    display: flex; 
+    margin: auto; 
+    flex-wrap: wrap;
+    justify-content: space-between;
+   
+    
+}
+
+.service{
+    width: 45%; 
+    margin: 10px 1%;
+    display: flex;
+    padding: 5px 15px; 
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+     
+}
+
+.service .image{
+  
+    height: 130px;
+    width: 130px; 
+    border: 1px solid #E97451;  
+    border-radius: 50%;
+    background-color: #E97451;
+    align-self: center;
+  
+    
+}
+
+.service .image p{
+    padding-top: 10px; 
+    text-align: center;
+    font-size: 30px;
+    
+    
+}
+
+.service .content{
+    margin-left: 30px; 
+    width: 60%; 
+    color: #848884; 
+    text-align: left;
+    padding: 2px; 
+    font-size: 16px; 
+    line-height: 1.5; 
+}
+
+.service .content h2{
+    color: rgb(24, 24, 24); 
+    font-size: 26px;
+}
+
+.services .button{
+    padding: 30px 0px; 
+     margin: auto; 
+     
+ }
+
+ .services .button a{
+    background-color: #E97451;
+ }
+
+ .self-care{
+
+    min-height: 500px; 
+    padding: 20px; 
+    background: rgb(255,255,255);
+    background: linear-gradient(86deg, rgba(255,255,255,1) 0%, rgba(226,202,201,1) 100%);
+    display: flex; 
+    
+ }
+
+ .self-care .content{
+    padding: 25px;
+    line-height: 1.5;
+ }
+
+ .self-care .list{
+    display: flex;
+   
+ }
+
+ 
+
+
+
