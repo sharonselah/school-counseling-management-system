@@ -1,21 +1,21 @@
 body{
     padding: 10px; 
     font-size: 19px; 
-    background-color: #F9F6EE;
+    font-family: 'Times New Roman', Times, serif;
+   
 }
 
 header{
-   
     display: flex; 
     justify-content: space-between;
     padding: 12px 0px; 
-   
+    border-bottom: 1px solid black;
 }
 
 .logo{
     font-family: 'Times New Roman', Times, serif; 
     font-size: 26px; 
-    color: brown; 
+    color: #800000; 
 }
 
 header ul{
@@ -44,84 +44,78 @@ header ul a:hover{
 
 .button{
     margin-top: 5px; 
-    width: 18%; 
-
- 
-    
+   
+  
 }
 
 .button a{
     
-    background-color: brown; 
-    color:white; 
-    border: 1px solid rgba(165, 42, 42, 0.15); 
-   
+    background-color: #800000; 
+    border: 1px solid #800000; 
     border-radius: 6px; 
     font-size: 18px;
     font-weight: 500;
     line-height: 20px;
     list-style: none;
-    padding: 10px 10px;
+    padding: 10px 30px;
     transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+    color: white; 
    
     
 }
 
-.button a:hover{
-    background-color: black;
-}
+
 
 
 .call-to-action{
     height: 450px; 
-    background: rgb(244,244,244);
-    background: linear-gradient(86deg, rgba(244,244,244,1) 0%, rgba(229,228,226,1) 100%);
-    
-
+    background: #F4F4F4; 
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    color: black; 
    
 }
 
 .call-to-action .emotions{
     display: flex;
     width: 45%; 
-    justify-content: space-around;
-    
+    justify-content: space-around;   
 }
 
 .emotions p{
-    border: 1px solid #84888461; 
+    border: 1px solid #800000; 
     border-radius: 4px; 
     font-size: 18px;
     padding: 10px;
     width: 135px;
-    text-align: center; 
-    
+    text-align: center;   
 }
 
 .call-to-action .button{
-    margin-left:35px; 
-    
-   
+    margin-left:35px;  
 }
 
 .call-to-action .button a{
     padding: 15px 10px; 
+    background-color: #800000;
+}
+
+.button a:hover{
+    background-color: white;
+    border: 1px solid #800000; 
+    color: black; 
 }
 
 .counselors-container{
 
     min-height: 500px; 
-    background: rgb(255,255,255);
-    background: linear-gradient(86deg, rgba(255,255,255,1) 0%, rgba(249,246,238,1) 100%);
+    background: #F4F4F4;
     padding-top: 55px;
     padding-bottom: 50px;
     text-align: center; 
-   
-    
+
 }
 
 .counselors-container .button{
@@ -135,7 +129,7 @@ header ul a:hover{
 .counselors-container .button a, .counselor button, .services .button a{
     
     background-color: #FFFFFF;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    border: 1px solid #800000;
     border-radius: .25rem;
     box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
     box-sizing: border-box;
@@ -146,16 +140,14 @@ header ul a:hover{
     padding: calc(.875rem - 1px) calc(1.5rem - 1px);
 }
 
-
-
 .counselors-container .button a{
     background-color: brown;
     color: white; 
     
 }
 
-.counselors-container .button a:hover{
-    background-color: black;
+.counselors-container .button a:hover, .services .button a:hover, .counselor button:hover{
+    background-color: #800000; 
     color: white;
 }
 
@@ -167,10 +159,11 @@ header ul a:hover{
 .counselor{
     width: 30%; 
     margin: 10px 5%; 
-    border: 1px solid #84888419; 
-    height: 585px; 
+    border: 1px solid #8000007a; 
+    height: 600px; 
     text-align: center;
     padding: 5px 10px; 
+    line-height: 1.5; 
 }
 
 .counselor img{
@@ -180,15 +173,7 @@ header ul a:hover{
  
 }
 
-.counselor h2{
-  color: brown; 
-}
 
-.counselor p, .self-care p{
-    color: #848884; 
-    line-height: 1.4;
-   
-}
 
 .counselor button:hover{
     background-color: brown; 
@@ -217,7 +202,7 @@ header ul a:hover{
     margin: 10px 1%;
     display: flex;
     padding: 5px 15px; 
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+    box-shadow: #800000 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
      
 }
 
@@ -225,9 +210,9 @@ header ul a:hover{
   
     height: 130px;
     width: 130px; 
-    border: 1px solid #E97451;  
+    border: 1px solid #800000d2; 
     border-radius: 50%;
-    background-color: #E97451;
+    background-color: #800000d2; 
     align-self: center;
   
     
@@ -262,29 +247,149 @@ header ul a:hover{
      
  }
 
- .services .button a{
-    background-color: #E97451;
- }
 
- .self-care{
+
+ .self-care, .self-cares.self-cares{
 
     min-height: 500px; 
     padding: 20px; 
-    background: rgb(255,255,255);
-    background: linear-gradient(86deg, rgba(255,255,255,1) 0%, rgba(226,202,201,1) 100%);
     display: flex; 
-    
+
+ }
+
+ .self-care .image img{
+    width: 550px; 
+    height: 550px;
  }
 
  .self-care .content{
     padding: 25px;
-    line-height: 1.5;
+    line-height: 1.8;
  }
 
  .self-care .list{
     display: flex;
    
  }
+
+ .list li{
+    padding: 8px 0px; 
+ }
+
+ .self-care .button{
+    margin-left: 20px; 
+    width: 30%; 
+    
+    
+ }
+ .self-care .button a{
+    padding: 15px 35px; 
+ }
+
+ .self-cares .image{
+    width: 1200px;
+    padding: 30px; 
+    border: 1px solid black;   
+ }
+
+ .self-cares .image p{
+    font-family: cursive;
+    font-size: 30px; 
+    border: 1px solid black; 
+    padding: 30px; 
+ }
+
+ footer{
+    height: 250px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #F4F4F4; 
+ }
+
+ footer .content{
+    height: 210px; 
+    border-bottom: 1px solid black; 
+ }
+
+ footer .content p{
+    font-size: 35px; 
+ }
+
+ footer .button {
+    text-align: center;
+    margin: auto; 
+    
+ }
+
+ .signupform form, .login form, .reset form{
+    height: 580px; 
+    width: 400px; 
+    border-radius: 6px;
+    margin: auto; 
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+    padding: 25px; 
+    padding-top: 5px; 
+
+ }
+
+ .login form, .reset form{
+    height: 450px; 
+    line-height: 1.5; 
+ }
+
+ .signupform input, .login input, .reset input{
+    width: 100%;  
+    padding-top: 32px; 
+    margin: 10px 0px; 
+    border: none; 
+    outline: none;
+    border: 1px solid black; 
+    border-radius: 6px;
+   
+ }
+
+ .signupform input:focus , .login input:focus, .reset input:focus{
+ 
+    border: 2px solid black; 
+   
+ }
+
+ .signupform label, .login label, .reset label{
+    font-size: 16px; 
+ }
+.signupform p, h2, .login p, h2, .reset p, h2{
+   text-align: center;
+}
+
+.signupform a, .login a, .reset a{
+    color: blue; 
+    text-decoration: underline;
+}
+
+.signupform button, .login button, .reset button{
+    background-color: #800000; 
+    border: 1px solid #800000; 
+    border-radius: 6px; 
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.2;
+    list-style: none;
+    padding: 15px 45px;
+    transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+    color: white; 
+    margin-left: 30%; 
+}
+
+.reset button{
+    background-color: rgb(4, 4, 141); 
+    border: 1px solid rgb(4, 4, 141); 
+    margin-left: 20%;
+    word-spacing: 10px; 
+    font-family: 'Times New Roman', Times, serif;
+}
+
 
  
 

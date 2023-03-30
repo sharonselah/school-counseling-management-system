@@ -14,15 +14,19 @@
         </div>
 
         <ul>
-            <li><a href="">Providers</a></li>
+            
             <li><a href="">Services</a></li>
-            <li><a href="">Resources</a></li>
+            <li><a href="">Providers</a></li>
             <li><a href="">Selfcare</a></li>
-            <li><a href="">Conditions</a></li>
+            <li><a href="">Resources</a></li>
             <li><a href="">Contact Us</a></li>
         </ul>
 
         <div class="button">
-            <a href="">Book an Appointment</a>
+            <a href="Signup.php">Sign Up</a>
+        </div>
+
+        <div class="button">
+            <a href="">Log In</a>
         </div>
     </header>

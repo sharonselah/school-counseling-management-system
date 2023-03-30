@@ -13,7 +13,7 @@
        
          
             <h1 style=" font-size: 68px; margin-bottom: 0px; margin-top: 0px; ">Just Breath & Relax</h1>
-            <p style=" color: #848884; line-height: 36px; text-align: center; ">The CUEA Counseling team provides high quality mental health services using an<br>
+            <p style="line-height: 36px; text-align: center; ">The CUEA Counseling team provides high quality mental health services using an<br>
             evidence-based approach and Christian values. <br> We believe in early identification</p>
 
          <div class="button">
@@ -28,7 +28,7 @@
 
     <div class="services-container">
         <h1>Our Services</h1>
-        <p style="color: #848884;"> CUEA's expansive network of licensed clinicians offers a wide variety of services </p>
+        <p> CUEA's expansive network of licensed clinicians offers a wide variety of services </p>
 
         <div class="services">
             <div class="service">
@@ -148,7 +148,7 @@
 
 <h1>Our Counselors</h1>
 
-<p style="color: #848884;">Our Work is to Help Students Dealing with a Variety of Mental Health Conditions</p>
+<p>Our Work is to Help Students Dealing with a Variety of Mental Health Conditions</p>
    
 
 
@@ -156,7 +156,7 @@
     <div class="counselor">
         <img src="Images/florence-lec.jpg" alt="image">
         <h2>Florence Wamahiga (PhD)</h2>
-        <p>Florence is a senior lecturer in the department of counseling psychology.
+        <p>Senior lecturer in the department of counseling psychology.
         She is well versed with issues concerning school dropout and HIV counseling
        </p>
 
@@ -167,7 +167,7 @@
         <img src="Images/asatsa-lec.jpg" alt="">
         <h2>Stephen Asatsa <br>(PhD)</h2>
         <p>
-        Stephen is the Head of the Department of Counselling Psychology at CUEA. 
+        Head of the Department of Counselling Psychology.
         He is an expert at dealing with behavioral psychology; depression and anxiety. 
         </p>
 
@@ -178,7 +178,7 @@
         <img src="Images/elijah-lec.jpg" alt="">
         <h2>Elijah Macharia <br> (PhD)</h2>
         <p>
-        Elijah Macharia is a Lecturer at CUEA. He is well-experienced in dealing
+        Lecturer at CUEA. He is well-experienced in dealing
          with poverty trauma, financial instability, food insecurity and the associated effects. 
        </p>
 
@@ -194,16 +194,16 @@
 
 <div class="self-care">
     <div class="image">
-        <img src="Images/student2.jpg" alt="">
+        <img src="Images/selfcare5.jpg" alt="">
     </div>
 
     <div class="content">
 
-    <h2>How and Why to Practice Self-care <br> As A College Student</h2>
+    <h2>How and Why to Practice Self-Care</h2>
 
-    <p>Self-care means taking the time to do things that help you live well 
+    <p style="font-style: italic;">Self-care means taking the time to do things that help you live well 
         and improve both your physical health and mental health.
-        When it comes to your mental health, self-care can help you manage stress, 
+        Self-care can help you manage stress, 
         lower your risk of illness, and increase your energy.</p>
     <div class="list">
         <ul>
@@ -221,15 +221,11 @@
         </ul>
     </div>
 
-    <div class="button">
-            <a href="">Contact Us</a>
-    </div>
+    
     </div>
 </div>
 
-<footer>
 
-</footer>
+<?php include 'footer.php'; ?>
 
-</body>
-</html>
+
