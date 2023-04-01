@@ -26,9 +26,6 @@
                 <input type="password" name="pwdrepeat" id ="repeatpassword"  autocomplete="off"> <br>
                 
                 <br>
-
-                
-
                 <button  type="submit" name="submit" id="button_signup">Create Account </button>
 
                 <br>

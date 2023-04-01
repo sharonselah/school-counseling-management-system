@@ -501,6 +501,11 @@ border-radius: 6px;
     font-weight: bold;
   }
 
+  .dashboard-container{
+    position: relative; 
+    
+}
+
   /* menu styling */
   .menu-dashboard {
     width: 12%;
@@ -537,5 +542,202 @@ border-radius: 6px;
     background-color: #ddd;
   }
   
+/* appointment dashboard*/ 
 
+
+
+.right{
+    position: absolute; 
+    left: 15%; 
+    width: 83%;  
+    padding: 10px; 
+    overflow-y: scroll; /* enable vertical scrolling */
+   
+   
+}
+
+.appointments{
+ 
+    width: 32%;  
+   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+   padding: 10px; 
+   line-height: 1.5;
+   border: 1px solid black; 
+}
+
+.appointments-header h2 {
+    border-bottom: 2px solid lightgray; 
+    padding: 0px; 
+    margin: 0px; 
+     
+  }
+
+  
+  .appointment-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  
+  .appointment-details p {
+    margin: 0;
+  }
+  
+  .appointment-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+
+  .appointment-actions p,.event .actions p  {
+
+    
+  
+    height: 50px; 
+    align-items: center;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: .25rem;
+    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+    box-sizing: border-box;
+  
+    
+  
+  }
+  
+  .appointment-actions a, .event .actions a {
+    display: inline-block;
+    width: 140px;
+    color: black; 
+    text-decoration: none;
+    text-align: center;
+    padding: 10px 5px; 
+   
+   
+  }
+  
+  .appointment-actions p:hover {
+    background-color: lightgrey;
+  }
+  
+.appointments .manage{
+    background-color: #8000003e;
+    padding: 3px 0px;
+}
+
+
+.top-right{
+    display: flex; 
+    
+}
+
+
+/* messaging*/
+
+.messaging{
+    border: 1px solid black; 
+    border-radius: 5px;
+    width: 300px; 
+    height: 550px; 
+    padding: 10px 2px; 
+     
+    
+}
+
+.messaging .header{
+    display: flex; 
+    justify-content: space-between;
+    border-bottom: 1px solid gray; 
+    
+}
+
+.messaging .search{
+    padding: 10px; 
+    width: 90%; 
+    margin-bottom: 10px; 
+}
+
+.messaging .search input{
+    border: 1px solid black; 
+    width: 90%; 
+    background-color: #EEF3F8;
+}
+
+  .message {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 8px 0px; 
+    border-bottom: 1px solid gray; 
+  
+  }
+
+  .message:hover{
+    background-color: #EEF3F8;
+  }
+  
+  .message img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  
+  .message-content {
+    display: flex; /* add this line to make the message content a flexbox */
+    flex-direction: column; /* add this line to make the contents of message content flow in a column */
+    justify-content: flex-start; /* add this line to align the contents to the left */
+    margin-right: 10px; /* add this line to add some space between the message content and the message date */
+   
+  }
+  
+  .message-sender {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+    align-self: flex-start;
+    
+  }
+  
+  .message-text {
+    margin: 5px 0;
+    color: gray; 
+    font-size: 16px; 
+  }
+  
+  .message-date {
+    margin: 0;
+    color: gray;
+    font-size: 14px;
+    padding-left: 50px; 
+    align-self: flex-start; /* add this line to move the message date to the same line as the message sender */
+    margin-top: 5px; /* add this line to add some space between the message sender and the message date */
+  }
+  
+
+  /* events */
+
+  .events{
+ 
+    width: 330px; 
+    padding: 10px; 
+    margin: 0px 10px; 
+  }
+  
+  .event{
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+    border-radius: 5px;
+    width: 90%; 
+    padding: 4px; 
+    margin: 10px 0px; 
+    font-size: 17px;
+  }
+
+  .event .actions{
+    display: flex; 
+    justify-content: space-between;
+  }
+
+  
+  
   
