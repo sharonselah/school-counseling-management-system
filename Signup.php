@@ -1,3 +1,20 @@
+<?php
+
+//check if the superglobal GET variable contains a variable error
+if (isset($_GET['error'])) {
+
+    // if it exists assign its value to variable $error
+    $error = $_GET['error'];
+
+    // check if its value is equal to email_exists
+    if ($error == 'email_exists') {
+        echo "<script>alert('Email already exists');</script>";
+    }
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +26,7 @@
 </head>
 <body>
     <div class="signupform">
-        <form  action="" method="post"  onsubmit="return validateForm()" >
+        <form  action="Backend/signupmodel.php" method="post" >
 
 
                 <h2>Create an Account</h2>
@@ -21,7 +38,7 @@
                 <label for="email">Email</label> <br>
                 <input type="text" name ="email" id ="email" autocomplete="off"> <br>
                 <label for="password">Password</label><br>
-                <input type="password" name ="pwd" id ="password"  autocomplete="off"> <br>
+                <input type="password" name ="password" id ="password"  autocomplete="off"> <br>
                 <label for="repeat">Repeat Password</label><br>
                 <input type="password" name="pwdrepeat" id ="repeatpassword"  autocomplete="off"> <br>
                 

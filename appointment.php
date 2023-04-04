@@ -1,3 +1,15 @@
+<?php
+session_start();
+
+
+if (!isset($_SESSION['authenticated'])) {
+    // User is not authenticated, redirect to login page
+    header('Location: Login.php');
+    exit();
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +21,7 @@
 </head>
 <body>
     <div class="appointment">
-        <form  action="" method="post">
+        <form action="" method="post">
 
 
                 <h2>Make an Appointment</h2>

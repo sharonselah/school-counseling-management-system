@@ -1,3 +1,16 @@
+<?php
+session_start();
+
+
+if (!isset($_SESSION['authenticated'])) {
+    // User is not authenticated, redirect to login page
+    header('Location: Login.php');
+    exit();
+}
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +36,7 @@
           </div>
 
           <div class="personal-info">
-              <h2>Welcome, Sharon Selah</h2>
+              <h2>Welcome, <?php  echo $_SESSION["name"]; ?></h2>
           </div>
       </div>
 

@@ -1,3 +1,18 @@
+<?php 
+session_start(); 
+
+if (isset($_SESSION["error_message"])){
+  $error_message = $_SESSION["error_message"];
+  //clear error message from the session
+
+  unset($_SESSION["error_message"]);
+}
+
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,16 +24,16 @@
 </head>
 <body>
     <div class="login">
-        <form  action="" method="post">
+        <form  action="Backend/loginmodel.php" method="post">
 
 
                 <h2>Create an Account</h2>
-                <p>Don't have an account? <a href="Login.php">Sign Up</a></p>
+                <p>Don't have an account? <a href="Signup.php">Sign Up</a></p>
            
                 <label for="email">Email</label> <br>
-                <input type="text" name ="email" id ="email" autocomplete="off"> <br>
+                <input type="email" name ="email" id ="email" autocomplete="off"> <br>
                 <label for="password">Password</label><br>
-                <input type="password" name ="pwd" id ="password"  autocomplete="off"> <br>
+                <input type="password" name ="password" id ="password"  autocomplete="off"> <br>
               <br>
                 
 
@@ -26,12 +41,46 @@
 
                 <br>
 
-                <p id="error_message">HEY</p>
+                
+                  <?php 
+                    if (isset($error_message)){
+                      ?>
+                      <p id="error_message"> <?php echo $error_message; ?>  </p>
+                      <?php }
+                  ?>
+
+              
                 <p>Forgot Password? <a href="forgetpassword.php">Reset Password</a></p>
 
               
         </form>
      </div>
+
+
+     <script>
+        const errorMessage = document.getElementById("error_message");
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+
+        // Set a timer to hide the error message when the user starts typing
+        let timerId;
+        emailInput.addEventListener('input', startTimer);
+        passwordInput.addEventListener('input', startTimer);
+
+        function startTimer() {
+    // Clear the previous timer if it exists
+    if (timerId) {
+      clearTimeout(timerId);
+    }
+
+     // Set a new timer to hide the error message after 2 seconds
+     timerId = setTimeout(function() {
+      errorMessage.style.display = 'none';
+    }, 500);
+  }
+
+
+     </script>
 </body>
 </html>
 
