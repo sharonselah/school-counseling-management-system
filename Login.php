@@ -45,7 +45,7 @@ if (isset($_SESSION["error_message"])){
                   <?php 
                     if (isset($error_message)){
                       ?>
-                      <p id="error_message"> <?php echo $error_message; ?>  </p>
+                      <p id="error_message" style="color:red;"> <?php echo $error_message; ?>  </p>
                       <?php }
                   ?>
 

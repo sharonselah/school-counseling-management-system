@@ -21,8 +21,6 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
     $stmt = $conn->prepare ($check_result);
     $stmt-> bind_param('s', $email);
 
-
-
     $stmt-> execute();
 
     if ($stmt-> fetch()){
@@ -38,19 +36,27 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
 
     //bind the ? parameters to prevent SQL injection
     $stmt->bind_param('sss', $name, $email, $hash);
+    $execute = $stmt-> execute(); 
+
+        $id= $stmt-> insert_id; 
+
+        $role = "student"; 
+        $stmt2 = $conn-> prepare ("INSERT INTO users (name, email, password, role, user_id) VALUES (?, ?, ?, ?, ?)"); 
+        $stmt2 ->bind_param('ssssi', $name, $email, $hash, $role, $id); 
+        $stmt2-> execute(); 
     
     //check if the query executed
 
-    if ($stmt -> execute()){
-        header("Location: ../studentdashboard.php");
+    if ($execute){
+
+        header("Location: ../Login.php");
         exit(); 
     }else {
         echo "Error". $stmt-> error; 
     }
 
     $stmt-> close (); 
-
-
+    $stmt2-> close(); 
 
 }
 

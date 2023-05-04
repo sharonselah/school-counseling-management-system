@@ -10,9 +10,12 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
     $password = $_POST["password"];
 
 
-    $stmt = $conn-> prepare ("SELECT name, password FROM students where email = ?");
+    $stmt = $conn-> prepare ("SELECT * FROM users Where email = ?");
     $stmt-> bind_param ('s', $email); 
     $stmt-> execute();
+
+
+ 
     //retrieve the result from the query 
     $result = $stmt->get_result();
 
@@ -22,17 +25,39 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
         $row = $result->fetch_assoc();
         $hash = $row['password'];
         $name = $row['name'];
-      }
+        $id = $row['user_id']; 
+        $role = $row['role']; 
+        
 
-      //check if the given password matches the hashed password
+
+        //check if the given password matches the hashed password
 
       if (password_verify($password, $hash)) {
         // login successful
         $_SESSION["authenticated"] =TRUE; 
         $_SESSION["name"] = $name; 
+        $_SESSION["user_id"]= $id; 
+        $_SESSION["role"]= $role; 
 
-        header("Location:../studentdashboard.php");
-        exit(); 
+
+        // Redirect to the appropriate dashboard
+    switch ($role) {
+      case 'student':
+          header("Location: ../studentdashboard.php");
+          exit(); 
+          break;
+      case 'counselor':
+          header("Location: ../counselordashboard.php");
+          exit(); 
+          break;
+      case 'admin':
+          header("Location: ../admindashboard.php");
+          exit(); 
+          break;
+      default:
+          die("Invalid user role");
+  }
+      
       } else {
         // login failed
         $_SESSION["error_message"] = "Wrong password or username"; 
@@ -40,6 +65,10 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
         exit();
       }
 
+       
+      } 
+
+      
 
 
     $stmt-> close(); 

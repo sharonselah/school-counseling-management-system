@@ -2,12 +2,11 @@
 session_start();
 
 
-if (!isset($_SESSION['authenticated'])) {
-    // User is not authenticated, redirect to login page
+if (!isset($_SESSION['authenticated']) || $_SESSION["role"] !== 'admin') {
+    // User is not authenticated or is not a admin, redirect to login page
     header('Location: Login.php');
     exit();
-}
-
+  }
   //retrive the counselors
   include 'Backend/db.php';
 
@@ -68,9 +67,12 @@ if (!isset($_SESSION['authenticated'])) {
     <button><a href="CounselorSignup.php">Add</a></button>
 
     <?php 
-
+       
         // Retrieve users from database
-        $sql = "SELECT counselor_id, name, specialty, email, created_at FROM counselors ORDER BY created_at DESC";
+        $sql = "SELECT counselor_id, name, specialty, email, role, created_at 
+        FROM counselors 
+        WHERE email <> 'admin@gmail.com'
+        ORDER BY created_at DESC";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) { ?>
@@ -83,6 +85,7 @@ if (!isset($_SESSION['authenticated'])) {
                 <th>Name</th>
                 <th>Speciality</th>
                 <th>Email</th>
+                <th>Role</th>
                 <th>Start Date</th>
                 <th>Edit</th>
                 <th>Update</th>
@@ -94,7 +97,7 @@ if (!isset($_SESSION['authenticated'])) {
                
                
                while ($row = $result->fetch_assoc()) {
-                echo "<tr><td>" . $row["name"] . "</td><td>" . $row["specialty"] . "</td><td>" . $row["email"] . "</td><td>" . $row["created_at"] . "</td>
+                echo "<tr><td>" . $row["name"] . "</td><td>" . $row["specialty"] . "</td><td>" . $row["email"] . "</td><td>" . $row["role"] . "</td><td>" . $row["created_at"] . "</td>
                 <td><a href='editcounselor.php?id=". $row ["counselor_id"]."'>Edit</a></td>
                 <td><a href='deletecounselor.php?id=". $row ["counselor_id"]."'>Delete</a></td></tr>";
                 

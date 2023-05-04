@@ -15,10 +15,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get new name and specialty from form
     $name = $_POST["name"];
     $specialty = $_POST["specialty"];
+    $email = $_POST['email'];
+    $role = $_POST['role']; 
 
     // Update user data in database
-    $stmt = $conn->prepare("UPDATE counselors SET name = ?, specialty = ? WHERE counselor_id = ?");
-    $stmt->bind_param("ssi", $name, $specialty, $id);
+    $stmt = $conn->prepare("UPDATE counselors SET name = ?, specialty = ?, email =? , role =? WHERE counselor_id = ?");
+    $stmt->bind_param("ssssi", $name, $specialty,$email, $role, $id);
     $stmt->execute();
 
     // Redirect back to user list
@@ -33,6 +35,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <input type="text" name="name" value="<?php echo $user['name']; ?>"><br>
     <label for="specialty">Specialty:</label>
     <input type="text" name="specialty" value="<?php echo $user['specialty']; ?>"><br>
+    <label for="specialty">Email:</label>
+    <input type="text" name="email" value="<?php echo $user['email']; ?>"><br>
+    <label for="specialty">Role:</label>
+    <input type="text" name="role" value="<?php echo $user['role']; ?>"><br>
     <button type="submit" id="edit-button">Save</button>
 </form>
 

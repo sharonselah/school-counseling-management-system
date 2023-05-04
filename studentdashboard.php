@@ -1,15 +1,46 @@
 <?php
 session_start();
 
-
-if (!isset($_SESSION['authenticated'])) {
-    // User is not authenticated, redirect to login page
-    header('Location: Login.php');
-    exit();
+if (!isset($_SESSION['authenticated']) || $_SESSION["role"] !== 'student') {
+  // User is not authenticated or is not a counselor, redirect to login page
+  header('Location: Login.php');
+  exit();
 }
+
+
+$id= $_SESSION["user_id"]; 
+$appointment_id = $_SESSION['appointment_id']; 
+include 'Backend/db.php';
+
+//get the time 
+
+// Query the appointments table for the appointment details
+$stmt2 = $conn->prepare("SELECT start_time, date FROM appointments 
+WHERE student_id = ? 
+AND CONCAT(date, ' ', start_time) > NOW() 
+ORDER BY created_at DESC 
+LIMIT 1");
+
+
+
+$stmt2->bind_param('s', $id);
+$stmt2->execute();
+
+// Retrieve the result from the query
+$result2 = $stmt2->get_result();
+
+if ($result2->num_rows == 1) {
+    // Fetch a single row from the result set
+    $row = $result2->fetch_assoc();
+    $start_time = date_format(date_create($row['start_time']), 'H:i');
+    $date = date_format(date_create($row['date']), 'l j M');
+    $appointment_details = $start_time . ' on ' . $date;
+} else {
+    $appointment_details = 'No appointments found.';
+}
+
+  
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,6 +50,11 @@ if (!isset($_SESSION['authenticated'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="CSS/style.css">
     <title>Document</title>
+
+    <style>
+
+      
+    </style>
 </head>
 <body style=" padding: 0; ">
 
@@ -52,15 +88,14 @@ if (!isset($_SESSION['authenticated'])) {
 
     
 
-        <p>UNDERSTANDING</p>
+        <p>UNDERSTAND</p>
         <ul>
         <li><a href="">WebMD</a></li>
         <li><a href="">Support</a></li>
-        <li><a href="">Mental Health</a></li>
+        <li><a href="">Chat</a></li>
         </ul>
 
-        <br>
-        <br>
+        <br><br><br><br><br>
 
           <ul>
           <li><a href="">Log Out</a></li>
@@ -72,152 +107,104 @@ if (!isset($_SESSION['authenticated'])) {
 
 <div class="right">
 
-    <div class="top-right">
+   <div class="profile">
+      <div class="title">
+        <p>Profile</p>
+        <p><a href="">Edit</a></p>
+      </div>
 
-      <div class="appointments">
-            <div class="appointments-header">
-              <h2>Appointments</h2>
-            </div>
-
-            <div class="appointment-card">
-            
-                  <div class="therapist-info-text">
-                    <h3 style=" margin: 0px; font-size: 20px;" >Dr. Jane Doe</h3>
-                    <p style="margin-top: 0px; color: gray; font-size: 16px;">Cognitive Behavioral Therapy</p>
-                  </div>
-            
-
-                  <div class="appointment-details">
-
-                    <div class="one">
-                      <p>Date</p>
-                      <p style="font-size: 16px; color: gray;">Monday April 5, 2023</p>
-                    </div>
-
-                    <div class="two">
-                        <p>Time</p> 
-                        <p style="font-size: 16px; color: gray;">10:00 am - 11:00 am</p>
-                    </div>
-                  </div>
-
-                  <div class="appointment-actions">
-                      <p>&#10006<a href="#">Cancel Booking</a></p>
-                      <p>&#127997<a href="#">Reschedule</a></p>
-                  </div>
-
-                <div class="manage">
-                  <p style="text-align: center;"><a href="">Manage Notifications</a></p>
-                </div>
-          </div> 
-    </div><!--end of class appointments-->
-
-    <div class="events-container">
-                <div class="events">
-                  <div class="event">
-                    <p> The Signature Program</p>
-                    <p>Mon, Apr 17, 9:00 AM</p>
-                    <p>CUEA, JH Auditorium</p>
-                    <p>Cost: Free</p>
-
-                    <div class="actions">
-                      <p><a href="#">Confirm attendance</a></p>
-                        <p>18 people<br>confirmed</p>
-                    </div>
-
-                  </div>
-
-                  <div class="event">
-                    <p> The Signature Program</p>
-                    <p>Mon, Apr 17, 9:00 AM</p>
-                    <p>CUEA, JH Auditorium</p>
-                    <p>Cost: Free</p>
-
-                    <div class="actions">
-                      <p><a href="#">Confirm attendance</a></p>
-                        <p>18 people<br>confirmed</p>
-                    </div>
+      <div class="center">
+        <img src="Images/human-vector.jpg" alt="">
 
 
-                  </div>
+        <div class="dets">
+          <p style="color: brown;"><?php echo $_SESSION['name']; ?></p>
+          <p>Beginner <br>(0-5 goals)</p>
+        </div>
+        
+      </div>
 
-                
-                </div>
+      <div class="buttons">
+        <button>
+          0 <br>Appointments
+        </button>
+
+        <button>
+          0 <br>Goals
+        </button>
+      </div>
+
+      <div class="complete">
+        <button>
+          Complete Your Profile
+        </button>
+      </div>
+   </div>
+
+   <div class="appointment" style="width: 44%; height: 90vh; text-align: center;">
+      <p style="font-size: 85%; font-weight: bolder;">Manage Appointments</p>
+
+        <?php if ($result2->num_rows == 0){?>
+          <div class="division one">
+              <div class="none">
+
+              
+               
+                <p><span style="color: brown; font-size: 35px;">Nothing to see yet ...</span> <br>
+                Let's get started! You're one step closer to feeling better &#129315 <br>
+                Book an appointment now and <span style="color: brown;">take the first step </span> towards a happier, healthier you! 🌟 
+                </p>
+
+                <button> <a href="appointment2.php">Book an Appointment</a></button>
+              </div>
+            </div> 
+        <?php }?>
+
+        
+
+      <?php  if ($result2->num_rows == 1) {?>
+
+      <div class="division-two">
+        <div class="appointment-card">
+           
+              <div class="details">
+                <p style="color: blue;">! APPOINTMENT REQUEST SENT !</p>
+                <p> &#10013 CUEA Counseling Department &#10013</p>
+                <p>&#9410 <?php echo $_SESSION['cName'];?></p>
+                <p>&#9202 <?php echo $appointment_details?></p>
+                <p>&#10084 For <?php echo $_SESSION["name"]?></p>
+                <p> 
+                  <button onclick ="return confirmCancel()"><a href='deleteappointment.php?id=<?php echo $appointment_id; ?>'>Cancel Appointment</a></button> 
+                  
+                </p>
+              </div>
+              
+
+              <div class="confirm">
+                  <p>&#9808 <span style="font-weight:bold;">Appointment request sent</span> <br>It will be confirmed soon by the therapist</p>
               </div>
 
+      </div> <?php }?>
+    </div>
+ 
 
-
-          <div class="messaging">
-              <div class="header">
-                <p>Messaging</p>
-                <p>D</p>
-              </div>
-
-              <div class="search">
-                  <input type="text" placeholder="Search...">
-
-              </div>
-
-              <div class="messages">
-                <div class="message">
-                  <img src="Images/selfcare3.jpg" alt="Profile Picture">
-                  <div class="message-content">
-                    <h2 class="message-sender">John Doe</h2>
-                    <p class="message-text">Hey, how's it going?</p>
-
-                  </div>
-                  <p class="message-date">Mar 16</p>
-                 
-                </div>
-
-                <div class="message">
-                  <img src="Images/selfcare3.jpg" alt="Profile Picture">
-                  <div class="message-content">
-                    <h2 class="message-sender">John Doe</h2>
-                    <p class="message-text">Hey, how's it going?</p>
-
-                  </div>
-                  <p class="message-date">Mar 16</p>
-                 
-                </div>
-
-                <div class="message">
-                  <img src="Images/selfcare3.jpg" alt="Profile Picture">
-                  <div class="message-content">
-                    <h2 class="message-sender">John Doe</h2>
-                    <p class="message-text">Hey, how's it going?</p>
-
-                  </div>
-                  <p class="message-date">Mar 16</p>
-                 
-                </div>
-
-                <div class="message">
-                  <img src="Images/selfcare3.jpg" alt="Profile Picture">
-                  <div class="message-content">
-                    <h2 class="message-sender">John Doe</h2>
-                    <p class="message-text">Hey, how's it going?</p>
-
-                  </div>
-                  <p class="message-date">Mar 16</p>
-                 
-                </div>
-              </div> <!-- end of messaging-->
-</div>
-
-            
-
-
-
-          </div>
-        </div> <!-- end of top right-->
-
-
+     
+   <div class="community">
+      community 
+   </div>
 
 
 </div> <!-- end of right-->
+      
 
+<script>
 
+  function confirmCancel(){
+    var confirmation = confirm("Are you sure you want to cancel the appointment?");
+    return confirmation;
 
+  }
+</script>
 
 </body>
 </html>

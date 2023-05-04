@@ -1,5 +1,7 @@
 <?php
 
+
+
 //check if the superglobal GET variable contains a variable error
 if (isset($_GET['error'])) {
 
@@ -22,36 +24,57 @@ if (isset($_GET['error'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="CSS/style.css">
+
+    <script src="app2.js"></script>
+  
     <title>Sign Up Form</title>
 </head>
 <body>
+
     <div class="signupform">
-        <form  action="Backend/signupmodel.php" method="post" >
+        <form  id ="form"  onsubmit="return validateForm()" method="POST" action="Backend/signupmodel.php">
 
 
                 <h2>Create an Account</h2>
                 <p>Already have an account? <a href="Login.php">Log In </a></p>
-                <label for="name">Name</label> <br>
-                
-                <input type="text" name ="name" id ="name" autocomplete="off"> <br>
 
-                <label for="email">Email</label> <br>
-                <input type="text" name ="email" id ="email" autocomplete="off"> <br>
-                <label for="password">Password</label><br>
-                <input type="password" name ="password" id ="password"  autocomplete="off"> <br>
-                <label for="repeat">Repeat Password</label><br>
-                <input type="password" name="pwdrepeat" id ="repeatpassword"  autocomplete="off"> <br>
+                <div class="form-control">
+                    <label for="name">Name</label> <br>
+                    <input type="text" name ="name" id ="uname"> <br>
+                    <small style="color:red;" id ="name-error"></small>
+                </div>
+
+                <div class="form-control">
+                    <label for="email">Email</label> <br>
+                    <input type="email" name ="email" id ="email"> <br>
+                    <small style="color:red;" id ="email-error"></small>
+                </div>
+
+                <div class="form-control">
+                    <label for="password">Password</label><br>
+                    <input type="password" name ="password" id ="password"> <br>
+                    <small style="color:red;" id ="pwd-error"></small>
+                </div>
+
+                <div class="form-control">
+                    <label for="repeat">Repeat Password</label><br>
+                    <input type="password" name="passwordCheck" id ="passwordCheck"> <br>
+                    <small style="color:red;" id ="pwdCheck-error"></small>
+                </div>
                 
                 <br>
-                <button  type="submit" name="submit" id="button_signup">Create Account </button>
+                <button type="submit" name="submit" id="button_signup" >Create Account </button>
 
                 <br>
 
-                <p id="error_message">HEY</p>
+             
 
               
         </form>
      </div>
+     
+
+   
 </body>
 </html>
 
