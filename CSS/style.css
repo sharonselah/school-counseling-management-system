@@ -531,6 +531,19 @@ header ul a:hover{
   display: flex; 
 }
 
+.right-c{
+  position: absolute; 
+  left: 9%; 
+  width: 90%;  
+  padding: 15px 10px 10px 10px;
+  height: 100vh; 
+  overflow-y: scroll; /* enable vertical scrolling */
+  background-color: #F4F2F2;
+  
+}
+
+
+
 .right > div{
 
   box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
@@ -538,6 +551,7 @@ header ul a:hover{
   margin: 15px; 
   background-color: white;
   padding: 10px; 
+
 }
 
 .right .profile{
@@ -686,12 +700,11 @@ justify-content: space-between;
 }
 
 .division-two .confirm{
-  background-color: rgba(128, 128, 128, 0.6);
+  background-color: #f8f8ff; 
   color: black; 
   line-height: 1.8rem; 
   padding: 10px 0px; 
  
-
 }
 
 

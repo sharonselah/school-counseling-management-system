@@ -69,9 +69,8 @@ if (!isset($_SESSION['authenticated']) || $_SESSION["role"] !== 'admin') {
     <?php 
        
         // Retrieve users from database
-        $sql = "SELECT counselor_id, name, specialty, email, role, created_at 
+        $sql = "SELECT * 
         FROM counselors 
-        WHERE email <> 'admin@gmail.com'
         ORDER BY created_at DESC";
         $result = $conn->query($sql);
 
@@ -85,7 +84,6 @@ if (!isset($_SESSION['authenticated']) || $_SESSION["role"] !== 'admin') {
                 <th>Name</th>
                 <th>Speciality</th>
                 <th>Email</th>
-                <th>Role</th>
                 <th>Start Date</th>
                 <th>Edit</th>
                 <th>Update</th>
@@ -97,16 +95,20 @@ if (!isset($_SESSION['authenticated']) || $_SESSION["role"] !== 'admin') {
                
                
                while ($row = $result->fetch_assoc()) {
-                echo "<tr><td>" . $row["name"] . "</td><td>" . $row["specialty"] . "</td><td>" . $row["email"] . "</td><td>" . $row["role"] . "</td><td>" . $row["created_at"] . "</td>
+                echo "<tr><td>" . $row["name"] . "</td><td>" . $row["specialty"] . "</td><td>" . $row["email"] . "</td><td>" . $row["created_at"] . "</td>
                 <td><a href='editcounselor.php?id=". $row ["counselor_id"]."'>Edit</a></td>
-                <td><a href='deletecounselor.php?id=". $row ["counselor_id"]."'>Delete</a></td></tr>";
-                
+                <td><a href='deletecounselor.php?id=". $row ["counselor_id"]."'>Delete</a></td></tr>"; 
             }
 
             ?>
             </tr>
             </tbody>
         </table>
+
+        <div class="pagination">
+            <button class="prev-btn">Previous</button>
+            <button class="next-btn">Next</button>
+        </div>
     </div>
 
     <div class="bottom">

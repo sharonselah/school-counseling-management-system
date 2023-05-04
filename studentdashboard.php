@@ -9,18 +9,18 @@ if (!isset($_SESSION['authenticated']) || $_SESSION["role"] !== 'student') {
 
 
 $id= $_SESSION["user_id"]; 
-$appointment_id = $_SESSION['appointment_id']; 
+
+
 include 'Backend/db.php';
 
 //get the time 
 
 // Query the appointments table for the appointment details
-$stmt2 = $conn->prepare("SELECT start_time, date FROM appointments 
+$stmt2 = $conn->prepare("SELECT * FROM appointments 
 WHERE student_id = ? 
 AND CONCAT(date, ' ', start_time) > NOW() 
 ORDER BY created_at DESC 
 LIMIT 1");
-
 
 
 $stmt2->bind_param('s', $id);
@@ -35,11 +35,34 @@ if ($result2->num_rows == 1) {
     $start_time = date_format(date_create($row['start_time']), 'H:i');
     $date = date_format(date_create($row['date']), 'l j M');
     $appointment_details = $start_time . ' on ' . $date;
+    $appointment_id = $row["id"]; 
+
+    $counselor_id = $row["counselor_id"]; 
+
+    $status = $row["status"]; 
+    
+
+     //Get the name of the counselor 
+
+     $stmt1 = $conn-> prepare("SELECT name FROM counselors where counselor_id = ?"); 
+     $stmt1-> bind_param('s', $counselor_id); 
+     $stmt1-> execute(); 
+ 
+     //retrieve the result from the query 
+     $result1 = $stmt1->get_result();
+ 
+     if ($result1->num_rows == 1) {
+ 
+         //fetch a single row from the result set
+         $row = $result1->fetch_assoc();
+         $cName = $row['name'];
+        
+       }
+ 
 } else {
     $appointment_details = 'No appointments found.';
 }
 
-  
 ?>
 
 <!DOCTYPE html>
@@ -162,7 +185,8 @@ if ($result2->num_rows == 1) {
 
         
 
-      <?php  if ($result2->num_rows == 1) {?>
+      <?php  if ($result2->num_rows == 1) {
+       ?>
 
       <div class="division-two">
         <div class="appointment-card">
@@ -170,7 +194,7 @@ if ($result2->num_rows == 1) {
               <div class="details">
                 <p style="color: blue;">! APPOINTMENT REQUEST SENT !</p>
                 <p> &#10013 CUEA Counseling Department &#10013</p>
-                <p>&#9410 <?php echo $_SESSION['cName'];?></p>
+                <p>&#9410 <?php echo $cName;?></p>
                 <p>&#9202 <?php echo $appointment_details?></p>
                 <p>&#10084 For <?php echo $_SESSION["name"]?></p>
                 <p> 
@@ -180,14 +204,21 @@ if ($result2->num_rows == 1) {
               </div>
               
 
-              <div class="confirm">
-                  <p>&#9808 <span style="font-weight:bold;">Appointment request sent</span> <br>It will be confirmed soon by the therapist</p>
+              <div class="confirm"> <?php
+                    if ($status == "pending"){?>
+
+                  <p>&#128284 <span style="font-weight:bold;">Appointment request sent</span> <br>It will be confirmed soon by the therapist</p>
+                   <?php } else if ($status== "confirmed"){?>
+                      <p>&#128394 <span style="font-weight:bold; color: green; ">Appointment confirmed</span> </p>
+                   <?php }else {?>
+                      <p>&#10060 <span style="font-weight:bold;color: red; ">Appointment canceled</p>
+                   <?php }?>
               </div>
 
       </div> <?php }?>
     </div>
  
-
+      </div>
      
    <div class="community">
       community 

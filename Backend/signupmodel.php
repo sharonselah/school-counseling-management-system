@@ -38,9 +38,9 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
     $stmt->bind_param('sss', $name, $email, $hash);
     $execute = $stmt-> execute(); 
 
-        $id= $stmt-> insert_id; 
+    $id= $stmt-> insert_id; 
 
-        $role = "student"; 
+    $role = "student"; 
         $stmt2 = $conn-> prepare ("INSERT INTO users (name, email, password, role, user_id) VALUES (?, ?, ?, ?, ?)"); 
         $stmt2 ->bind_param('ssssi', $name, $email, $hash, $role, $id); 
         $stmt2-> execute(); 

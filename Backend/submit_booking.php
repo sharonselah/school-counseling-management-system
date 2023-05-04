@@ -13,23 +13,7 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
 
     $counselor_id = rand(2,7); 
 
-    //Get the name of the counselor 
-
-    $stmt1 = $conn-> prepare("SELECT name FROM counselors where counselor_id = ?"); 
-    $stmt1-> bind_param('s', $counselor_id); 
-    $stmt1-> execute(); 
-
-    //retrieve the result from the query 
-    $result1 = $stmt1->get_result();
-
-    if ($result1->num_rows == 1) {
-
-        //fetch a single row from the result set
-        $row = $result1->fetch_assoc();
-        $cName = $row['name'];
-        $_SESSION['cName']= $cName; 
-      }
-
+   
     
     $status ="pending"; 
 
@@ -70,7 +54,6 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
         echo "Error". $stmt-> error; 
     }
 
-    $stmt1->close(); 
     $stmt-> close (); 
 
 }

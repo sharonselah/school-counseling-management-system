@@ -1,5 +1,6 @@
 <?php
 session_start();
+include 'Backend/db.php';
 
 
 if (!isset($_SESSION['authenticated']) || $_SESSION["role"] !== 'counselor') {
@@ -8,15 +9,13 @@ if (!isset($_SESSION['authenticated']) || $_SESSION["role"] !== 'counselor') {
     exit();
 }
 
+//counselor's id 
 $id = $_SESSION['user_id']; 
 
-  //retrive the counselors
-  include 'Backend/db.php';
-
-       
-  // Retrieve appointments from database
-  $sql = "SELECT * FROM appointments where counselor_id =$id  ORDER BY created_at DESC";
-  $result = $conn->query($sql);
+    
+// Retrieve appointments from database
+$sql = "SELECT * FROM appointments where counselor_id =$id  ORDER BY created_at DESC";
+$result = $conn->query($sql);
 
   
 
@@ -35,9 +34,15 @@ $id = $_SESSION['user_id'];
     <title>Document</title>
 
     <style>
+
+        body{
+            font-family :'Times New Roman'; 
+        }
     table {
-        width: 1160px;
+        width: 100%; 
         border-collapse: collapse;
+        
+      
         
     }
 
@@ -48,12 +53,15 @@ $id = $_SESSION['user_id'];
     }
 
     th {
-        background-color: #80000;
+        background-color: #edecec;
+        color:black; 
+        text-transform: uppercase;
     }
 
     #confirm_btn1, #confirm_btn2{
         color: white; 
         border: none; 
+        border-radius: 5px; 
         padding: 9px 25px; 
         background-color: red; 
        
@@ -64,6 +72,116 @@ $id = $_SESSION['user_id'];
         background-color: green; 
         margin-right: 30px; 
     }
+
+    .container {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+			width: 100%;
+			height: 100px;
+			background-color: #fafafa8a; 
+			padding: 10px;
+		}
+		.box {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			width: calc(18% - 20px);
+			height: 80px;
+			background-color: #fff;
+			border: 1px solid #ddd;
+			border-radius: 5px;
+			text-align: center;
+		}
+		.box h2 {
+			margin: 0;
+			font-size: 85%; 
+			font-weight: bold;
+		}
+		.box p {
+			margin: 4px 0px;
+			font-size: 80%; 
+		}
+
+        .right-c{
+            position: absolute; 
+            left: 9%; 
+            width: 89%;  
+            padding: 15px 10px 10px 10px;
+            height: 100vh; 
+            overflow-y: scroll; /* enable vertical scrolling */
+            background-color: #FAFAFA;
+        }
+
+        .appointment{
+            border-top:1px solid lightgray; 
+            margin-top: 20px; 
+        }
+
+        .bullet {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            
+            margin-right: 10px;
+            }
+
+        .container-two {
+           padding: 10px;  
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          
+        }
+
+        .search {
+        width: calc(36% + 35px); 
+        display: flex;
+        justify-content: space-between; 
+        align-items: center;
+        }
+
+        .search input[type="text"] {
+            width: 100%; 
+            margin-right: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-family :'Times New Roman'; 
+        }
+
+        .sort{
+            margin-left: 20%; 
+        }
+
+
+        .sort label {
+        
+        margin-right: 5px;
+        font-family :'Times New Roman'; 
+        }
+
+        .sort select {
+        padding: 10px 28px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        
+        }
+
+        .make-referral button {
+        margin-right: -10px; 
+        background: none; 
+        color: green; 
+        padding: 10px 32px;
+        border: 1px solid #4CAF50;
+        border-radius: 10px;
+        cursor: pointer;
+
+        }
+
 
 
     
@@ -95,9 +213,10 @@ $id = $_SESSION['user_id'];
         <p>DASHBOARD</p>
         <ul>
             <li><a href="home.php">Home</a></li>
-            <li><a href="">Appointments </a></li>
-            <li><a href="">Time Slots </a></li>
-            <li><a href="">Documents</a></li>
+            <li><a href="#top">Appointments </a></li>
+            <li><a href="">Patients</a></li>
+            <li><a href="">Tasks</a></li>
+            <li><a href="">Reports</a></li>
             
         </ul>
 
@@ -109,13 +228,57 @@ $id = $_SESSION['user_id'];
     </div>
 
 
-<div class="right">
+<div class="right-c">
 
-    <div class="top">
+    <!-- stats -->
 
-    <button><a href="CounselorSignup.php">Add</a></button>
+    <div class="container">
+		<div class="box">
+			<h2><span style="background-color: blue;" class="bullet"></span>Total Appointments</h2>
+			<p>6</p>
+		</div>
+		<div class="box">
+			<h2><span style="background-color: #FFBF00;" class="bullet"></span>Pending</h2>
+			<p>1</p>
+		</div>
+		<div class="box">
+			<h2><span style="background-color: green;" class="bullet"></span>Accepted</h2>
+			<p>1</p>
+		</div>
+		<div class="box">
+			<h2><span style="background-color: red;" class="bullet"></span>Canceled</h2>
+			<p>1</p>
+		</div>
+		<div class="box">
+			<h2><span style="background-color: purple;" class="bullet"></span>Completed</h2>
+			<p>3</p>
+		</div>
+	</div> 
+    <!-- end of stats-->
 
-   
+
+    <section class="appointment">
+
+        <div class="container-two">
+            <div class="search">
+                <input type="text" placeholder="Search appointments">
+          
+            </div>
+            <div class="sort">
+                <label for="sort-by">Sort by:</label>
+                <select id="sort-by">
+                <option value="name">Name</option>
+                <option value="status">Status</option>
+                </select>
+            </div>
+            <div class="make-referral">
+                <button type="button">MAKE REFERRAL</button>
+            </div>
+    </div>
+
+
+  
+
         <table class="table">
         
             <thead>
@@ -125,6 +288,7 @@ $id = $_SESSION['user_id'];
                 <th>Date</th>
                 <th>Start Time</th>
                 <th>Status</th>
+                <th>Notes</th>
         
                 </tr>
             </thead> 
@@ -135,8 +299,9 @@ $id = $_SESSION['user_id'];
             <?php
 
            
-          
                while ($row = $result->fetch_assoc()) {
+
+             
 
                  //Name of the student 
                     $stmt2 = $conn->prepare("SELECT * FROM students WHERE student_id = ?");
@@ -146,6 +311,9 @@ $id = $_SESSION['user_id'];
                     $result2 = $stmt2->get_result();
                     $student2 = $result2->fetch_assoc();
 
+                   
+                    $_SESSION['student_id'] = $student2['student_id'];
+
                     //Full name of the day of the week; Day of the month; abb name of the month
 
                 $row['date'] = date_format(date_create($row['date']), 'l j M');
@@ -154,15 +322,15 @@ $id = $_SESSION['user_id'];
                     echo "<tr><td>" . $row["id"] . "</td><td> ". $student2["name"]." </td><td>" . $row["date"] . "</td><td>" . $row["start_time"] . "</td>
                     <td><a href= 'confirmappointment.php?id=". $row ["id"]."' onclick = 'return confirmAppointment()' id='confirm_btn1'>Confirm</a> 
                     <a href='cancelappointment.php?id=". $row ["id"]." ' onclick = 'return cancelAppointment()'id='confirm_btn2'>Cancel</a>
-                    <span id='status-".$row["id"]."'></span></td>";
+                    <span id='status-".$row["id"]."'></span></td><td>Activated when Confirmed</td></tr>";
                    
                 }else if ($row['status'] == 'confirmed'){
                     echo "<tr><td>" . $row["id"] . "</td><td> ". $student2["name"]." </td><td>" . $row["date"] . "</td><td>" . $row["start_time"] . "</td>
-                    <td style='color: green;'>" . $row["status"] . "</td>";
+                    <td style='color: green;'>" . $row["status"] . "</td><td><a href='notes.php' id='confirm_btn1'>Take Notes</a></td></tr>";
                    
                 }else {
                     echo "<tr><td>" . $row["id"] . "</td><td> ". $student2["name"]." </td><td>" . $row["date"] . "</td><td>" . $row["start_time"] . "</td>
-                    <td style='color: red;'>" . $row["status"] . "</td>";
+                    <td style='color: red;'>" . $row["status"] . "</td><td>None</td></tr>";
                 }
                 
             }
@@ -177,13 +345,24 @@ $id = $_SESSION['user_id'];
             ?>
             
             </tbody>
-        </table>
-    </div>
 
-   
+           
+
+        </table>
+
+  
+
+    </section>
+
+    <section class="profile">
+            profile
+    </section>
+
 
 
 </div> <!-- end of right-->
+
+
 
 <script>
 

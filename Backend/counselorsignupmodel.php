@@ -52,7 +52,8 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
     //check if the query executed
 
     if ($execute){
-        header("Location: ../Login.php");
+    
+       header("Location: ../Login.php");
         exit(); 
     }else {
         echo "Error". $stmt-> error; 
