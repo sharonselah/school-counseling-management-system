@@ -14,15 +14,48 @@ $id = $_SESSION['user_id'];
 
     
 // Retrieve appointments from database
-$sql = "SELECT * FROM appointments where counselor_id =$id  ORDER BY created_at DESC";
-$result = $conn->query($sql);
+$stmt = $conn-> prepare("SELECT * FROM appointments where counselor_id = ? ORDER BY created_at DESC");
+$stmt->bind_param('i', $id); 
+$stmt->execute(); 
+$result = $stmt->get_result(); 
 
-  
+
+//retrieving numbers
+
+$stmt4 = $conn->prepare ("SELECT *, 
+COUNT(*) AS total_appointments, 
+COUNT(CASE WHEN status = 'pending' THEN 1 ELSE NULL END) AS pending_appointments, 
+COUNT(CASE WHEN status = 'canceled' THEN 1 ELSE NULL END) AS canceled_appointments, 
+COUNT(CASE WHEN status = 'confirmed' THEN 1 ELSE NULL END) AS confirmed_appointments
+FROM appointments
+WHERE counselor_id = ?");
+
+$stmt4->bind_param('i', $id); 
+$stmt4->execute(); 
+$result4 = $stmt4->get_result(); 
+$number=$result4->fetch_assoc(); 
 
 
+
+//retrieve 
+
+$stmt3= $conn->prepare("SELECT s.student_id, s.name, s.email, COUNT(a.id) AS appointment_count
+FROM students AS s
+JOIN appointments AS a ON s.student_id = a.student_id
+WHERE a.counselor_id = ?
+GROUP BY s.student_id"
+);
+
+$stmt3->bind_param("i", $id); 
+$stmt3->execute(); 
+$result3=$stmt3->get_result(); 
+
+
+//notes 
+
+$stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_id = ?"); 
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -30,183 +63,22 @@ $result = $conn->query($sql);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="CSS/style2.css">
     <title>Document</title>
 
     <style>
-
-        body{
-            font-family :'Times New Roman'; 
-        }
-    table {
-        width: 100%; 
-        border-collapse: collapse;
-        
-      
-        
-    }
-
-    th, td {
-        padding: 10px;
-        text-align: center;
-        border: 1px solid #ddd;
-    }
-
-    th {
-        background-color: #edecec;
-        color:black; 
-        text-transform: uppercase;
-    }
-
-    #confirm_btn1, #confirm_btn2{
-        color: white; 
-        border: none; 
-        border-radius: 5px; 
-        padding: 9px 25px; 
-        background-color: red; 
-       
-    }
-
-    #confirm_btn1{
-  
-        background-color: green; 
-        margin-right: 30px; 
-    }
-
-    .container {
-			display: flex;
-			flex-direction: row;
-			align-items: center;
-			justify-content: space-between;
-			width: 100%;
-			height: 100px;
-			background-color: #fafafa8a; 
-			padding: 10px;
-		}
-		.box {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
-			width: calc(18% - 20px);
-			height: 80px;
-			background-color: #fff;
-			border: 1px solid #ddd;
-			border-radius: 5px;
-			text-align: center;
-		}
-		.box h2 {
-			margin: 0;
-			font-size: 85%; 
-			font-weight: bold;
-		}
-		.box p {
-			margin: 4px 0px;
-			font-size: 80%; 
-		}
-
-        .right-c{
-            position: absolute; 
-            left: 9%; 
-            width: 89%;  
-            padding: 15px 10px 10px 10px;
-            height: 100vh; 
-            overflow-y: scroll; /* enable vertical scrolling */
-            background-color: #FAFAFA;
-        }
-
-        .appointment{
-            border-top:1px solid lightgray; 
-            margin-top: 20px; 
-        }
-
-        .bullet {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
+        .sort{
             
-            margin-right: 10px;
-            }
-
-        .container-two {
-           padding: 10px;  
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            width: 25%; 
           
         }
-
-        .search {
-        width: calc(36% + 35px); 
-        display: flex;
-        justify-content: space-between; 
-        align-items: center;
-        }
-
-        .search input[type="text"] {
-            width: 100%; 
-            margin-right: 10px;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            font-family :'Times New Roman'; 
-        }
-
-        .sort{
-            margin-left: 20%; 
-        }
-
-
-        .sort label {
-        
-        margin-right: 5px;
-        font-family :'Times New Roman'; 
-        }
-
-        .sort select {
-        padding: 10px 28px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-        
-        }
-
-        .make-referral button {
-        margin-right: -10px; 
-        background: none; 
-        color: green; 
-        padding: 10px 32px;
-        border: 1px solid #4CAF50;
-        border-radius: 10px;
-        cursor: pointer;
-
-        }
-
-
-
-    
-
-</style>
+    </style>
 </head>
 <body style=" padding: 0; ">
 
 <div class="dashboard-container">
 
-    <div class="header-dashboard">
-
-            <div class="logo">
-            CUEA Counseling
-            </div>
-    
-          <div class="search">
-              <input type="text" placeholder="Search...">
-              <button>Search</button>
-          </div>
-
-          <div class="personal-info">
-              <h2>Welcome, <?php  echo $_SESSION["name"]; ?></h2>
-          </div>
-      </div>
+    <?php include 'header-dashboard.php'; ?>
 
   
     <div class="menu-dashboard">
@@ -215,16 +87,14 @@ $result = $conn->query($sql);
             <li><a href="home.php">Home</a></li>
             <li><a href="#top">Appointments </a></li>
             <li><a href="">Patients</a></li>
-            <li><a href="">Tasks</a></li>
-            <li><a href="">Reports</a></li>
-            
+            <li><a href="#notes">Notes</a></li>
+            <li><a href="">Referrals</a></li>
+            <li><a href="">Reports</a></li>  
         </ul>
 
         <ul>
             <li style="padding-top:240px;"><a href="">Log Out</a></li>
         </ul>
-
-
     </div>
 
 
@@ -234,25 +104,22 @@ $result = $conn->query($sql);
 
     <div class="container">
 		<div class="box">
-			<h2><span style="background-color: blue;" class="bullet"></span>Total Appointments</h2>
-			<p>6</p>
+			<h2><span style="background-color: blue;" class="bullet"></span>Total</h2>
+			<p><?php echo $number["total_appointments"];?></p>
 		</div>
 		<div class="box">
-			<h2><span style="background-color: #FFBF00;" class="bullet"></span>Pending</h2>
-			<p>1</p>
+			<h2><span style="background-color: #FFBF00;" class="bullet"></span>Pending </h2>
+			<p><?php echo $number["pending_appointments"];?></p>
 		</div>
 		<div class="box">
 			<h2><span style="background-color: green;" class="bullet"></span>Accepted</h2>
-			<p>1</p>
+			<p><?php echo $number["confirmed_appointments"];?></p>
 		</div>
 		<div class="box">
 			<h2><span style="background-color: red;" class="bullet"></span>Canceled</h2>
-			<p>1</p>
+			<p><?php echo $number["canceled_appointments"];?></p>
 		</div>
-		<div class="box">
-			<h2><span style="background-color: purple;" class="bullet"></span>Completed</h2>
-			<p>3</p>
-		</div>
+		
 	</div> 
     <!-- end of stats-->
 
@@ -260,9 +127,14 @@ $result = $conn->query($sql);
     <section class="appointment">
 
         <div class="container-two">
+           
+            
+            <div class="make-referral">
+                <button type="button">LIST OF APPOINTMENTS</button>
+            </div>
+          
             <div class="search">
                 <input type="text" placeholder="Search appointments">
-          
             </div>
             <div class="sort">
                 <label for="sort-by">Sort by:</label>
@@ -271,25 +143,18 @@ $result = $conn->query($sql);
                 <option value="status">Status</option>
                 </select>
             </div>
-            <div class="make-referral">
-                <button type="button">MAKE REFERRAL</button>
-            </div>
-    </div>
-
-
-  
+        </div>
 
         <table class="table">
         
             <thead>
                 <tr>
-                <th>No</th>
-                <th>Student</th>
-                <th>Date</th>
-                <th>Start Time</th>
-                <th>Status</th>
-                <th>Notes</th>
-        
+                    
+                    <th>Student</th>
+                    <th>Date</th>
+                    <th>Start Time</th>
+                    <th>Status</th>
+                    <th>Notes</th>
                 </tr>
             </thead> 
             
@@ -297,11 +162,20 @@ $result = $conn->query($sql);
             <tbody>
 
             <?php
-
-           
                while ($row = $result->fetch_assoc()) {
 
-             
+                //checking status
+
+                $appointment_date_time = $row['date'];
+                $current_date_time = time();
+
+                if ($row['status'] == 'pending' && $current_date_time > $appointment_date_time) {
+                    // Update the appointment status to overdue
+                    $stmt = $conn->prepare("UPDATE appointments SET status = 'overdue' WHERE id = ?");
+                    $stmt->bind_param('i', $row['id']); 
+                    $stmt->execute(); 
+                }
+
 
                  //Name of the student 
                     $stmt2 = $conn->prepare("SELECT * FROM students WHERE student_id = ?");
@@ -310,28 +184,34 @@ $result = $conn->query($sql);
                     $stmt2->execute();
                     $result2 = $stmt2->get_result();
                     $student2 = $result2->fetch_assoc();
-
                    
                     $_SESSION['student_id'] = $student2['student_id'];
+                  
+                    
 
                     //Full name of the day of the week; Day of the month; abb name of the month
 
                 $row['date'] = date_format(date_create($row['date']), 'l j M');
 
                 if ($row['status']== 'pending'){
-                    echo "<tr><td>" . $row["id"] . "</td><td> ". $student2["name"]." </td><td>" . $row["date"] . "</td><td>" . $row["start_time"] . "</td>
+                    echo "<tr><td> ". $student2["name"]." </td><td>" . $row["date"] . "</td><td>" . $row["start_time"] . "</td>
                     <td><a href= 'confirmappointment.php?id=". $row ["id"]."' onclick = 'return confirmAppointment()' id='confirm_btn1'>Confirm</a> 
                     <a href='cancelappointment.php?id=". $row ["id"]." ' onclick = 'return cancelAppointment()'id='confirm_btn2'>Cancel</a>
                     <span id='status-".$row["id"]."'></span></td><td>Activated when Confirmed</td></tr>";
                    
                 }else if ($row['status'] == 'confirmed'){
-                    echo "<tr><td>" . $row["id"] . "</td><td> ". $student2["name"]." </td><td>" . $row["date"] . "</td><td>" . $row["start_time"] . "</td>
+                    echo "<tr><td> ". $student2["name"]." </td><td>" . $row["date"] . "</td><td>" . $row["start_time"] . "</td>
                     <td style='color: green;'>" . $row["status"] . "</td><td><a href='notes.php' id='confirm_btn1'>Take Notes</a></td></tr>";
                    
-                }else {
-                    echo "<tr><td>" . $row["id"] . "</td><td> ". $student2["name"]." </td><td>" . $row["date"] . "</td><td>" . $row["start_time"] . "</td>
-                    <td style='color: red;'>" . $row["status"] . "</td><td>None</td></tr>";
                 }
+                else if  ($row['status'] == 'canceled'){
+                echo "<tr><td> ". $student2["name"]." </td><td>" . $row["date"] . "</td><td>" . $row["start_time"] . "</td>
+                <td style='color: red;'>" . $row["status"] . "</td><td>No Notes</td></tr>";
+                }else {
+                echo "<tr><td> ". $student2["name"]." </td><td>" . $row["date"] . "</td><td>" . $row["start_time"] . "</td>
+                <td style='color: orange;'>" . $row["status"] . "</td><td>No Notes</td></tr>";
+                }
+            
                 
             }
         }
@@ -346,18 +226,21 @@ $result = $conn->query($sql);
             
             </tbody>
 
-           
-
         </table>
 
-  
-
     </section>
 
-    <section class="profile">
-            profile
+    <?php include 'Referrals/referal.php'; ?>
+
+
+
+    <section class="referrals">
+        
     </section>
 
+    <div id="notes">
+                
+    </div>
 
 
 </div> <!-- end of right-->
@@ -381,6 +264,20 @@ function confirmAppointment(){
    
 
   }
+
+  
+const panels = document.querySelectorAll('.panel');
+
+panels.forEach(panel => {
+  const header = panel.querySelector('.panel-header');
+  const content = panel.querySelector('.panel-content');
+
+  header.addEventListener('click', () => {
+    content.classList.toggle('show');
+  });
+});
+
+
 </script>
 
 

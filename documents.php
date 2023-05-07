@@ -1,17 +1,15 @@
-<?php 
+<?php /*
 
-session_start(); 
+session_start();
+
 include 'Backend/db.php'; 
-$id = $_SESSION['user_id']; 
 
-$stmt = $conn->prepare("SELECT * FROM notes where counselor_id = ?"); 
+$stmt = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_id = ?"); 
 
-$stmt->bind_param('i', $id);
+$stmt->bind_param('ii', $id, $student);
 $stmt-> execute(); 
 
 $result = $stmt->get_result(); 
-
-
 
 
 ?>
@@ -67,6 +65,8 @@ $result = $stmt->get_result();
                 $_SESSION["note_id"] = $row["note_id"]; 
                }
                 
+            }else {
+                echo "<tr><td>No Notes to show</td></tr>";
             }?>
             
         </tbody>

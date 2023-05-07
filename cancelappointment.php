@@ -7,8 +7,8 @@
     $status = "canceled"; 
 
     // Update user data in database
-    $stmt = $conn->prepare("DELETE FROM appointments  WHERE id = ?");
-    $stmt->bind_param("i", $id);
+    $stmt = $conn->prepare("UPDATE appointments SET status =?  WHERE id = ?");
+    $stmt->bind_param("si", $status, $id);
     $stmt->execute();
 
     // Redirect back to user list

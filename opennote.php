@@ -33,21 +33,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!-- Display form with current user data -->
 <form method="POST" action="">
       <h1>CUEA Counseling Note-Taking Template</h1>
-     
-
+   
 			<label>Title:</label>
 			<textarea name="title"> <?php echo $note["title"];?> </textarea>
-          
-            
 
 			<label>Content:</label>
 			<textarea rows="10" cols="40" name="content"><?php echo $note["content"]; ?></textarea>
 
-
-
 			<input onclick ="return confirmSaving()" type="submit" value="Update Note">
 		</form>
-	</div>
+
 
   <script>
 
