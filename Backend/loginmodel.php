@@ -13,8 +13,6 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
     $stmt = $conn-> prepare ("SELECT * FROM users Where email = ?");
     $stmt-> bind_param ('s', $email); 
     $stmt-> execute();
-
-
  
     //retrieve the result from the query 
     $result = $stmt->get_result();

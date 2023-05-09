@@ -10,55 +10,58 @@ $id = $_SESSION['user_id'];
 $student_id = $_GET['id'];
 
 
-
-
-
-
-/*process the form 
-
-use the superglobal variable $_SERVER that holds the request method
-used to access the page
-
-*/
-
 if ($_SERVER["REQUEST_METHOD"]=="POST"){
-    $student_name = $_POST["name"]; 
+
     $receiving_therapist_email = $_POST["receiving_therapist_email"]; 
     $reason = $_POST["reason"]; 
 
-//get therapist id 
+    //get therapist id 
     $stmt1 = $conn->prepare("SELECT counselor_id FROM counselors WHERE email= ?");
     $stmt1-> bind_param('s', $receiving_therapist_email);
     $stmt1-> execute();
+
+
+ 
+    //retrieve the result from the query 
     $result1 = $stmt1->get_result();
-    $therapist = $result1->fetch_assoc();
-      
+
+    if ($result1->num_rows == 1) {
+
+        $row = $result1->fetch_assoc();
+        $stmt2 = $conn-> prepare ("INSERT INTO referrals (referring_therapist_id,receiving_therapist_id,student_id, reason) VALUES (?, ?, ?,?)"); 
+        $stmt2->bind_param('isis', $id, $row["counselor_id"], $student_id, $reason);
+
+        if ($stmt2-> execute()){
 
 
-    //use prepared statements
-    $stmt2 = $conn-> prepare ("INSERT INTO referrals (referring_therapist_id,receiving_therapist_id,student_id, reason) VALUES (?, ?, ?,?)"); 
+           /* $to = $receiving_therapist_email;
+            $subject = "Counseling Referral for a Student ";
+            $message = "Dear I am writing to refer one of my students, to you for further counseling. The reason for this referral is " 
+            . $reason. ". As a counselor, I believe that it would be beneficial for the student to have a different perspective on their current situation.\n\nIf you require any further information, 
+            please do not hesitate to contact me at \n\nThank you for considering my referral, and I appreciate your time and attention
+             to this matter.\n\nSincerely,\n";
+             
 
-    //bind the ? parameters to prevent SQL injection
-    $stmt2->bind_param('isis', $id, $therapist["counselor_id"], $student_id, $reason);
-    
+            $headers = "From: 1039669@cuea.edu";
+            
+            mail($to, $subject, $message, $headers);*/
+            
 
-    if ($stmt2-> execute()){
-        header("Location:../counselordashboard.php"); 
-    }
+            header("Location:../counselordashboard.php?referral=success"); 
+            exit();
+        }else {
+            echo '<p>The Email does not exist</p>'; 
+        }
 
+        
+         }else{
+        //echo '<p style="color:red;">The Email does not exist</p>'; 
+        echo '<p style="color:red; margin-left: 30%; ">The email does not exist. You will be redirected in 5 seconds.</p>';
+        echo '<script>setTimeout(function(){ window.location.href = "../counselordashboard.php"; }, 5000);</script>';
 
-    $stmt1-> close (); 
-    $stmt2-> close(); 
+        }
 
-}
-
-
-
-
-
-?>
-
-
+}?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -67,7 +70,6 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Make a Referral</title>
-
     <style>
             .referral_form{
                 height: 580px; 
@@ -105,34 +107,22 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
             }
         
     </style>
-</head>
+
+   
 <body>
         <form class="referral_form" action="" method="post">
-<?php
-            // get name 
-            $stmt = $conn->prepare("SELECT name FROM students WHERE student_id= ?");
-            $stmt-> bind_param('i', $student_id);
-            $stmt-> execute();
-            $result = $stmt->get_result();
 
+                    <p>Refer a Student</p>
 
-        if ($result->num_rows>0){
-            if ( $row = $result->fetch_assoc() ){
-                echo ' <label for="name">Name:</label>'; 
-                echo '<input type="name" id="name" name="name" value="'. $row["name"].'" required>'; 
-            }
-        
-
-  
-      }?>
             
             <label for="receiving_therapist_email">Receiving Therapist Email:</label>
-            <input type="email" id="receiving_therapist_email" name="receiving_therapist_email" required>
+            <input type="email" id="receiving_therapist_email" name="receiving_therapist_email">
         
             <label for="reason">Reason for Referral:</label>
-            <textarea id="reason" name="reason" rows="4" cols="50" required></textarea>
+            <textarea id="reason" name="reason" rows="4" cols="50"></textarea>
             
             <button type="submit">Submit</button>
+
             
            
         </form>

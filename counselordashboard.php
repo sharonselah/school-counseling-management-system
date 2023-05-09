@@ -9,6 +9,11 @@ if (!isset($_SESSION['authenticated']) || $_SESSION["role"] !== 'counselor') {
     exit();
 }
 
+if (isset($_GET['referral']) && $_GET['referral'] === 'success') {
+    echo '<script>alert("Referral made successfully");</script>';
+}
+
+
 //counselor's id 
 $id = $_SESSION['user_id']; 
 
@@ -86,164 +91,163 @@ $stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_
         <ul>
             <li><a href="home.php">Home</a></li>
             <li><a href="#top">Appointments </a></li>
-            <li><a href="">Patients</a></li>
-            <li><a href="#notes">Notes</a></li>
+            <li><a href="#patients">Patients</a></li>
             <li><a href="">Referrals</a></li>
             <li><a href="">Reports</a></li>  
         </ul>
 
         <ul>
-            <li style="padding-top:240px;"><a href="">Log Out</a></li>
+            <li style="padding-top:190px;"><a href="">Log Out</a></li>
         </ul>
     </div>
 
+ 
 
-<div class="right-c">
+    <div class="right-c">
+
+        <div id="top">
 
     <!-- stats -->
 
-    <div class="container">
-		<div class="box">
-			<h2><span style="background-color: blue;" class="bullet"></span>Total</h2>
-			<p><?php echo $number["total_appointments"];?></p>
-		</div>
-		<div class="box">
-			<h2><span style="background-color: #FFBF00;" class="bullet"></span>Pending </h2>
-			<p><?php echo $number["pending_appointments"];?></p>
-		</div>
-		<div class="box">
-			<h2><span style="background-color: green;" class="bullet"></span>Accepted</h2>
-			<p><?php echo $number["confirmed_appointments"];?></p>
-		</div>
-		<div class="box">
-			<h2><span style="background-color: red;" class="bullet"></span>Canceled</h2>
-			<p><?php echo $number["canceled_appointments"];?></p>
-		</div>
-		
-	</div> 
+        <div class="container">
+            <div class="box">
+                <h2><span style="background-color: blue;" class="bullet"></span>Total</h2>
+                <p><?php echo $number["total_appointments"];?></p>
+            </div>
+            <div class="box">
+                <h2><span style="background-color: #FFBF00;" class="bullet"></span>Pending </h2>
+                <p><?php echo $number["pending_appointments"];?></p>
+            </div>
+            <div class="box">
+                <h2><span style="background-color: green;" class="bullet"></span>Accepted</h2>
+                <p><?php echo $number["confirmed_appointments"];?></p>
+            </div>
+            <div class="box">
+                <h2><span style="background-color: red;" class="bullet"></span>Canceled</h2>
+                <p><?php echo $number["canceled_appointments"];?></p>
+            </div>
+            
+	    </div> 
     <!-- end of stats-->
 
 
-    <section class="appointment">
+        <section class="appointment">
 
-        <div class="container-two">
-           
-            
-            <div class="make-referral">
-                <button type="button">LIST OF APPOINTMENTS</button>
-            </div>
-          
-            <div class="search">
-                <input type="text" placeholder="Search appointments">
-            </div>
-            <div class="sort">
-                <label for="sort-by">Sort by:</label>
-                <select id="sort-by">
-                <option value="name">Name</option>
-                <option value="status">Status</option>
-                </select>
-            </div>
-        </div>
-
-        <table class="table">
-        
-            <thead>
-                <tr>
-                    
-                    <th>Student</th>
-                    <th>Date</th>
-                    <th>Start Time</th>
-                    <th>Status</th>
-                    <th>Notes</th>
-                </tr>
-            </thead> 
-            
-           <?php if ($result->num_rows > 0){?>
-            <tbody>
-
-            <?php
-               while ($row = $result->fetch_assoc()) {
-
-                //checking status
-
-                $appointment_date_time = $row['date'];
-                $current_date_time = time();
-
-                if ($row['status'] == 'pending' && $current_date_time > $appointment_date_time) {
-                    // Update the appointment status to overdue
-                    $stmt = $conn->prepare("UPDATE appointments SET status = 'overdue' WHERE id = ?");
-                    $stmt->bind_param('i', $row['id']); 
-                    $stmt->execute(); 
-                }
-
-
-                 //Name of the student 
-                    $stmt2 = $conn->prepare("SELECT * FROM students WHERE student_id = ?");
-
-                    $stmt2->bind_param("i", $row["student_id"]);
-                    $stmt2->execute();
-                    $result2 = $stmt2->get_result();
-                    $student2 = $result2->fetch_assoc();
-                   
-                    $_SESSION['student_id'] = $student2['student_id'];
-                  
-                    
-
-                    //Full name of the day of the week; Day of the month; abb name of the month
-
-                $row['date'] = date_format(date_create($row['date']), 'l j M');
-
-                if ($row['status']== 'pending'){
-                    echo "<tr><td> ". $student2["name"]." </td><td>" . $row["date"] . "</td><td>" . $row["start_time"] . "</td>
-                    <td><a href= 'confirmappointment.php?id=". $row ["id"]."' onclick = 'return confirmAppointment()' id='confirm_btn1'>Confirm</a> 
-                    <a href='cancelappointment.php?id=". $row ["id"]." ' onclick = 'return cancelAppointment()'id='confirm_btn2'>Cancel</a>
-                    <span id='status-".$row["id"]."'></span></td><td>Activated when Confirmed</td></tr>";
-                   
-                }else if ($row['status'] == 'confirmed'){
-                    echo "<tr><td> ". $student2["name"]." </td><td>" . $row["date"] . "</td><td>" . $row["start_time"] . "</td>
-                    <td style='color: green;'>" . $row["status"] . "</td><td><a href='notes.php' id='confirm_btn1'>Take Notes</a></td></tr>";
-                   
-                }
-                else if  ($row['status'] == 'canceled'){
-                echo "<tr><td> ". $student2["name"]." </td><td>" . $row["date"] . "</td><td>" . $row["start_time"] . "</td>
-                <td style='color: red;'>" . $row["status"] . "</td><td>No Notes</td></tr>";
-                }else {
-                echo "<tr><td> ". $student2["name"]." </td><td>" . $row["date"] . "</td><td>" . $row["start_time"] . "</td>
-                <td style='color: orange;'>" . $row["status"] . "</td><td>No Notes</td></tr>";
-                }
+            <div class="container-two">
             
                 
-            }
-        }
-
-            // Check if there were no rows returned from the query
-            if ($result->num_rows == 0) {
-                echo "<tr><td colspan='10' style='text-align:center; font-size: 24px; color: red;'> <br>
-                No pending appointments. It may be a slow season, but keep up the good work!</td></tr>";
-            }
-
-            ?>
+                <div class="make-referral">
+                    <button type="button">LIST OF APPOINTMENTS</button>
+                </div>
             
-            </tbody>
+                <div class="search">
+                    <input type="text" placeholder="Search appointments">
+                </div>
+                <div class="sort">
+                    <label for="sort-by">Sort by:</label>
+                    <select id="sort-by">
+                    <option value="name">Name</option>
+                    <option value="status">Status</option>
+                    </select>
+                </div>
+            </div>
 
-        </table>
-
-    </section>
-
-    <?php include 'Referrals/referal.php'; ?>
-
-
-
-    <section class="referrals">
-        
-    </section>
-
-    <div id="notes">
+            <table class="table">
+            
+                <thead>
+                    <tr>
+                        
+                        <th>Student</th>
+                        <th>Date</th>
+                        <th>Start Time</th>
+                        <th>Status</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead> 
                 
+            <?php if ($result->num_rows > 0){?>
+                <tbody>
+
+                <?php
+                while ($row = $result->fetch_assoc()) {
+
+                    //checking status
+
+                    $appointment_date_time = $row['date'];
+                    $current_date_time = time();
+
+                    if ($row['status'] == 'pending' && $current_date_time > $appointment_date_time) {
+                        // Update the appointment status to overdue
+                        $stmt = $conn->prepare("UPDATE appointments SET status = 'overdue' WHERE id = ?");
+                        $stmt->bind_param('i', $row['id']); 
+                        $stmt->execute(); 
+                    }
+
+
+                    //Name of the student 
+                        $stmt2 = $conn->prepare("SELECT * FROM students WHERE student_id = ?");
+
+                        $stmt2->bind_param("i", $row["student_id"]);
+                        $stmt2->execute();
+                        $result2 = $stmt2->get_result();
+                        $student2 = $result2->fetch_assoc();
+                    
+                        $_SESSION['student_id'] = $student2['student_id'];
+                    
+                        
+
+                        //Full name of the day of the week; Day of the month; abb name of the month
+
+                    $row['date'] = date_format(date_create($row['date']), 'l j M');
+
+                    if ($row['status']== 'pending'){
+                        echo "<tr><td> ". $student2["name"]." </td><td>" . $row["date"] . "</td><td>" . $row["start_time"] . "</td>
+                        <td><a href= 'confirmappointment.php?id=". $row ["id"]."' onclick = 'return confirmAppointment()' id='confirm_btn1'>Confirm</a> 
+                        <a href='cancelappointment.php?id=". $row ["id"]." ' onclick = 'return cancelAppointment()'id='confirm_btn2'>Cancel</a>
+                        <span id='status-".$row["id"]."'></span></td><td>Activated when Confirmed</td></tr>";
+                    
+                    }else if ($row['status'] == 'confirmed'){
+                        echo "<tr><td> ". $student2["name"]." </td><td>" . $row["date"] . "</td><td>" . $row["start_time"] . "</td>
+                        <td style='color: green;'>" . $row["status"] . "</td><td><a href='notes.php' id='confirm_btn1'>Take Notes</a></td></tr>";
+                    
+                    }
+                    else if  ($row['status'] == 'canceled'){
+                    echo "<tr><td> ". $student2["name"]." </td><td>" . $row["date"] . "</td><td>" . $row["start_time"] . "</td>
+                    <td style='color: red;'>" . $row["status"] . "</td><td>No Notes</td></tr>";
+                    }else {
+                    echo "<tr><td> ". $student2["name"]." </td><td>" . $row["date"] . "</td><td>" . $row["start_time"] . "</td>
+                    <td style='color: orange;'>" . $row["status"] . "</td><td>No Notes</td></tr>";
+                    }
+                
+                    
+                }
+            }
+
+                // Check if there were no rows returned from the query
+                if ($result->num_rows == 0) {
+                    echo "<tr><td colspan='10' style='text-align:center; font-size: 24px; color: red;'> <br>
+                    No pending appointments. It may be a slow season, but keep up the good work!</td></tr>";
+                }
+
+                ?>
+                
+                </tbody>
+
+            </table>
+
+     </section>
+     </div>
+    
+     <div id ="patients">
+         <?php include 'Referrals/referal.php'; ?>
     </div>
 
 
-</div> <!-- end of right-->
+    <?php include 'Referrals/acceptreferal.php'; ?>
+    
+
+
+    </div><!-- end of right-->
 
 
 

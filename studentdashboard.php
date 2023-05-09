@@ -13,6 +13,9 @@ $id= $_SESSION["user_id"];
 
 include 'Backend/db.php';
 
+
+
+
 //get the time 
 
 // Query the appointments table for the appointment details
@@ -63,6 +66,16 @@ if ($result2->num_rows == 1) {
     $appointment_details = 'No appointments found.';
 }
 
+//goals 
+
+$stmt3= $conn->prepare("SELECT *, COUNT(*) as count FROM goals WHERE student_id =?"); 
+$stmt3->bind_param("i", $id); 
+$stmt3->execute(); 
+$result3= $stmt3->get_result(); 
+
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -76,7 +89,48 @@ if ($result2->num_rows == 1) {
 
     <style>
 
-      
+.goal form {
+    margin-top: 15px;
+   
+  }
+
+
+  .goal input[type="text"] {
+    display: block;
+    margin: auto; 
+    width: 85%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 85%; 
+  }
+
+  input[type="radio"] {
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 10px;
+ 
+    
+   
+  }
+
+  .goal label{
+    font-size: 85%; 
+  }
+
+  .goal input[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
     </style>
 </head>
 <body style=" padding: 0; ">
@@ -104,8 +158,8 @@ if ($result2->num_rows == 1) {
         <p>DASHBOARD</p>
         <ul>
         <li><a href="home.php">Home</a></li>
-        <li><a href="">Appointments</a></li>
-        <li><a href="">Messages</a></li>
+        <li><a href="appointment2.php">Appointments</a></li>
+        <li><a href="">Goals</a></li>
         <li><a href="">Events</a></li>
         </ul>
 
@@ -115,7 +169,7 @@ if ($result2->num_rows == 1) {
         <ul>
         <li><a href="">WebMD</a></li>
         <li><a href="">Support</a></li>
-        <li><a href="">Chat</a></li>
+        
         </ul>
 
         <br><br><br><br><br>
@@ -142,18 +196,18 @@ if ($result2->num_rows == 1) {
 
         <div class="dets">
           <p style="color: brown;"><?php echo $_SESSION['name']; ?></p>
-          <p>Beginner <br>(0-5 goals)</p>
+          <p>Beginner <br> (0-5)goal (s)</p>
         </div>
         
       </div>
 
       <div class="buttons">
-        <button>
-          0 <br>Appointments
+        <button> <?php echo $result2->num_rows; ?>
+          <br>Appointment (s)
         </button>
 
         <button>
-          0 <br>Goals
+        <?php echo $result3->num_rows; ?> <br>Goals
         </button>
       </div>
 
@@ -220,8 +274,82 @@ if ($result2->num_rows == 1) {
  
       </div>
      
-   <div class="community">
-      community 
+   <div class="goal"> 
+    
+    <?php
+
+   if ($result3->num_rows > 0){?>
+          <div class="goal-tracking">
+
+
+          <?php while ($goal = $result3->fetch_assoc()){
+              $goal_name = $goal["goal"]; 
+              
+              $goal_id = $goal["id"]; ?>
+
+              <p>Goal: <?php echo $goal_name;?></p>
+              <p>Did you achieve your goal today?</p>
+              <form action="Backend/goal_tracking.php?id=<?php echo $goal_id;?>" method="post">
+                <input type="hidden" name="tracking_date" value="[Insert tracking date here]">
+                <input type="hidden" name="goal_id" value="<?php echo $goal_name;?>">
+
+                
+                <input type="radio" id="yes" name="achieved" value="1">
+                <label for="yes">Yes</label>
+              
+                <input type="radio" id="no" name="achieved" value="0">
+                <label for="no">No</label>
+                <br>
+                <input type="submit" value="Submit">
+              </form>
+        <?php  }  ?>
+              
+          </div>
+
+
+   <?php }else {
+?>
+    
+
+      <p style="text-align:center; font-size: 95%; font-weight: bold;">What do you want to track for a Week? </p>
+
+      <form action ="Backend/goals.php" method="post">
+      <input type="text" name="goal" id="goal" placeholder="Name your Goal or Habit">
+          <p style="color:lightgray; font-size: 80%;">Track anything you want by entering its name above
+            or choose from the options below
+          </p>
+      <div>
+        <input type="radio" id="exercising" name="habits" value="exercising">
+        <label for="exercising">Exercising</label>
+      </div>
+      <div>
+        <input type="radio" id="meditating" name="habits" value="meditating">
+        <label for="meditating">Meditating</label>
+      </div>
+      <div>
+        <input type="radio" id="no_alcohol" name="habits" value="no_alcohol">
+        <label for="no_alcohol">No alcohol</label>
+      </div>
+      <div>
+        <input type="radio" id="get_up_early" name="habits" value="get_up_early">
+        <label for="get_up_early">Get up early</label>
+      </div>
+      <div>
+        <input type="radio" id="sleep_on_time" name="habits" value="sleep_on_time">
+        <label for="sleep_on_time">Sleep on time</label>
+      </div>
+      <div>
+        <input type="radio" id="budget" name="habits" value="budget">
+        <label for="budget">Budget</label>
+      </div>
+
+    
+     <input type="submit" value="Set Goal">
+
+</form>
+
+    <?php }?>
+    
    </div>
 
 

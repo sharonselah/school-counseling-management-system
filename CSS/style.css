@@ -715,12 +715,82 @@ justify-content: space-between;
 }
 
 
-.right .community{
+.right .goal{
   width: 22%; 
   height: 75vh; 
    
 }
 
+
+.form_appointment{
+  margin: 30px auto;
+  width: 25%;
+  border-radius:10px; 
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  height: 85vh; 
+  padding: 20px; 
+  font-family: 'Times New Roman', Times, serif;
+
+}
+
+.form_appointment p{
+  text-align: center; 
+  font-weight: bold; 
+  line-height: 1.25 rem; 
+}
+
+input[type="date"], input[type="text"]{
+  margin: 10px 20px ; 
+  font-size: 90%; 
+  width: 83%; 
+  padding: 5px; 
+  display: block; 
+}
+
+.label{
+  margin: 0px 19px; 
+  font-size: 90%;    
+}
+span{
+  padding-left: 8%; 
+  font-size: 82%; 
+  text-align: center; 
+  color: gray;    
+}
+
+.wrapper {
+padding: 0px 20px; 
+display: flex;
+flex-wrap: wrap;
+justify-content: space-between;
+}
+
+.input {
+width: 40%; 
+margin-bottom: 10px;
+border:1px solid black; 
+border-radius: 5px; 
+padding: 10px; 
+
+}
+
+.form_appointment button{
+  width: 83%; 
+  height: 50px; 
+  text-align: center; 
+  margin:10px 8%; 
+  background-color:#800020; 
+  color: white; 
+  border: 1px solid brown; 
+  font-size:80%; 
+}
+
+
+
+ 
+
+  /* Style for the form elements */
 
 
 

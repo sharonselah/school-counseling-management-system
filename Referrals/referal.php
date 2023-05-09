@@ -32,6 +32,12 @@
         .remove a{
             color: white; 
         }
+
+        #top, #patients{
+            min-height: 500px; 
+        }
+
+
           
 
 </style>
@@ -82,7 +88,7 @@
                     <td><?php echo $panel["email"];  ?></td>  
                     <td><?php echo $panel["appointment_count"];?></td>  
                     <td><a href="?id=<?php echo $panel["student_id"]; ?>" class="open-notes">View Notes</a></td>
-                    <td><a href="Referrals/makereferal.php?id=<?php echo $panel["student_id"]; ?>" id="confirm_btn1">Refer</a></td>
+                    <td><a href="Referrals/makereferal.php?id=<?php echo $panel["student_id"];?>" id="confirm_btn1">Refer</a></td>
                     
                     </tr> <?php }}?>
                 </tbody>
@@ -125,7 +131,7 @@
                                     <td><a href='opennote.php?id=". $notes["note_id"]."' class='open-notes'>Open</a></td>
                                     </tr>"; 
                                 
-                                    $_SESSION["note_id"] = $notes["note_id"]; 
+                                    
                                 }  
                         }
 
