@@ -1,37 +1,47 @@
-<?php 
+<?php
 
 include 'db.php'; 
 
 session_start();  
-$student_id =   $_SESSION["user_id"]; 
+$student_id = $_SESSION["user_id"]; 
 
-if ($_SERVER["REQUEST_METHOD"] == "POST"){
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    if (isset($_POST['habits'])){
-        $goal = $_POST['habits'];  
-    }else {
-        $goal = $_POST["goal"]; 
-    }
+    // Get current date
+    $current_date = date("Y-m-d");
 
-   
+    // Count the number of goals added by the student in the past week
+    $stmt = $conn->prepare("SELECT COUNT(*) FROM goals WHERE student_id = ? AND created_at >= ?");
+    $week_ago = date('Y-m-d', strtotime('-7 days'));
+    $stmt->bind_param('is', $student_id, $week_ago);
+    $stmt->execute();
+    $stmt->bind_result($num_goals);
+    $stmt->fetch();
+    $stmt->close();
 
-
-
-
-//use prepared statements
-    $stmt = $conn-> prepare ("INSERT INTO goals (student_id, goal) VALUES (?, ?)"); 
-
-    //bind the ? parameters to prevent SQL injection
-    $stmt->bind_param('is', $student_id, $goal);
-    $execute = $stmt-> execute(); 
-
-    
-    //check if the query executed
-
-    if ($execute){
+    if ($num_goals >= 3) {
+        // If the student has already added 3 goals within the past week, show an error message
+        $_SESSION["error_message"] =  "You can only set 3 goals per week. Please try again later.";
         header("Location: ../studentdashboard.php");
-        exit(); 
-    }else {
-        echo "Error"; 
+    } else {
+
+        if (isset($_POST['habits'])) {
+            $goal = $_POST['habits'];  
+        } else {
+            $goal = $_POST["goal"]; 
+        }
+
+        // Use prepared statements to insert the new goal
+        $stmt = $conn->prepare("INSERT INTO goals (student_id, goal) VALUES (?, ?)"); 
+        $stmt->bind_param('is', $student_id, $goal);
+        $execute = $stmt->execute(); 
+
+        // Check if the query executed
+        if ($execute) {
+            header("Location: ../studentdashboard.php");
+            exit(); 
+        } else {
+            echo "Error"; 
+        }
     }
 }

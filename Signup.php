@@ -28,6 +28,8 @@ if (isset($_GET['error'])) {
     <script src="app2.js"></script>
   
     <title>Sign Up Form</title>
+
+  
 </head>
 <body>
 

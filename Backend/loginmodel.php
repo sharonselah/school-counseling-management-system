@@ -23,10 +23,9 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
         $row = $result->fetch_assoc();
         $hash = $row['password'];
         $name = $row['name'];
+        $email = $row['email']; 
         $id = $row['user_id']; 
         $role = $row['role']; 
-        
-
 
         //check if the given password matches the hashed password
 
@@ -34,6 +33,7 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
         // login successful
         $_SESSION["authenticated"] =TRUE; 
         $_SESSION["name"] = $name; 
+        $_SESSION["email"] = $email; 
         $_SESSION["user_id"]= $id; 
         $_SESSION["role"]= $role; 
 
@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
         // Redirect to the appropriate dashboard
     switch ($role) {
       case 'student':
-          header("Location: ../studentdashboard.php");
+          header("Location: ../Student/studentdashboard.php");
           exit(); 
           break;
       case 'counselor':
@@ -62,12 +62,8 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
         header("Location:../Login.php"); 
         exit();
       }
-
-       
+ 
       } 
-
-      
-
 
     $stmt-> close(); 
 }
