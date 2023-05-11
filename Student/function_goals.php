@@ -2,7 +2,7 @@
           <p style="text-align:center; font-size: 95%; font-weight: bold;">
           What do you want to track for a Week? </p>
 
-          <form action ="Backend/goals.php" method="post">
+          <form action ="../Backend/goals.php" method="post">
           <input type="text" name="goal" id="goal" placeholder="Name your Goal or Habit">
               <p style="color:lightgray; font-size: 80%;">Track anything you want by entering its name above
                 or choose from the options below
@@ -66,7 +66,7 @@
                 $goal_name = $row['goal'];
             ?>
                 <div class="goal_track">
-                    <form action="Backend/goal_tracking.php" method="post">    
+                    <form action="../Backend/goal_tracking.php" method="post">    
                         <p>Did you achieve your goal today of <span style="text-decoration: underline;"><?php echo $goal_name; ?></span> ?</p>
                         <input type="hidden" name="goal_id" value="<?php echo $goal_id; ?>">
                         <input type="radio" id="yes" name="achieved" value="1">
@@ -77,7 +77,7 @@
                     </form>
                 </div>
             <?php
-            }?>
+            } $stmt->close(); ?>
 
                 
 </div>
@@ -85,16 +85,42 @@
 
 
 <div class="goal_div">
-    <p><strong>Past Goals Performance</strong></p>
-        <?php
-        $stmt = $conn->prepare ("SELECT TIMESTAMPDIFF(DAY, created_at, NOW()) > 7 AS result, id, goal
+            <form action="" method="post">
+              <input type="search" name="goal_name" id="goal_name">
+              <button type="submit" name="search">search</button>
+            </form>
+
+            <?php
+
+  if (isset($_POST['search'])) {
+    $goalName = $_POST['goal_name'];
+
+    if (!empty($goal_name)) { //goal_name is not empty 
+    $stmt = $conn->prepare ("SELECT TIMESTAMPDIFF(DAY, created_at, NOW()) > 7 AS result, id, goal
         FROM goals
-        WHERE student_id = $id
+        WHERE student_id = ? AND goal = ?
         ORDER BY created_at ASC
         LIMIT 1;");
-
-        $stmt-> execute(); 
-        $result = $stmt-> get_result(); 
+      $stmt->bind_param('is', $id, $goalName);
+    
+    } else {
+        $stmt = $conn->prepare ("SELECT TIMESTAMPDIFF(DAY, created_at, NOW()) > 7 AS result, id, goal
+            FROM goals
+            WHERE student_id = ?
+            ORDER BY created_at ASC
+            LIMIT 1;");
+        $stmt->bind_param ('i', $id); 
+    }
+  } else {
+    $stmt = $conn->prepare ("SELECT TIMESTAMPDIFF(DAY, created_at, NOW()) > 7 AS result, id, goal
+          FROM goals
+          WHERE student_id = ?
+          ORDER BY created_at ASC
+          LIMIT 1;");
+           $stmt->bind_param ('i', $id); 
+  }
+      $stmt->execute();
+      $result = $stmt->get_result();
 
             if($result->num_rows>0){
 
@@ -103,13 +129,13 @@
               $count_goal = 0; 
               while ($data= $result->fetch_assoc()){
                 $goal_name = $data["goal"]; 
-              $stmt = $conn->prepare ("SELECT COUNT(*) as achieved_count 
+              $stmt2 = $conn->prepare ("SELECT COUNT(*) as achieved_count 
               FROM weekly_goal_progress 
               WHERE goal_id = $id AND achieved = 1;
               ");
-                $stmt-> execute(); 
-                $result = $stmt-> get_result();
-                $row = $result->fetch_assoc();
+                $stmt2-> execute(); 
+                $result2 = $stmt2-> get_result();
+                $row = $result2->fetch_assoc();
                 $achieved_count = $row['achieved_count']; 
                 $counter++;
                 ?>
@@ -125,7 +151,13 @@
               break;
             }
 
-          }}
+          }}else {
+            ?>
+
+            <p class="goal-progress" style="margin-bottom: 10px;">
+              No Goal Found!!
+            </p> <?php 
+          }
 
           ?>
 </div>

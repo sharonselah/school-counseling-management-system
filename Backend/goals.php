@@ -21,8 +21,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($num_goals >= 3) {
         // If the student has already added 3 goals within the past week, show an error message
-        $_SESSION["error_message"] =  "You can only set 3 goals per week. Please try again later.";
-        header("Location: ../studentdashboard.php");
+        
+        header("Location: ../Student/studentdashboard.php?voted=maximum");
+        exit(); 
     } else {
 
         if (isset($_POST['habits'])) {
@@ -38,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Check if the query executed
         if ($execute) {
-            header("Location: ../studentdashboard.php");
+            header("Location: ../Student/studentdashboard.php?voted=true");
             exit(); 
         } else {
             echo "Error"; 

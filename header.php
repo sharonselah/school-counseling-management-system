@@ -19,7 +19,7 @@
             <li><a href="">Providers</a></li>
             <li><a href="">Selfcare</a></li>
             <li><a href="">Resources</a></li>
-            <li><a href="">Contact Us</a></li>
+            <li><a href="appointment2.php">Contact Us</a></li>
         </ul>
 
         <div class="button">
@@ -27,6 +27,6 @@
         </div>
 
         <div class="button">
-            <a href="">Log In</a>
+            <a href="Login.php">Log In</a>
         </div>
     </header>

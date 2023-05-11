@@ -1,6 +1,4 @@
 <?php include 'header.php' ?>
-
-
     <div class="call-to-action">
 
    
