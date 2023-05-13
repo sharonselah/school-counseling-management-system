@@ -2,14 +2,14 @@
 session_start();
 
 
-if (!isset($_SESSION['authenticated'])) {
+if (!isset($_SESSION['authenticated'])|| $_SESSION["role"] !== 'student') {
     // User is not authenticated, redirect to login page
     header('Location: Login.php');
     exit();
 }
 
 // Connect to database and get user ID from URL parameter
-include 'Backend/db.php';
+include '../Backend/db.php';
 $id = $_GET["id"];
 
 // Get user data from database

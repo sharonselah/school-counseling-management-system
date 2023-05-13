@@ -45,11 +45,11 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
           exit(); 
           break;
       case 'counselor':
-          header("Location: ../counselordashboard.php");
+          header("Location: ../Counselor/counselordashboard.php");
           exit(); 
           break;
       case 'admin':
-          header("Location: ../admindashboard.php");
+          header("Location: ../Admin/admindashboard.php");
           exit(); 
           break;
       default:

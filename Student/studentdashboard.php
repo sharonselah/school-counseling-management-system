@@ -30,6 +30,22 @@ if (isset($_GET['voted'])) {
     <link rel="stylesheet" href="../CSS/style.css">
     <title>Student Dashboard</title>
 
+    <style>
+       .right-1, .right-2, .right-3, .right-4, .right-5{
+        position: absolute; 
+        left: 9%; 
+        width: 89%;  
+        padding: 15px 10px 10px 10px;
+        height: 100vh; 
+        overflow-y: scroll; /* enable vertical scrolling */
+        background-color: #FAFAFA;
+        }
+
+        .hide{
+            display: none;
+        }
+    </style>
+
     
 </head>
 <body style=" padding: 0; ">
@@ -42,7 +58,7 @@ if (isset($_GET['voted'])) {
    ?>
 
 
-<div class="right"> <!-- start of right --> 
+<div class="right-1"> <!-- start of right --> 
 
 
 <div id="snapshot"> <!-- start of snapshot --> 
@@ -77,7 +93,7 @@ if (isset($_GET['voted'])) {
         <span style="color: brown; text-decoration: underline;">take the first step </span> towards a happier, healthier you! 🌟 
         </p>
 
-        <button><a href="appointment2.php" style="color: white; font-size: 110%;">Book an Appointment</a></button>
+        <button><a href="../Appointment/appointment.php" style="color: white; font-size: 110%;">Book an Appointment</a></button>
       </div>
     </div> 
   <?php }?>
@@ -92,7 +108,8 @@ if (isset($_GET['voted'])) {
           <p>&#9202 <?php echo $appointment_details?></p>
           <p>&#10084 For <?php echo $_SESSION["name"]?></p>
           <p> 
-            <button onclick ="return confirmCancel()"><a href='deleteappointment.php?id=<?php echo $appointment_id; ?>'>Cancel Appointment</a></button> 
+            <button onclick ="return confirmCancel()"><a href='../Appointment/deleteappointment.php?id=<?php echo $appointment_id; ?>'>Cancel Appointment</a></button> 
+          
           </p>
         </div>
 
@@ -109,14 +126,6 @@ if (isset($_GET['voted'])) {
     </div> 
   <?php }?>
 </div> <!-- end of appointment -->
-
-
-
-
-
-
-
-
 
 
 <div class="goal_manage" style="width: 22%;"> <!-- start of goal-->
@@ -148,14 +157,18 @@ if (isset($_GET['voted'])) {
 </div>
         
 </div> <!-- end of snapshot-->
-
- 
- 
-  
-
-<div id="goals">
-  <?php include 'function_goals.php'; ?>
 </div>
+
+ 
+ 
+  <div class="right-2 hide">
+
+    <div id="goals">
+      <?php include 'function_goals.php'; ?>
+    </div>
+</div>
+
+<div class="right-3 hide">
 
    <div id ="appointments">
         <form method="post" action="" >
@@ -227,24 +240,48 @@ $result = $stmt->get_result();
   } ?>
 </table>
    </div>
+   </div>
+
+   <div class="right-4 hide">
 
    <div id="articles">
       <?php include 'articles.php';?>
    </div>
+   </div>
+
+   <div class="right-5 hide">
 
    <div id="support">
       <?php include 'support.php';?>
    </div>
+   </div>
 
 
 
-  </div> <!-- end of right-->
+ 
 <script>
 
   function confirmCancel(){
     var confirmation = confirm("Are you sure you want to cancel the appointment?");
     return confirmation;
   }
+
+  const links = document.querySelectorAll('.menu_links li a');
+const rightDivs = document.querySelectorAll('.right-1, .right-2, .right-3, .right-4, .right-5');
+
+links.forEach((link, index) => {
+  link.addEventListener('click', () => {
+    hideAll();
+    rightDivs[index].classList.remove('hide');
+  });
+});
+
+function hideAll() {
+  rightDivs.forEach((rightDiv) => {
+    rightDiv.classList.add('hide');
+  });
+}
+
 </script>
 
 </body>

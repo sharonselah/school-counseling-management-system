@@ -2,7 +2,7 @@
 
 session_start(); 
 
-include 'Backend/db.php'; 
+include '../Backend/db.php'; 
 
 if (isset($_GET['id'])) {
   $note_id = $_GET['id'];

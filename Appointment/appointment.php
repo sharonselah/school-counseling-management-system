@@ -14,7 +14,7 @@ if (isset($_SESSION["error_message"])){
   }
   
     //retrieve the time slots
-    include 'Backend/db.php';
+    include '../Backend/db.php';
  
 ?>
 
@@ -25,11 +25,11 @@ if (isset($_SESSION["error_message"])){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="../CSS/style.css">
     <title>Appointment</title>
 </head>
 <body>
-        <form action="Backend/submit_booking.php" method="post" class="form_appointment">
+        <form action="../Backend/submit_booking.php" method="post" class="form_appointment">
             <p>Book a Consultation</p>
                 
             <span>Please Select an Appointment Date and Time</span> <br><br>

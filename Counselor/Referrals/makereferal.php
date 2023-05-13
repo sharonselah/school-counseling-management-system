@@ -1,7 +1,7 @@
 <?php 
 
 
-include '../Backend/db.php'; 
+include '../../Backend/db.php'; 
 
 session_start();
 
@@ -113,8 +113,6 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
         <form class="referral_form" action="" method="post">
 
                     <p>Refer a Student</p>
-
-            
             <label for="receiving_therapist_email">Receiving Therapist Email:</label>
             <input type="email" id="receiving_therapist_email" name="receiving_therapist_email">
         

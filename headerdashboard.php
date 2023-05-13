@@ -4,7 +4,6 @@
         CUEA Counseling
         </div>
 
-
         <div class="personal-info">
         <h2>Welcome, <?php  echo $_SESSION["name"]; ?></h2>
         </div>

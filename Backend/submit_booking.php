@@ -43,17 +43,18 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
     $status ="pending"; 
 
     //before inserting check if the student has an already existing appointment
-    $stmt = $conn-> prepare ("SELECT COUNT(*) as count
-                                FROM appointments
-                                WHERE student_id = ?
-                                AND end_time > NOW()");
+    $stmt = $conn-> prepare ("SELECT * FROM appointments 
+    WHERE student_id = ? 
+    AND CONCAT(date, ' ', start_time) > NOW() 
+    ORDER BY created_at DESC 
+    LIMIT 1");
     $stmt-> bind_param ("i", $student_id); 
     $stmt ->execute(); 
     $result= $stmt-> get_result(); 
 
     if ($result->num_rows>0){
         $_SESSION["error_message"] = "Sorry, you cannot book another appointment at this time. You already have a pending appointment." ; 
-        header("Location: ../appointment2.php");
+        header("Location: ../Appointment/appointment.php");
         exit();
     }else {
 
@@ -72,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
     //check if the query executed
 
     if ($execute){
-        header("Location: ../studentdashboard.php");
+        header("Location: ../Student/studentdashboard.php");
         exit(); 
     }else {
         echo "Error". $stmt-> error; 

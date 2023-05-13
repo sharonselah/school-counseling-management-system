@@ -394,7 +394,6 @@ header ul a:hover{
 
 
 
-
 /* Student dashboard coding */
 
 .header-dashboard {
@@ -402,9 +401,10 @@ header ul a:hover{
     justify-content: space-between;
     align-items: center;
     background-color: white; 
+
     
   }
-  
+
 
   .search {
     display: flex;
@@ -515,34 +515,15 @@ header ul a:hover{
   border: 1px solid blue; 
 }
 
-.right{
-  position: absolute; 
-  left: 9%; 
-  width: 90%;  
-  padding: 15px 10px 10px 10px;
-  height: 100vh; 
-  overflow-y: scroll; /* enable vertical scrolling */
-  background-color: #F4F2F2;
-  
-}
+
 
 #snapshot{
   display: flex; 
   height: 100vh; 
- 
 
 }
 
-.right-c{
-  position: absolute; 
-  left: 9%; 
-  width: 90%;  
-  padding: 15px 10px 10px 10px;
-  height: 100vh; 
-  overflow-y: scroll; /* enable vertical scrolling */
-  background-color: #F4F2F2;
-  
-}
+
 
 #snapshot> div{
 
@@ -651,7 +632,7 @@ header ul a:hover{
 }
 
 
-.right .profile{
+#snapshot .profile{
 width: 20%; 
 height: 60vh; 
 display: flex;
@@ -659,7 +640,7 @@ flex-direction: column;
 align-items: center;
 }
 
-.right .goal_manage{
+#snapshot .goal_manage{
   width: 22%; 
   height: 75vh; 
 
@@ -670,12 +651,12 @@ align-items: center;
 }
 
 
-.right .profile .complete{
+#snapshot .profile .complete{
   padding-top: 20px; 
   
 }
 
-.right .complete button{
+#snapshot .complete button{
   width: 200px; 
   height: 60px; 
   border:none; 
@@ -690,14 +671,14 @@ align-items: center;
   padding: 0px; 
 }
 
-.right .appointment{
+#snapshot .appointment{
   width: 44%; 
   height: 90vh; 
   text-align: center;
  
 }
 
-.right .appointment .division.one{
+#snapshot .appointment .division.one{
   background-color: #F4F2F2;
   margin: auto;
   height: 87%;
@@ -709,7 +690,7 @@ align-items: center;
   line-height: 200%;
   
 }
-.right .appointment .division.one button{
+#snapshot .appointment .division.one button{
   width: 70%; 
   height: 50px; 
   border: 1px solid brown; 
@@ -720,7 +701,7 @@ align-items: center;
   cursor: pointer;
 }
 
-.right .appointment .division-two{
+#snapshot .appointment .division-two{
   background-color: #F4F2F2;
   margin: auto;
   width: 96%; 
@@ -729,14 +710,14 @@ align-items: center;
   
 }
 
-.right .appointment .division-two .details p{
+#snapshot .appointment .division-two .details p{
   border-left: 12px solid black; 
   border-right: 12px solid black; 
-  padding: 3px; 
+  padding: 14px; 
   border-bottom: 1px solid lightgrey; 
 }
 
-.right .appointment .division-two .details button{
+#snapshot .appointment .division-two .details button{
   width: 60%; 
   margin: 0px 20px; 
   text-align: center;
@@ -763,14 +744,14 @@ align-items: center;
 }
 
 
-.right .appointment .division.two .appointment-details, .appointment-actions, .therapist-info-text{
+#snapshot .appointment .division.two .appointment-details, .appointment-actions, .therapist-info-text{
   display: flex;
   justify-content: space-between;
 
 }
 
 
-.right .goal{
+#snapshot .goal{
   width: 22%; 
   height: 75vh; 
    

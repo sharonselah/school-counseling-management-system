@@ -1,5 +1,5 @@
 <?php 
-include '../Backend/db.php'; 
+include '../../Backend/db.php'; 
 
 $referral_id = $_GET['id'];
 
