@@ -26,7 +26,6 @@
 		}
 		.article {
 			background-color: #ffffff;
-          
             line-height: 1.5rem; 
 			box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
 			padding: 30px;
@@ -47,7 +46,7 @@
 			line-height: 1.8;
 		}
 		.article a {
-			color: #6b466e;
+			color: #00A86B; 
 			font-weight: bold;
 			text-decoration: none;
 			transition: color 0.2s ease-in-out;

@@ -1,6 +1,8 @@
 <?php 
 session_start(); 
 
+include 'sessiondeleting.php'; 
+
 if (isset($_SESSION["error_message"])){
   $error_message = $_SESSION["error_message"];
   //clear error message from the session

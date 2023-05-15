@@ -1,10 +1,11 @@
+<link rel="stylesheet" href="../CSS/style.css">
 <div class="goal_div habits">
-          <p style="text-align:center; font-size: 95%; font-weight: bold;">
+          <p style="text-align:center; font-size: 95%; font-weight: bold; margin: 20px 0px;">
           What do you want to track for a Week? </p>
 
           <form action ="../Backend/goals.php" method="post">
           <input type="text" name="goal" id="goal" placeholder="Name your Goal or Habit">
-              <p style="color:lightgray; font-size: 80%;">Track anything you want by entering its name above
+              <p style="color:lightgray; font-size: 80%; text-align: center; margin-bottom: 10px;">Track anything you want by entering its name above
                 or choose from the options below
               </p>
           <div>
@@ -44,15 +45,8 @@
         </div> <!--end of first div-->
 
 
-
-
-
-
-
-
-
 <div class="goal_div"
-        style="background-color:white;">
+        style=" width: 40%;">
             <!-- tracking things-->
 
          <?php 
@@ -67,7 +61,7 @@
             ?>
                 <div class="goal_track">
                     <form action="../Backend/goal_tracking.php" method="post">    
-                        <p>Did you achieve your goal today of <span style="text-decoration: underline;"><?php echo $goal_name; ?></span> ?</p>
+                        <p>Did you achieve your goal today of <span style="text-decoration: underline; color: #00A86B; "><?php echo $goal_name; ?></span> ?</p>
                         <input type="hidden" name="goal_id" value="<?php echo $goal_id; ?>">
                         <input type="radio" id="yes" name="achieved" value="1">
                         <label for="yes">Yes</label>                    
@@ -85,10 +79,12 @@
 
 
 <div class="goal_div">
-            <form action="" method="post">
-              <input type="search" name="goal_name" id="goal_name">
-              <button type="submit" name="search">search</button>
-            </form>
+      <form action="" method="post" style="margin-bottom: 15px; ">
+          <input type="search" name="goal_name" id="goal_name" style="width: 70%; height: 30px; margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;">
+          <button type="submit" name="search">search</button>
+      </form>
 
             <?php
 

@@ -9,7 +9,7 @@
 </head>
 <body>
 <div class="signupform">
-        <form  action="Backend/counselorsignupmodel.php" method="post" >
+        <form  action="../Backend/counselorsignupmodel.php" method="post" >
 
                 <p>Add New Counselor</p>
                 <label for="name">Name</label> <br>

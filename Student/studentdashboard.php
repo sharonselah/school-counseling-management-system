@@ -1,4 +1,5 @@
 <?php 
+include '../sessiondeleting.php'; 
 
 include 'functions.php'; 
 
@@ -31,7 +32,7 @@ if (isset($_GET['voted'])) {
     <title>Student Dashboard</title>
 
     <style>
-       .right-1, .right-2, .right-3, .right-4, .right-5{
+       .right-c{
         position: absolute; 
         left: 9%; 
         width: 89%;  
@@ -58,7 +59,7 @@ if (isset($_GET['voted'])) {
    ?>
 
 
-<div class="right-1"> <!-- start of right --> 
+<div class="right-c"> <!-- start of right --> 
 
 
 <div id="snapshot"> <!-- start of snapshot --> 
@@ -68,9 +69,9 @@ if (isset($_GET['voted'])) {
         <p style="margin-bottom:0px; color: brown;">Your Profile</p>
             <img src="../Images/user-icon.jpg" alt="">
             <p style="margin-bottom:0px;"><?php echo $_SESSION['name']; ?></p>
-            <p style="margin-top:5px; color: gray;">Student</p>
+            <p style="margin-top:5px; color: gray; font-size: 85%;">Student</p>
 
-            <div style="text-align:center;">
+            <div style="text-align:center; line-height: 1.8;">
                 <div>Appointments: <?php echo $result2->num_rows; ?></div>
                 <span> </span>
                 <div>Goals: <?php echo $totalGoals; ?></div>
@@ -81,7 +82,7 @@ if (isset($_GET['voted'])) {
     </div><!-- end of profile --> 
 
     <div class="appointment"> <!-- start of appointment--> 
-  <p style="font-size: 88%; font-weight: bolder; color: brown;">Manage Appointments</p>
+  <p style="font-size: 88%; font-weight: bolder; color: brown; margin-bottom: 10px;">Manage Appointments</p>
 
   <?php if ($result2->num_rows == 0){?>
     <div class="division one">
@@ -102,7 +103,7 @@ if (isset($_GET['voted'])) {
     <div class="division-two"> 
       <div class="appointment-card">
         <div class="details">
-          <p style="color: blue;">! APPOINTMENT REQUEST SENT !</p>
+          <p style="color: red;">!! APPOINTMENT REQUEST SENT !!</p>
           <p> &#10013 CUEA Counseling Department &#10013</p>
           <p>&#9410 <?php echo $cName;?></p>
           <p>&#9202 <?php echo $appointment_details?></p>
@@ -138,10 +139,7 @@ if (isset($_GET['voted'])) {
                 &#128640."</p>
 
                 <button 
-                style="
-                background-color: #EECBB9; 
-                width: 100%; padding: 12px 15px;
-                border-radius: 10px;border:none; cursor:pointer; "><a href="#goals">Manage Goals</a></button>
+             ><a href="#goals">Manage Goals</a></button>
                               
             </div> <!--end of manage goals-->
 
@@ -149,7 +147,7 @@ if (isset($_GET['voted'])) {
               padding: 10px;margin-top: 10px; display: flex; flex-direction: column; justify-content: end; ">
                 <p style="line-height: 1.5rem; font-size: 80%;" >Equip yourself with knowledge on mental health!! Click to Open 
                 <span style ="
-              padding: 10px; background-color: #EECBB9;"> <a href="https://psychcentral.com/" 
+              padding: 10px; background-color: #00A86B;"> <a href="https://psychcentral.com/" 
                 style="text-decoration: none; font-size: 20px; "> &#10145;</a></span>
               </p>
               
@@ -157,57 +155,39 @@ if (isset($_GET['voted'])) {
 </div>
         
 </div> <!-- end of snapshot-->
-</div>
+
 
  
  
-  <div class="right-2 hide">
+  
 
     <div id="goals">
       <?php include 'function_goals.php'; ?>
     </div>
-</div>
 
-<div class="right-3 hide">
+
+
 
    <div id ="appointments">
-        <form method="post" action="" >
+    <h2 style="text-align: center;" >Appointments</h2>
+        
               <label for="status">Status:</label>
               <select id="status" name="status" style= "padding: 5px; border-radius: 5px; border: 1px solid #ccc;">
-                <option value="">-- Select --</option>
-                <option value="pending">Pending</option>
-                <option value="confirmed">Confirmed</option>
-                <option value="cancelled">Cancelled</option>
+                  <option value="">-- Select --</option>
+                  <option value="pending">pending</option>
+                  <option value="confirmed">confirmed</option>
+                  <option value="canceled">canceled</option>
+                  <option value="overdue">overdue</option>
               </select>
-              <button type="submit" name="Filter" style="
-                padding: 5px 10px;
-                border-radius: 5px;
-                border: none;
-                background-color: gray;
-                color: #fff;
-              " >Filter</button>
-        </form>
+             
         <?php 
+      $stmt = $conn->prepare("SELECT * FROM appointments WHERE student_id = ? ORDER BY created_at DESC");
+      $stmt->bind_param('i', $id);              
+      $stmt->execute();
+      $result = $stmt->get_result();
+    ?>
 
-
-if (isset($_POST['Filter'])) {
-  $status = $_POST['status'];
-  if (!empty($status)) {
-    $stmt = $conn->prepare("SELECT * FROM appointments WHERE student_id = ? AND status = ? ORDER BY created_at DESC");
-    $stmt->bind_param('is', $id, $status);
-  } else {
-    $stmt = $conn->prepare("SELECT * FROM appointments WHERE student_id = ? ORDER BY created_at DESC");
-    $stmt->bind_param('i', $id);
-  }
-} else {
-  $stmt = $conn->prepare("SELECT * FROM appointments WHERE student_id = ? ORDER BY created_at DESC");
-  $stmt->bind_param('i', $id);
-}
-$stmt->execute();
-$result = $stmt->get_result();
-?>
-
-<table class="table" style="min-width: 100%;">
+<table id ="myTable" class="table" style="min-width: 100%;">
   <thead>
     <tr>
       <th>Counselor Name</th>
@@ -230,7 +210,7 @@ $result = $stmt->get_result();
         // Full name of the day of the week; Day of the month; abb name of the month
         $row['date'] = date_format(date_create($row['date']), 'l j M');
         echo "<tr><td>" . $counselor["name"] . "</td><td>" . $row["date"] . "</td><td>" . $row["start_time"] . "</td>
-              <td style='color:blue;'> " . $row["status"] . "</td></tr>";
+              <td style='color:blue;'>" .$row["status"]. "</td></tr>";
       } ?>
     </tbody>
   <?php } else {
@@ -240,23 +220,21 @@ $result = $stmt->get_result();
   } ?>
 </table>
    </div>
-   </div>
+ 
 
-   <div class="right-4 hide">
+  
 
    <div id="articles">
       <?php include 'articles.php';?>
    </div>
-   </div>
 
-   <div class="right-5 hide">
 
    <div id="support">
       <?php include 'support.php';?>
    </div>
-   </div>
 
 
+</div>
 
  
 <script>
@@ -266,21 +244,28 @@ $result = $stmt->get_result();
     return confirmation;
   }
 
-  const links = document.querySelectorAll('.menu_links li a');
-const rightDivs = document.querySelectorAll('.right-1, .right-2, .right-3, .right-4, .right-5');
+    const statusDropdown = document.getElementById('status');
+    const table = document.getElementById('myTable');
+    const rows = table.getElementsByTagName('tr');
 
-links.forEach((link, index) => {
-  link.addEventListener('click', () => {
-    hideAll();
-    rightDivs[index].classList.remove('hide');
-  });
-});
+    function filterTable() {
+    
+    const statusValue = statusDropdown.value.toUpperCase();
 
-function hideAll() {
-  rightDivs.forEach((rightDiv) => {
-    rightDiv.classList.add('hide');
-  });
-}
+    for (let i = 1; i < rows.length; i++) {
+        const status = rows[i].getElementsByTagName('td')[3].textContent.toUpperCase();
+ 
+        if (status === statusValue || statusValue === '') {
+        rows[i].style.display = '';
+       
+        } else {
+        rows[i].style.display = 'none';
+       
+        }
+    }
+    }
+    statusDropdown.addEventListener('change', filterTable);
+
 
 </script>
 

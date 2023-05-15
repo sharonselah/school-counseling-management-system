@@ -1,6 +1,6 @@
 <?php
 
-include 'Backend/db.php'; 
+include '../Backend/db.php'; 
 // Get the user ID from the query parameter
 $id = $_GET["id"];
 

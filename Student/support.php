@@ -4,10 +4,7 @@
 	<title>Mental Health Support Contacts in Kenya</title>
 	<style>
 		
-		body {
-			
-		}
-
+		
 		h1 {
 			text-align: center;
 			margin-top: 30px;
@@ -17,7 +14,7 @@
 		.container {
             font-family: 'Times New Roman'; 
             line-height: 2; 
-			max-width: 800px;
+			max-width: 1000px;
 			margin: 0 auto;
 			padding: 20px;
 			background-color: #fff;

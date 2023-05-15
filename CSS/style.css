@@ -61,12 +61,8 @@ header ul a:hover{
     list-style: none;
     padding: 10px 30px;
     transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
-    color: white; 
-   
-    
+    color: white;  
 }
-
-
 
 
 .call-to-action{
@@ -117,17 +113,13 @@ header ul a:hover{
     padding-top: 55px;
     padding-bottom: 50px;
     text-align: center; 
-
 }
-
 .counselors-container .button{
     padding-top: 30px; 
     margin: auto; 
     width: 25%; 
     
 }
-
-
 .counselors-container .button a, .counselor button, .services .button a{
     
     background-color: #FFFFFF;
@@ -155,6 +147,7 @@ header ul a:hover{
 
 .counselors-container .counselors{
     display: flex; 
+    width: 100%; 
 
 }
 
@@ -172,10 +165,7 @@ header ul a:hover{
     height: 250px; 
     width: 90%;
     padding: 0px; 
- 
 }
-
-
 
 .counselor button:hover{
     background-color: brown; 
@@ -195,8 +185,7 @@ header ul a:hover{
     margin: auto; 
     flex-wrap: wrap;
     justify-content: space-between;
-   
-    
+  
 }
 
 .service{
@@ -204,8 +193,12 @@ header ul a:hover{
     margin: 10px 1%;
     display: flex;
     padding: 5px 15px; 
-    box-shadow: #800000 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
-     
+    box-shadow: #800000 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;    
+}
+
+.service:hover{
+  transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+  background-color: #f0f0f0; 
 }
 
 .service .image{
@@ -249,13 +242,12 @@ header ul a:hover{
      
  }
 
-
-
  .self-care, .self-cares.self-cares{
 
     min-height: 500px; 
     padding: 20px; 
     display: flex; 
+
 
  }
 
@@ -266,7 +258,8 @@ header ul a:hover{
 
  .self-care .content{
     padding: 25px;
-    line-height: 1.8;
+    line-height: 2.5;
+    font-size: 88%; 
  }
 
  .self-care .list{
@@ -302,21 +295,12 @@ header ul a:hover{
  }
 
  footer{
-    height: 250px; 
+    height: 180px; 
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     background: #F4F4F4; 
- }
-
- footer .content{
-    height: 210px; 
-    border-bottom: 1px solid black; 
- }
-
- footer .content p{
-    font-size: 35px; 
  }
 
  footer .button {
@@ -491,8 +475,8 @@ header ul a:hover{
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 .table thead tr {
-  background-color: #009879;
-  color: #ffffff;
+  background-color: #f7f7f7; 
+  color: black; 
   text-align: left;
   font-weight: 100;
 }
@@ -535,15 +519,13 @@ header ul a:hover{
 
 }
 
-
-
 #goals{
   min-height: 70vh; 
-  background-color: #FAFAFA; 
+  background-color: #DEDEDE; 
   text-align: center; 
   display: flex;
   margin-top: 30px; 
-  padding: 20px 0px; 
+  padding: 20px;
 }
 
 .goal_div {
@@ -557,10 +539,11 @@ header ul a:hover{
 
 .goal_track {
   background-color: white; 
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
   border-radius: 10px;
   padding: 10px;
-  margin-bottom: 20px;
+  margin: 20px 10px;
+  border:1px solid lightgray;
+  font-size: 88%;
 }
 
 
@@ -570,10 +553,11 @@ header ul a:hover{
 
 .goal_track input[type=submit] {
   margin-top: 10px;
-  background-color: #f0bca1;
+  background-color: #66CDAA;
   color: white;
   border: none;
   padding: 10px 20px;
+  margin-top: 10px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -583,12 +567,11 @@ header ul a:hover{
 }
 
 .goal_track input[type=submit]:hover {
-  background-color: brown;
+  background-color:  #00A86B; 
 }
 
 
 .habits {
-  border:1px solid black; 
   text-align: left; 
  
 }
@@ -619,16 +602,20 @@ header ul a:hover{
 
 .habits input[type="submit"] {
   display: block;
-  width: 90%;
-  margin-left: 5%; 
+  width: 70%;
+  margin-left: 14%; 
   padding: 10px;
   margin-top: 20px;
-  background-color: #0081FC;
+  background-color: #66CDAA;
   color: #fff;
   border: none;
   border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
+}
+
+.habits input[type="submit"]:hover{
+  background-color: #00A86B; 
 }
 
 
@@ -658,12 +645,16 @@ align-items: center;
 
 #snapshot .complete button{
   width: 200px; 
-  height: 60px; 
+  height: 50px; 
   border:none; 
   border-radius: 10px;
   font-size: 90%; 
   background-color: #959595;
+  background-color: #66CDAA;
   cursor: pointer;
+}
+#snapshot .complete button:hover{
+  background-color: #00A86B; 
 }
 
 .appointment-details{
@@ -698,11 +689,12 @@ align-items: center;
   color:white; 
   font-size: 70%; 
   background-color: brown;
+  background-color: #66CDAA;
   cursor: pointer;
 }
 
 #snapshot .appointment .division-two{
-  background-color: #F4F2F2;
+  background-color: #F7F7F7;
   margin: auto;
   width: 96%; 
   border-radius: 3px;
@@ -711,8 +703,8 @@ align-items: center;
 }
 
 #snapshot .appointment .division-two .details p{
-  border-left: 12px solid black; 
-  border-right: 12px solid black; 
+  border-left: 12px solid #66CDAA;
+  border-right: 12px solid #66CDAA;
   padding: 14px; 
   border-bottom: 1px solid lightgrey; 
 }
@@ -736,11 +728,24 @@ align-items: center;
 }
 
 .division-two .confirm{
-  background-color: #f8f8ff; 
-  color: black; 
+  background-color: #ebebeb; 
+  color: darkgreen; 
   line-height: 1.8rem; 
   padding: 10px 0px; 
+  border-left: 12px solid #66CDAA;
+  border-right: 12px solid #66CDAA;
  
+}
+
+.goal_manage button{ 
+  background-color: #66CDAA; 
+  width: 100%; padding: 12px 15px;
+  border-radius: 10px;border:none; 
+  cursor:pointer; 
+}
+
+.goal_manage button:hover{
+  background-color: #00A86B; 
 }
 
 
@@ -815,6 +820,22 @@ padding: 10px;
   color: white; 
   border: 1px solid brown; 
   font-size:80%; 
+}
+
+#appointments{
+  padding: 10px; 
+  background-color: #fafafa;
+  min-height: 85vh; 
+}
+
+.right-c{
+  position: absolute; 
+  left: 9%; 
+  width: 89%;  
+  padding: 15px 10px 10px 10px;
+  height: 100vh; 
+  overflow-y: scroll; /* enable vertical scrolling */
+  background-color: #FAFAFA;
 }
 
 

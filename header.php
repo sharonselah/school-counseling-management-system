@@ -15,11 +15,11 @@
 
         <ul>
             
-            <li><a href="">Services</a></li>
-            <li><a href="">Providers</a></li>
-            <li><a href="">Selfcare</a></li>
-            <li><a href="">Resources</a></li>
-            <li><a href="appointment2.php">Contact Us</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#counselors">Providers</a></li>
+            <li><a href="#selfcare">Selfcare</a></li>
+            <li><a href="Student/support.php">Resources</a></li>
+            <li><a href="Student/studentdashboard.php">Contact Us</a></li>
         </ul>
 
         <div class="button">

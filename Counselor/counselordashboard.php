@@ -1,5 +1,6 @@
 <?php
 session_start();
+include '../../sessiondeleting.php'; 
 include '../Backend/db.php';
 
 if (!isset($_SESSION['authenticated']) || $_SESSION["role"] !== 'counselor') {
@@ -106,7 +107,7 @@ $stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_
             <li><a href="#">Right F</a></li>  
         </ul> 
         <ul>
-            <li style="position: absolute; bottom: 100px;"><a href="">Log Out</a></li>
+            <li style="position: absolute; bottom: 100px;"><a href="../../logout.php">Log Out</a></li>
         </ul>
     </div>
 
