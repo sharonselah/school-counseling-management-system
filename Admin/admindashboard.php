@@ -77,8 +77,8 @@ if (!isset($_SESSION['authenticated']) || $_SESSION["role"] !== 'admin') {
 
 <div id = "right-c" class="right-c" >
 
-    <button style="width: 120px; background-color: brown; height: 30px; border: none;padding:10px;  ">
-    <a style="color: white;" href="CounselorSignup.php">Add</a></button>
+   
+    
 
     <?php 
         // Retrieve users from database
@@ -87,15 +87,28 @@ if (!isset($_SESSION['authenticated']) || $_SESSION["role"] !== 'admin') {
 
         if ($result->num_rows > 0) { ?>
 
-        <table class="table" style="width: 100%; ">
+            <div style="display: flex; align-items: center; gap: 10px; font-size: 14px; color: gray;">
+                <a href="CounselorSignup.php" style="text-decoration: none; color: gray;">Add</a>
+               
+                <input style="width: 200px; height: 30px; font-size: 12px; color: gray;" type="search" name="search" id="search" placeholder="Search by Name">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <p style="margin: 0;">Sort by:</p>
+                    <button id="Nothing" style="font-size: 14px;">Default</button>
+                    <button id="sortName" style="font-size: 14px;">Name</button>
+                    <button id="sortSpeciality" style="font-size: 14px;">Specialty</button>
+                </div>
+            </div>
+
+
+        <table id ="table" class="table" style="width: 100%;">
             <thead>
                 <tr>
-                <th>Name</th>
-                <th>Speciality</th>
-                <th>Email</th>
-                <th>Start Date</th>
-                <th>Edit</th>
-                <th>Update</th>
+                    <th>Name</th>
+                    <th>Speciality</th>
+                    <th>Email</th>
+                    <th>Start Date</th>
+                    <th>Edit</th>
+                    <th>Update</th>
                 </tr>
             </thead> <?php }?>
             <tbody>
@@ -187,24 +200,26 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     // Output table headers
     echo "<table class='table' style='width: 100%;'>
-            <tr>
+            <tr style='text-align: left;'>
+                <th>Counselor Name</th>
                 <th>Date</th>
                 <th>Start Time</th>
                 <th>End Time</th>
                 <th>Status</th>
                 <th>Student Name</th>
-                <th>Counselor Name</th>
+                
             </tr>";
 
     // Output each appointment row
     while ($row = $result->fetch_assoc()) {
         echo "<tr>
+                <td>" . $row['counselor_name'] . "</td>
                 <td>" . $row['date'] . "</td>
                 <td>" . $row['start_time'] . "</td>
                 <td>" . $row['end_time'] . "</td>
                 <td>" . $row['status'] . "</td>
                 <td>" . $row['student_name'] . "</td>
-                <td>" . $row['counselor_name'] . "</td>
+                
               </tr>";
     }
 
@@ -279,28 +294,38 @@ $result = $conn->query($sql);
 // Check if there are any referrals
 if ($result->num_rows > 0) {
     // Output table headers
-    echo "<table class='table' style='width: 100%;'>
+    echo "<table class='table' style='width: 100%; text-align:left;'>
             <tr>
-                <th>Referral ID</th>
+                <th></th>
+                <th><input style='width:120px;' type='search' name='search' id=''></th>
+                <th><input style='width:120px;' type='search' name='search' id=''></th>
+                <th><input style='width:120px;' type='search' name='search' id=''></th>
+                <th><input style='width:120px;' type='search' name='search' id=''></th>
+               
+            </tr>
+            <tr>
+                <th>Number</th>
                 <th>Referring Therapist</th>
                 <th>Receiving Therapist</th>
                 <th>Student Name</th>
-                <th>Date</th>
                 <th>Reason</th>
+                <th>Date</th>
                 <th>Acceptance Status</th>
             </tr>";
 
     // Output each referral row
+    $count = 1; 
     while ($row = $result->fetch_assoc()) {
         echo "<tr>
-                <td>" . $row['id'] . "</td>
+                <td> $count </td>
                 <td>" . $row['referring_therapist'] . "</td>
                 <td>" . $row['receiving_therapist'] . "</td>
                 <td>" . $row['student_name'] . "</td>
-                <td>" . $row['date'] . "</td>
                 <td>" . $row['reason'] . "</td>
+                <td>" . $row['date'] . "</td>
                 <td>" . $row['Accept'] . "</td>
               </tr>";
+              $count++;
     }
 
     echo "</table>";
@@ -315,6 +340,7 @@ if ($result->num_rows > 0) {
 <div class="right-h hide">
 <!--Progress Report-->
 
+<input type="search" name="search" id="searchgoals">
 <?php
 
 // Query to retrieve goal progress data
@@ -330,20 +356,30 @@ $result = $conn->query($sql);
 // Check if there are any goal progress entries
 if ($result->num_rows > 0) {
     // Output table headers
-    echo "<table class='table'>
-            <tr>
-                <th>Goal Name</th>
-                <th>Goal Count</th>
+    echo "<table id ='tablegoals' class='table'>
+            <tr style='text-align: left;'>
+                <th>Number</th>
+                <th>Goal Name 
+                    <span id='sortArrowNameDown'>&#9660;</span>
+                    <span id='sortArrowNameUp'>&#9650;</span>
+                </th>
+                <th>Goal Count 
+                    <span id='sortArrowCountDown'>&#9660;</span>
+                    <span id='sortArrowCountUp'>&#9650;</span>
+                </th>
                
             </tr>";
 
     // Output each goal progress entry
+    $count = 1; 
     while ($row = $result->fetch_assoc()) {
         echo "<tr>
+                <td>$count</td>
                 <td>" . $row['goal'] . "</td>
                 <td>" . $row['goal_count'] . "</td>
                 
               </tr>";
+              $count++;
     }
 
     echo "</table>";
@@ -374,6 +410,213 @@ function hideAll() {
     rightDiv.classList.add('hide');
   });
 }
+
+        //table 1 searching by name 
+
+        let table = document.getElementById("table"); 
+        let rows = table.getElementsByTagName("tr"); 
+        let i, td;
+
+        function filterTable(){
+
+            let search = document.getElementById("search");
+            let searchValue = search.value.toUpperCase();
+            for (i=2; i< rows.length; i++){
+            td = rows[i].getElementsByTagName("td")[0];
+            tdValue = td.textContent.trim().toUpperCase()
+        
+             if (tdValue.indexOf(searchValue) > -1){
+                    rows[i].style.display= '';
+             }else{
+                rows[i].style.display= 'none';
+             }
+
+        }
+        } 
+        search.addEventListener('keyup', filterTable);
+
+        //table 1 sorting 
+        let buttonNothing = document.getElementById("Nothing"); 
+        let buttonName = document.getElementById ("sortName");
+        let buttonSpeciality = document.getElementById("sortSpeciality"); 
+
+        function resetTable(){
+            location.reload(); //reload the page 
+        }
+
+
+        function sortName(){
+               rows = Array.from(rows).slice(2); 
+
+                rows.sort((a,b) =>{
+                    let tdA = a.getElementsByTagName("td")[0].textContent;
+                    let tdB = b.getElementsByTagName("td")[0].textContent;
+
+                    return tdA.localeCompare(tdB); 
+                });
+                
+                for (let i=1; i<rows.length; i++){
+                    table.appendChild(rows[i]);
+                }  
+        }
+
+        function sortSpeciality(){
+               rows = Array.from(rows).slice(2); 
+
+                rows.sort((a,b) =>{
+                    let tdA = a.getElementsByTagName("td")[1].textContent;
+                    let tdB = b.getElementsByTagName("td")[1].textContent;
+
+                    return tdA.localeCompare(tdB); 
+                });
+                
+                for (let i=1; i<rows.length; i++){
+                    table.appendChild(rows[i]);
+                }  
+        }
+
+        buttonNothing.addEventListener('click', resetTable);
+        buttonName.addEventListener('click', sortName);
+        buttonSpeciality.addEventListener('click', sortSpeciality); 
+
+
+        //table goals Name
+
+       
+        let sortNameUp = document.getElementById("sortArrowNameUp");
+        sortNameUp.addEventListener('click', filterTableGoalsUp); 
+
+        
+        let sortNameDown = document.getElementById("sortArrowNameDown");
+        sortNameDown.addEventListener('click', filterTableGoalsDown); 
+       
+
+        function filterTableGoalsUp(){
+            let tableGoals = document.getElementById("tablegoals");
+            let tr = tableGoals.getElementsByTagName("tr");
+            let rows = Array.from(tr).slice(1);
+         
+            
+           rows.sort((a,b)=>{
+               let tdA = a.getElementsByTagName("td")[0].textContent; 
+               let tdB = b.getElementsByTagName("td")[0].textContent;
+               
+               return tdA.localeCompare(tdB);
+
+            }); 
+          
+
+            for (let i=0; i<rows.length; i++){
+                tableGoals.appendChild(rows[i]); 
+              
+                
+            }
+        }
+
+        function filterTableGoalsDown(){
+            let tableGoals = document.getElementById("tablegoals");
+            let tr = tableGoals.getElementsByTagName("tr");
+            let rows = Array.from(tr).slice(1);
+         
+            
+           rows.sort((a,b)=>{
+               let tdA = a.getElementsByTagName("td")[0].textContent; 
+               let tdB = b.getElementsByTagName("td")[0].textContent;
+               
+               return tdB.localeCompare(tdA);
+
+            }); 
+          
+
+            for (let i=0; i<rows.length; i++){
+                tableGoals.appendChild(rows[i]); 
+              
+                
+            }
+        }
+
+        //table goals Count 
+
+        let sortCountUp = document.getElementById("sortArrowCountUp");
+        sortCountUp.addEventListener('click', filterTableCountUp); 
+
+        let sortCountDown = document.getElementById("sortArrowCountDown");
+        sortCountDown.addEventListener('click', filterTableCountDown); 
+        
+       
+
+        function filterTableCountUp(){
+            let tableGoals = document.getElementById("tablegoals");
+            let tr = tableGoals.getElementsByTagName("tr");
+            let rows = Array.from(tr).slice(1);
+         
+            
+           rows.sort((a,b)=>{
+               let tdA = a.getElementsByTagName("td")[1].textContent; 
+               let tdB = b.getElementsByTagName("td")[1].textContent;
+               
+               return tdA-tdB; 
+
+            }); 
+          
+
+            for (let i=0; i<rows.length; i++){
+                tableGoals.appendChild(rows[i]); 
+              
+                
+            }
+        }
+
+        function filterTableCountDown(){
+            let tableGoals = document.getElementById("tablegoals");
+            let tr = tableGoals.getElementsByTagName("tr");
+            let rows = Array.from(tr).slice(1);
+         
+            
+           rows.sort((a,b)=>{
+               let tdA = a.getElementsByTagName("td")[1].textContent; 
+               let tdB = b.getElementsByTagName("td")[1].textContent;
+               
+               return tdB- tdA; 
+
+            }); 
+          
+
+            for (let i=0; i<rows.length; i++){
+                tableGoals.appendChild(rows[i]); 
+              
+                
+            }
+        }
+
+        //table goals search 
+        let searchGoals = document.getElementById("searchgoals"); 
+        searchGoals.addEventListener("input", searchGoal);
+
+        function searchGoal(){
+            let searchGoalsValue = searchGoals.value.trim().toUpperCase();
+            
+            let tableGoals = document.getElementById("tablegoals");
+            let rows = tableGoals.getElementsByTagName("tr");
+          
+
+            for (let i=1; i< rows.length; i++){
+                let td = rows[i].getElementsByTagName("td")[1];
+                let tdValue = td.textContent.toUpperCase(); 
+
+                
+                if (tdValue.indexOf(searchGoalsValue)> -1){
+                    rows[i].style.display = '';
+                }else {
+                    rows[i].style.display='none';
+                }
+
+
+            }
+            
+        }
+
+
 </script>
 
 
