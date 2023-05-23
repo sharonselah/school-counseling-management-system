@@ -147,14 +147,17 @@ header ul a:hover{
 
 .counselors-container .counselors{
     display: flex; 
-    width: 100%; 
+    width: 95%; 
+    flex-wrap: wrap;
+    padding: 20px;
+    
 
 }
 
 .counselor{
-    width: 30%; 
-    margin: 10px 5%; 
-    border: 1px solid #8000007a; 
+    width: 355px; 
+    margin: 10px 20px; 
+    border: 1px solid #8000007a;
     height: 600px; 
     text-align: center;
     padding: 5px 10px; 
@@ -313,7 +316,7 @@ header ul a:hover{
     height: 580px; 
     width: 400px; 
     border-radius: 6px;
-    margin: auto; 
+    margin: 25px auto ; 
     box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
     padding: 25px; 
     padding-top: 5px; 
@@ -421,6 +424,7 @@ header ul a:hover{
     width: 30%; 
     font-size: 18px;
     font-weight: bold;
+  
   }
 
   .dashboard-container{
@@ -684,13 +688,17 @@ align-items: center;
 #snapshot .appointment .division.one button{
   width: 70%; 
   height: 50px; 
-  border: 1px solid brown; 
+  border: none; 
   border-radius: 10px;
   color:white; 
   font-size: 70%; 
   background-color: brown;
-  background-color: #66CDAA;
+  background-color: #00A86B; 
   cursor: pointer;
+}
+
+#snapshot .appointment .division.one button:hover{
+  background-color: rgb(1, 43, 1);
 }
 
 #snapshot .appointment .division-two{

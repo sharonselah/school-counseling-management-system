@@ -18,7 +18,6 @@ if ($stmt-> fetch()){
 }
 
 
-
 //hash the password
 $hash = password_hash($password, PASSWORD_BCRYPT); 
 

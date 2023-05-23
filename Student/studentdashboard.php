@@ -45,6 +45,10 @@ if (isset($_GET['voted'])) {
         .hide{
             display: none;
         }
+
+        .button-appoint:hover{
+          background-color: yellow; 
+        }
     </style>
 
     
@@ -109,8 +113,45 @@ if (isset($_GET['voted'])) {
           <p>&#9202 <?php echo $appointment_details?></p>
           <p>&#10084 For <?php echo $_SESSION["name"]?></p>
           <p> 
-            <button onclick ="return confirmCancel()"><a href='../Appointment/deleteappointment.php?id=<?php echo $appointment_id; ?>'>Cancel Appointment</a></button> 
-          
+          <button style="color: red;
+          text-decoration: underline;
+          background-color: transparent;
+          border: none;
+          cursor: pointer;"onclick="toggleForm(<?php echo $appointment_id; ?>)">Cancel Appointment</button>
+
+                <form id="cancelForm" action="" method="POST" style="display: none; width: 35%; max-height: 30vh;">
+                  <label for="reason">Reason for Cancelation:</label><br>
+                  <select name="reason" id="reason">
+                    <option value="unforeseen_circumstances">Unforeseen Circumstances</option>
+                    <option value="schedule_conflict">Schedule Conflict</option>
+                    <option value="medical_emergency">Medical Emergency</option>
+                    <option value="other">Other</option>
+                  </select><br>
+                  <label for="other_reason">Other Reason:</label><br>
+                  <textarea name="other_reason" id="other_reason" rows="2" cols="15" placeholder="Please specify if you selected 'Other'"></textarea><br>
+                  <input type="hidden" name="student_id" id="student_id" value="<?php echo $id;?>">
+                  <input type="hidden" name="appointment_id" id="appointment_id" value="">
+                  <input type="submit" value="Submit" onclick="return confirm('Are you sure you want to cancel the appointment?');">
+                </form>
+
+                
+                <script>
+                  function toggleForm(appointmentId) {
+                    var form = document.getElementById("cancelForm");
+                    var formAction = "../Appointment/deleteappointment.php?id=" + appointmentId;
+                    form.action = formAction;
+                    
+                    if (form.style.display === "none") {
+                      form.style.display = "block";
+                      document.getElementById("appointment_id").value = appointmentId;
+                    } else {
+                      form.style.display = "none";
+                      document.getElementById("appointment_id").value = "";
+                    }
+                  }
+                </script>
+
+ 
           </p>
         </div>
 
@@ -159,7 +200,7 @@ if (isset($_GET['voted'])) {
 
  
  
-  
+
 
     <div id="goals">
       <?php include 'function_goals.php'; ?>
@@ -265,6 +306,9 @@ if (isset($_GET['voted'])) {
     }
     }
     statusDropdown.addEventListener('change', filterTable);
+
+    
+
 
 
 </script>

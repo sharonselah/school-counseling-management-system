@@ -24,9 +24,6 @@ if (!isset($_SESSION['authenticated']) || $_SESSION["role"] !== 'admin') {
 
     <style>
 
-        .table{
-            
-        }
         .sort{ 
             width: 25%;     
         }
@@ -77,11 +74,8 @@ if (!isset($_SESSION['authenticated']) || $_SESSION["role"] !== 'admin') {
 
 <div id = "right-c" class="right-c" >
 
-   
-    
-
     <?php 
-        // Retrieve users from database
+        
         $sql = "SELECT * FROM counselors ORDER BY created_at DESC";
         $result = $conn->query($sql);
 
@@ -128,27 +122,28 @@ if (!isset($_SESSION['authenticated']) || $_SESSION["role"] !== 'admin') {
         </div>
 
         <div class="right-d hide">
+        <input type="search" name="search" id="searchCounselors" placeholder="search anything">
 
         <?php
 
-// Specify the time frame for the report (replace with your desired start and end dates)
-$start_date = '2023-01-01';
-$end_date = '2023-12-31';
+        // Specify the time frame for the report (replace with your desired start and end dates)
+        $start_date = '2023-01-01';
+        $end_date = '2023-12-31';
 
-// Query to retrieve counselor data and the count of their appointments within the specified time frame
-$sql = "SELECT c.name AS counselor_name, c.specialty, c.email, COUNT(a.id) AS appointment_count
-        FROM counselors AS c
-        LEFT JOIN appointments AS a ON c.counselor_id = a.counselor_id
-        WHERE a.date BETWEEN '$start_date' AND '$end_date'
-        GROUP BY c.counselor_id
-        ORDER BY counselor_name ASC";
+    // Query to retrieve counselor data and the count of their appointments within the specified time frame
+    $sql = "SELECT c.name AS counselor_name, c.specialty, c.email, COUNT(a.id) AS appointment_count
+            FROM counselors AS c
+            LEFT JOIN appointments AS a ON c.counselor_id = a.counselor_id
+            WHERE a.date BETWEEN '$start_date' AND '$end_date'
+            GROUP BY c.counselor_id
+            ORDER BY counselor_name ASC";
 
-$result = $conn->query($sql);
+    $result = $conn->query($sql);
 
 // Check if there are any counselors
 if ($result->num_rows > 0) {
     // Output table headers
-    echo "<table class='table'  style='width: 100%;'>
+    echo "<table id ='tableCounselors' class='table'  style='width: 100%;'>
             <tr style='text-align: center;'>
                 <th>Counselor Name</th>
                 <th>Specialty</th>
@@ -171,7 +166,6 @@ if ($result->num_rows > 0) {
     echo "No counselors found.";
 }
 
-
 ?>
 
 </div>
@@ -180,26 +174,26 @@ if ($result->num_rows > 0) {
 
         <!-- appointments --> 
 
-
+        <input type="search" name="search" id="searchAppointments" placeholder="search anything">
        <?php 
-// Specify the time frame for the report (replace with your desired start and end dates)
-$start_date = '2023-01-01';
-$end_date = '2023-12-31';
+        // Specify the time frame for the report (replace with your desired start and end dates)
+        $start_date = '2023-01-01';
+        $end_date = '2023-12-31';
 
-// Query to retrieve appointment data within the specified time frame
-$sql = "SELECT a.date, a.start_time, a.end_time, a.status, s.name AS student_name, c.name AS counselor_name
-        FROM appointments AS a
-        INNER JOIN students AS s ON a.student_id = s.student_id
-        INNER JOIN counselors AS c ON a.counselor_id = c.counselor_id
-        WHERE a.date BETWEEN '$start_date' AND '$end_date'
-        ORDER BY a.date ASC";
+        // Query to retrieve appointment data within the specified time frame
+        $sql = "SELECT a.date, a.start_time, a.end_time, a.status, s.name AS student_name, c.name AS counselor_name
+                FROM appointments AS a
+                INNER JOIN students AS s ON a.student_id = s.student_id
+                INNER JOIN counselors AS c ON a.counselor_id = c.counselor_id
+                WHERE a.date BETWEEN '$start_date' AND '$end_date'
+                ORDER BY a.date ASC";
 
-$result = $conn->query($sql);
+        $result = $conn->query($sql);
 
 // Check if there are any appointments
 if ($result->num_rows > 0) {
     // Output table headers
-    echo "<table class='table' style='width: 100%;'>
+    echo "<table id ='tableAppointments' class='table' style='width: 100%;'>
             <tr style='text-align: left;'>
                 <th>Counselor Name</th>
                 <th>Date</th>
@@ -233,6 +227,8 @@ if ($result->num_rows > 0) {
 </div>
 
 <div class="right-f hide">
+
+<input type="search" name="search" id="searchStudents" placeholder="search anything">
 <!-- Students -->
 
 <?php
@@ -249,11 +245,14 @@ $result = $conn->query($sql);
 // Check if there are any students
 if ($result->num_rows > 0) {
     // Output table headers
-    echo "<table class='table'>
+    echo "<table id ='tableStudents' class='table'>
             <tr>
                 <th>Student Name</th>
                 <th>Email</th>
-                <th>Appointment Count</th>
+                <th>Appointment Count 
+                    <span id='sortDown'>&#9660;</span>
+                    <span id='sortUp'>&#9650;</span>
+                </th>
             </tr>";
 
     // Output each student row
@@ -278,6 +277,8 @@ if ($result->num_rows > 0) {
 <div class="right-g hide">
 <!-- referrals -->
 
+<input type="search" name="search" id="searchReferrals" placeholder="search anything">
+
 <?php
 
 
@@ -294,15 +295,7 @@ $result = $conn->query($sql);
 // Check if there are any referrals
 if ($result->num_rows > 0) {
     // Output table headers
-    echo "<table class='table' style='width: 100%; text-align:left;'>
-            <tr>
-                <th></th>
-                <th><input style='width:120px;' type='search' name='search' id=''></th>
-                <th><input style='width:120px;' type='search' name='search' id=''></th>
-                <th><input style='width:120px;' type='search' name='search' id=''></th>
-                <th><input style='width:120px;' type='search' name='search' id=''></th>
-               
-            </tr>
+    echo "<table id ='tableReferrals' class='table' style='width: 100%; text-align:left;'>
             <tr>
                 <th>Number</th>
                 <th>Referring Therapist</th>
@@ -394,231 +387,7 @@ $conn->close();
 </div>
 
 
-<script>
-    const links = document.querySelectorAll('.menu-dashboard ul li a');
-const rightDivs = document.querySelectorAll('.right-c, .right-d, .right-e, .right-f, .right-g, .right-h');
-
-links.forEach((link, index) => {
-  link.addEventListener('click', () => {
-    hideAll();
-    rightDivs[index].classList.remove('hide');
-  });
-});
-
-function hideAll() {
-  rightDivs.forEach((rightDiv) => {
-    rightDiv.classList.add('hide');
-  });
-}
-
-        //table 1 searching by name 
-
-        let table = document.getElementById("table"); 
-        let rows = table.getElementsByTagName("tr"); 
-        let i, td;
-
-        function filterTable(){
-
-            let search = document.getElementById("search");
-            let searchValue = search.value.toUpperCase();
-            for (i=2; i< rows.length; i++){
-            td = rows[i].getElementsByTagName("td")[0];
-            tdValue = td.textContent.trim().toUpperCase()
-        
-             if (tdValue.indexOf(searchValue) > -1){
-                    rows[i].style.display= '';
-             }else{
-                rows[i].style.display= 'none';
-             }
-
-        }
-        } 
-        search.addEventListener('keyup', filterTable);
-
-        //table 1 sorting 
-        let buttonNothing = document.getElementById("Nothing"); 
-        let buttonName = document.getElementById ("sortName");
-        let buttonSpeciality = document.getElementById("sortSpeciality"); 
-
-        function resetTable(){
-            location.reload(); //reload the page 
-        }
-
-
-        function sortName(){
-               rows = Array.from(rows).slice(2); 
-
-                rows.sort((a,b) =>{
-                    let tdA = a.getElementsByTagName("td")[0].textContent;
-                    let tdB = b.getElementsByTagName("td")[0].textContent;
-
-                    return tdA.localeCompare(tdB); 
-                });
-                
-                for (let i=1; i<rows.length; i++){
-                    table.appendChild(rows[i]);
-                }  
-        }
-
-        function sortSpeciality(){
-               rows = Array.from(rows).slice(2); 
-
-                rows.sort((a,b) =>{
-                    let tdA = a.getElementsByTagName("td")[1].textContent;
-                    let tdB = b.getElementsByTagName("td")[1].textContent;
-
-                    return tdA.localeCompare(tdB); 
-                });
-                
-                for (let i=1; i<rows.length; i++){
-                    table.appendChild(rows[i]);
-                }  
-        }
-
-        buttonNothing.addEventListener('click', resetTable);
-        buttonName.addEventListener('click', sortName);
-        buttonSpeciality.addEventListener('click', sortSpeciality); 
-
-
-        //table goals Name
-
-       
-        let sortNameUp = document.getElementById("sortArrowNameUp");
-        sortNameUp.addEventListener('click', filterTableGoalsUp); 
-
-        
-        let sortNameDown = document.getElementById("sortArrowNameDown");
-        sortNameDown.addEventListener('click', filterTableGoalsDown); 
-       
-
-        function filterTableGoalsUp(){
-            let tableGoals = document.getElementById("tablegoals");
-            let tr = tableGoals.getElementsByTagName("tr");
-            let rows = Array.from(tr).slice(1);
-         
-            
-           rows.sort((a,b)=>{
-               let tdA = a.getElementsByTagName("td")[0].textContent; 
-               let tdB = b.getElementsByTagName("td")[0].textContent;
-               
-               return tdA.localeCompare(tdB);
-
-            }); 
-          
-
-            for (let i=0; i<rows.length; i++){
-                tableGoals.appendChild(rows[i]); 
-              
-                
-            }
-        }
-
-        function filterTableGoalsDown(){
-            let tableGoals = document.getElementById("tablegoals");
-            let tr = tableGoals.getElementsByTagName("tr");
-            let rows = Array.from(tr).slice(1);
-         
-            
-           rows.sort((a,b)=>{
-               let tdA = a.getElementsByTagName("td")[0].textContent; 
-               let tdB = b.getElementsByTagName("td")[0].textContent;
-               
-               return tdB.localeCompare(tdA);
-
-            }); 
-          
-
-            for (let i=0; i<rows.length; i++){
-                tableGoals.appendChild(rows[i]); 
-              
-                
-            }
-        }
-
-        //table goals Count 
-
-        let sortCountUp = document.getElementById("sortArrowCountUp");
-        sortCountUp.addEventListener('click', filterTableCountUp); 
-
-        let sortCountDown = document.getElementById("sortArrowCountDown");
-        sortCountDown.addEventListener('click', filterTableCountDown); 
-        
-       
-
-        function filterTableCountUp(){
-            let tableGoals = document.getElementById("tablegoals");
-            let tr = tableGoals.getElementsByTagName("tr");
-            let rows = Array.from(tr).slice(1);
-         
-            
-           rows.sort((a,b)=>{
-               let tdA = a.getElementsByTagName("td")[1].textContent; 
-               let tdB = b.getElementsByTagName("td")[1].textContent;
-               
-               return tdA-tdB; 
-
-            }); 
-          
-
-            for (let i=0; i<rows.length; i++){
-                tableGoals.appendChild(rows[i]); 
-              
-                
-            }
-        }
-
-        function filterTableCountDown(){
-            let tableGoals = document.getElementById("tablegoals");
-            let tr = tableGoals.getElementsByTagName("tr");
-            let rows = Array.from(tr).slice(1);
-         
-            
-           rows.sort((a,b)=>{
-               let tdA = a.getElementsByTagName("td")[1].textContent; 
-               let tdB = b.getElementsByTagName("td")[1].textContent;
-               
-               return tdB- tdA; 
-
-            }); 
-          
-
-            for (let i=0; i<rows.length; i++){
-                tableGoals.appendChild(rows[i]); 
-              
-                
-            }
-        }
-
-        //table goals search 
-        let searchGoals = document.getElementById("searchgoals"); 
-        searchGoals.addEventListener("input", searchGoal);
-
-        function searchGoal(){
-            let searchGoalsValue = searchGoals.value.trim().toUpperCase();
-            
-            let tableGoals = document.getElementById("tablegoals");
-            let rows = tableGoals.getElementsByTagName("tr");
-          
-
-            for (let i=1; i< rows.length; i++){
-                let td = rows[i].getElementsByTagName("td")[1];
-                let tdValue = td.textContent.toUpperCase(); 
-
-                
-                if (tdValue.indexOf(searchGoalsValue)> -1){
-                    rows[i].style.display = '';
-                }else {
-                    rows[i].style.display='none';
-                }
-
-
-            }
-            
-        }
-
-
-</script>
-
+<script src="admin.js"></script>
 
 
 

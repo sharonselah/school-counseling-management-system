@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../../sessiondeleting.php'; 
+include '../sessiondeleting.php'; 
 include '../Backend/db.php';
 
 if (!isset($_SESSION['authenticated']) || $_SESSION["role"] !== 'counselor') {
@@ -103,11 +103,10 @@ $stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_
         <ul class="menu_links">
             <li><a href="#">Appointments</a></li>
             <li><a href="#">Patients</a></li>
-            <li><a href="#">Referrals</a></li>
-            <li><a href="#">Right F</a></li>  
+            <li><a href="#">Referrals</a></li> 
         </ul> 
         <ul>
-            <li style="position: absolute; bottom: 100px;"><a href="../../logout.php">Log Out</a></li>
+            <li style="position: absolute; bottom: 100px;"><a href="../logout.php">Log Out</a></li>
         </ul>
     </div>
 
@@ -139,6 +138,7 @@ $stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_
                 <h2><span style="background-color: brown;" class="bullet"></span>Overdue</h2>
                 <p><?php echo $number["overdue_appointments"];?></p>
             </div>
+           
             
 	    </div> 
     <!-- end of stats-->
@@ -188,7 +188,8 @@ $stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_
                     //checking status
 
                     $appointment_date_time = $row['date'];
-                    $current_date_time = time();
+                    $time = time();
+                    $current_date_time = (date("Y-m-d",$time));
 
                     if ($row['status'] == 'pending' && $current_date_time > $appointment_date_time) {
                         // Update the appointment status to overdue
@@ -210,32 +211,38 @@ $stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_
                         //Full name of the day of the week; Day of the month; abb name of the month
 
                     $row['date'] = date_format(date_create($row['date']), 'l j M');
+                    $status_app = $row['status'];
 
-                    switch ($row['status']) {
+                    switch ($status_app) {
                         case 'pending':
                             $status_color = '';
-                            $status_action = "<a href='confirmappointment.php?id=" . $row['id'] . "' onclick='return confirmAppointment()' id='confirm_btn1'>Confirm</a> <a href='cancelappointment.php?id=" . $row['id'] . "' onclick='return cancelAppointment()' id='confirm_btn2'>Cancel</a>";
+                            $status_action = "<a href='confirmappointment.php?id=" . $row['id'] . "' onclick='return confirmAppointment()' id='confirm_btn1'>Confirm</a> <a href='rescheduleappointment.php?id=" . $row['id'] . "' onclick='return rescheduleAppointment()' id='confirm_btn2'>Reschedule</a>";
                             $notes = 'Activated when Confirmed';
                             break;
                         case 'confirmed':
                             $status_color = 'color: green;';
-                            $status_action = '';
+                            $status_action = $status_app;
                             $notes = "<a href='notes.php' id='confirm_btn1'>Take Notes</a>";
                             break;
                         case 'canceled':
                             $status_color = 'color: red;';
-                            $status_action = '';
+                            $status_action = $status_app;
                             $notes = 'No Notes';
                             break;
                         default:
                             $status_color = 'color: orange;';
-                            $status_action = '';
+                            $status_action = $status_app . ' (Lack of confirmation)';
                             $notes = 'No Notes';
                             break;
                     }
                     
-                    echo "<tr><td>" . $student2['name'] . "</td><td>" . $row['date'] . "</td><td>" . $row['start_time'] . "</td><td style='" . $status_color . "'>" . $row['status'] . "</td><td>" . $notes . "</td></tr>";
-                    
+                   
+                    echo "<tr><td>" . $student2['name'] . "</td>
+                    <td>" . $row['date'] . "</td>
+                    <td>" . $row['start_time'] . "</td>
+                    <td style='" . $status_color . "'>" . $status_action . "</td>
+                    <td>" . $notes . "</td></tr>";
+
                     
                 }
             }
@@ -259,7 +266,18 @@ $stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_
      <div class="right-d hide"> <?php include 'Referrals/referal.php'; ?> </div>
     <div class="right-e hide"> <?php include 'Referrals/acceptreferal.php'; ?></div>
   
+    <div id="notificationList" class="notification-list">
 
+        <div class="header" 
+            style="display: flex;
+            justify-content: space-between;
+            border-bottom:2px solid whitesmoke;">
+            <h3>Notifications</h3>
+            <button id="markAllReadBtn">Mark all as read</button>
+        </div>
+        <?php include 'notifications.php';?>    
+       
+    </div>
 
    
  

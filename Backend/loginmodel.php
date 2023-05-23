@@ -9,7 +9,6 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
     $email = $_POST["email"];
     $password = $_POST["password"];
 
-
     $stmt = $conn-> prepare ("SELECT * FROM users Where email = ?");
     $stmt-> bind_param ('s', $email); 
     $stmt-> execute();
@@ -54,18 +53,21 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
           break;
       default:
           die("Invalid user role");
-  }
+      }
       
-      } else {
+      }
+     }
+      
+      else {
+    
         // login failed
-        $_SESSION["error_message"] = "Wrong password or username"; 
-        header("Location:../Login.php"); 
+        header("Location:../Login.php?login=error"); 
         exit();
       }
- 
+      $stmt-> close(); 
       } 
 
-    $stmt-> close(); 
-}
+    
+
 
 $conn->close(); 

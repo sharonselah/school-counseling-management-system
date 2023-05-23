@@ -3,14 +3,16 @@ session_start();
 
 include 'sessiondeleting.php'; 
 
-if (isset($_SESSION["error_message"])){
-  $error_message = $_SESSION["error_message"];
-  //clear error message from the session
 
-  unset($_SESSION["error_message"]);
+
+if (isset($_GET['login'])) {
+  if ($_GET['login'] === 'error') {
+    $message = 'Incorrect email or password';
+  } 
+  echo '<script>alert("' . $message . '");</script>';
+  unset($_GET['login']);
+  header("Refresh:0; Login.php"); //refresh the current page 
 }
-
-
 
 ?>
 

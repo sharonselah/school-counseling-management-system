@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
 
     //selecting the counselor 
 
-    $stmt = $conn-> prepare ("SELECT receiving_therapist_id FROM referrals WHERE student_id = ?"); 
+    $stmt = $conn-> prepare ("SELECT receiving_therapist_id FROM referrals WHERE student_id = ? AND Accept = 1"); 
     $stmt->bind_param("i", $student_id); 
     $stmt-> execute(); 
     $result= $stmt-> get_result(); 
@@ -46,6 +46,8 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
     $stmt = $conn-> prepare ("SELECT * FROM appointments 
     WHERE student_id = ? 
     AND CONCAT(date, ' ', start_time) > NOW() 
+    AND status != 'canceled'
+    AND status != 'overdue'
     ORDER BY created_at DESC 
     LIMIT 1");
     $stmt-> bind_param ("i", $student_id); 
@@ -71,8 +73,14 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
     $_SESSION['appointment_id']= $appointment_id; 
     
     //check if the query executed
-
     if ($execute){
+        
+        $recipient_id = $counselor_id;
+        $message = "$student_name has requested an appointment. Please review and respond.";
+        $query = "INSERT INTO notifications (recipient_id,sender_id,  notification_type, message) 
+          VALUES ('$recipient_id', '$student_id','appointment_request', '$message')";
+            mysqli_query($conn, $query);
+
         header("Location: ../Student/studentdashboard.php");
         exit(); 
     }else {

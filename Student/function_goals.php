@@ -79,44 +79,17 @@
 
 
 <div class="goal_div">
-      <form action="" method="post" style="margin-bottom: 15px; ">
-          <input type="search" name="goal_name" id="goal_name" style="width: 70%; height: 30px; margin-bottom: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;">
-          <button type="submit" name="search">search</button>
-      </form>
-
-            <?php
-
-  if (isset($_POST['search'])) {
-    $goalName = $_POST['goal_name'];
-
-    if (!empty($goal_name)) { //goal_name is not empty 
-    $stmt = $conn->prepare ("SELECT TIMESTAMPDIFF(DAY, created_at, NOW()) > 7 AS result, id, goal
-        FROM goals
-        WHERE student_id = ? AND goal = ?
-        ORDER BY created_at ASC
-        LIMIT 1;");
-      $stmt->bind_param('is', $id, $goalName);
-    
-    } else {
-        $stmt = $conn->prepare ("SELECT TIMESTAMPDIFF(DAY, created_at, NOW()) > 7 AS result, id, goal
-            FROM goals
-            WHERE student_id = ?
-            ORDER BY created_at ASC
-            LIMIT 1;");
-        $stmt->bind_param ('i', $id); 
-    }
-  } else {
+     
+      <input id="goal_name" placeholder=' search goal name' style="width: 75%; height: 30px; margin-bottom: 10px;border: 1px solid #ddd;border-radius: 5px;">
+            <?php 
     $stmt = $conn->prepare ("SELECT TIMESTAMPDIFF(DAY, created_at, NOW()) > 7 AS result, id, goal
           FROM goals
           WHERE student_id = ?
-          ORDER BY created_at ASC
-          LIMIT 1;");
+          ORDER BY created_at ASC;");
            $stmt->bind_param ('i', $id); 
-  }
-      $stmt->execute();
-      $result = $stmt->get_result();
+  
+            $stmt->execute();
+            $result = $stmt->get_result();
 
             if($result->num_rows>0){
 
@@ -124,11 +97,13 @@
               
               $count_goal = 0; 
               while ($data= $result->fetch_assoc()){
-                $goal_name = $data["goal"]; 
+              $goal_name = $data["goal"]; 
               $stmt2 = $conn->prepare ("SELECT COUNT(*) as achieved_count 
               FROM weekly_goal_progress 
-              WHERE goal_id = $id AND achieved = 1;
+              WHERE goal_id = ? AND achieved = 1;
               ");
+                $goalID = $data["id"];
+                $stmt2->bind_param('i', $goalID );
                 $stmt2-> execute(); 
                 $result2 = $stmt2-> get_result();
                 $row = $result2->fetch_assoc();
@@ -136,14 +111,14 @@
                 $counter++;
                 ?>
 
-                <p class="goal-progress" style="margin-bottom: 10px;">
+                <p class="goal-progress" style="margin-bottom: 10px;font-size: 85%;">
                   <strong><?php echo $counter;?></strong>. <?php echo $goal_name; ?>
-                  <progress value="<?php echo $achieved_count; ?>" max="7"></progress>
-                  <span style="margin-left: 30%;"><?php echo $achieved_count; ?>/7</span>
+                  <progress style='width: 140px;' value="<?php echo $achieved_count; ?>" max="7"></progress>
+                  <span style="margin-left: 30%; "><?php echo $achieved_count; ?>/7</span>
                 </p> <?php 
                  
 
-            if ($counter >= 13) {
+            if ($counter >= 10) {
               break;
             }
 
@@ -158,5 +133,28 @@
           ?>
 </div>
 
+<script>
 
+  // Retrieve the input field and paragraphs
+  var input = document.getElementById("goal_name");
+  var paragraphs = document.getElementsByClassName("goal-progress");
 
+  // Add an event listener to the input field
+  input.addEventListener("input", function() {
+    var inputValue = input.value.toLowerCase();
+
+  // Loop through each paragraph
+  for (var i = 0; i < paragraphs.length; i++) {
+    var paragraph = paragraphs[i];
+    var goalName = paragraph.textContent.toLowerCase();
+
+    // Check if the goal name matches the input value
+    if (goalName.includes(inputValue)) {
+      paragraph.style.display = "block"; // Show the paragraph
+    } else {
+      paragraph.style.display = "none"; // Hide the paragraph
+    }
+  }
+});
+
+</script>

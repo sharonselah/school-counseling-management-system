@@ -14,7 +14,6 @@ if (isset($_SESSION["error_message"])){
   unset($_SESSION["error_message"]);
 }
 
-
 $id= $_SESSION["user_id"]; 
 
 
@@ -26,6 +25,8 @@ include '../Backend/db.php';
 $stmt2 = $conn->prepare("SELECT * FROM appointments 
 WHERE student_id = ? 
 AND CONCAT(date, ' ', start_time) > NOW() 
+AND status != 'canceled' 
+AND status != 'overdue' 
 ORDER BY created_at DESC 
 LIMIT 1");
 
