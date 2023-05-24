@@ -14,31 +14,41 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
 
     //selecting the counselor 
 
-    $stmt = $conn-> prepare ("SELECT receiving_therapist_id FROM referrals WHERE student_id = ? AND Accept = 1"); 
-    $stmt->bind_param("i", $student_id); 
-    $stmt-> execute(); 
-    $result= $stmt-> get_result(); 
-
-    if ($result->num_rows>0){
-        $row_referral = $result -> fetch_assoc(); 
-        $counselor_id = $row_referral['receiving_therapist_id'];
-    }else {
-        //check if student has a prior appointment 
-        $stmt = $conn-> prepare ("SELECT counselor_id FROM appointments 
-                                            WHERE student_id = ? 
-                                            ORDER BY date 
-                                            DESC LIMIT 1"); 
-        $stmt->bind_param("i", $student_id); 
-        $stmt-> execute(); 
-        $result= $stmt-> get_result(); 
-
-        if ($result->num_rows>0){
-            $prior_app_referral = $result -> fetch_assoc(); 
-            $counselor_id = $prior_app_referral['counselor_id'];
-        }else {
-            $counselor_id = rand (7, 24); 
+    if (isset($_POST['counselor_name']) && !empty($_POST['counselor_name'])) {
+        $selectedName = $_POST['counselor_name'];
+    
+        $sql = "SELECT counselor_id FROM counselors WHERE name = '$selectedName'";
+        $result = $conn->query($sql);
+    
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $counselor_id = $row["counselor_id"]; 
+        } else {
+            $stmt = $conn->prepare("SELECT receiving_therapist_id FROM referrals WHERE student_id = ? AND Accept = 1"); 
+            $stmt->bind_param("i", $student_id); 
+            $stmt->execute(); 
+            $result = $stmt->get_result(); 
+    
+            if ($result->num_rows > 0) {
+                $row_referral = $result->fetch_assoc(); 
+                $counselor_id = $row_referral['receiving_therapist_id'];
+            } else {
+                // Check if student has a prior appointment 
+                $stmt = $conn->prepare("SELECT counselor_id FROM appointments WHERE student_id = ? ORDER BY date DESC LIMIT 1"); 
+                $stmt->bind_param("i", $student_id); 
+                $stmt->execute(); 
+                $result = $stmt->get_result(); 
+    
+                if ($result->num_rows > 0) {
+                    $prior_app_referral = $result->fetch_assoc(); 
+                    $counselor_id = $prior_app_referral['counselor_id'];
+                } else {
+                    $counselor_id = rand(7, 24); 
+                }
+            }
         }
     }
+    
 
     $status ="pending"; 
 
@@ -76,7 +86,7 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
     if ($execute){
         
         $recipient_id = $counselor_id;
-        $message = "$student_name has requested an appointment. Please review and respond.";
+        $message = "$student_name has requested an appointment for $date and starting at $startTime. Please review and respond.";
         $query = "INSERT INTO notifications (recipient_id,sender_id,  notification_type, message) 
           VALUES ('$recipient_id', '$student_id','appointment_request', '$message')";
             mysqli_query($conn, $query);

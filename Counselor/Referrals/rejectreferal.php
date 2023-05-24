@@ -1,18 +1,37 @@
 <?php 
-include '../../Backend/db.php'; 
+
+include '../../Backend/db.php';
 
 $referral_id = $_GET['id'];
+$accept = false;
 
-$accept = FALSE; 
+// Update the referral status to "accept" in the database
+$stmt = $conn->prepare("UPDATE referrals SET Accept = ? WHERE id = ?");
+$stmt->bind_param("si", $accept, $referral_id);
+if ($stmt->execute()) {
+    // Get the relevant referral information
+    $stmt = $conn->prepare("SELECT referring_therapist_id, receiving_therapist_id FROM referrals WHERE id = ?");
+    $stmt->bind_param("i", $referral_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $sender_id = $row['referring_therapist_id'];
+    $recipient_id = $row['receiving_therapist_id'];
 
-$stmt = $conn-> prepare ("UPDATE referrals SET Accept = ? where id =? "); 
-$stmt->bind_param ('si', $accept, $referral_id); 
+    // Compose the notification message
+    $message = "Referral rejected by the counselor.";
 
-if ($stmt-> execute()){
-    header("Location:../counselordashboard.php "); 
-    exit(); 
+    // Insert the notification for the recipient counselor
+    $query = "INSERT INTO notifications (recipient_id, sender_id, notification_type, message) 
+              VALUES (?, ?, 'referral_reject', ?)";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("iis", $recipient_id, $sender_id, $message);
+    $stmt->execute();
+
+    // Redirect back to the counselor dashboard
+    header("Location: ../counselordashboard.php#");
+    exit();
+} else {
+    
+    echo "Referral acceptance failed.";
 }
-
-
-
-

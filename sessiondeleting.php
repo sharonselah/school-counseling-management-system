@@ -16,7 +16,7 @@ function checkSessionTimeout($timeout = 1800) { // 1800 seconds = 30 minutes
         $_SESSION = array();
 
         // Redirect to the login page or any other desired action
-        header("Location: Login.php");
+        header("Location: ../Login.php");
         exit();
     } else {
         // Update the last activity timestamp

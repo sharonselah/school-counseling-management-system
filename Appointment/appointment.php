@@ -3,7 +3,7 @@ session_start();
 
 if (!isset($_SESSION['authenticated']) || $_SESSION["role"] !== 'student') {
     // User is not authenticated or is not a counselor, redirect to login page
-    header('Location: Login.php');
+    header('Location: ../Login.php');
     exit();
   }
 
@@ -31,11 +31,41 @@ if (isset($_SESSION["error_message"])){
 <body>
         <form action="../Backend/submit_booking.php" method="post" class="form_appointment">
             <p>Book a Consultation</p>
-                
-            <span>Please Select an Appointment Date and Time</span> <br><br>
-                   
+                    
                 <label class="label" for="student">Student</label> 
                 <input type="text" value="<?php echo $_SESSION["name"]; ?>">
+
+                <label class="label" for="specific_counselor">Do You Want to Choose a Specific Counselor?</label>
+                <div>
+                    <input style="margin-left: 35%; margin-top: 10px;" type="radio" name="specific_counselor" id="specific_counselor_yes" value="yes">
+                    <label class="label" for="specific_counselor_yes">Yes</label>
+                    
+                    <input type="radio" name="specific_counselor" id="specific_counselor_no" value="no" checked>
+                    <label class="label" for="specific_counselor_no">No</label>
+                </div>
+
+                <div id="counselor_name_input" style="display: none;">
+                    <label class="label" for="counselor_name">Counselor Name</label>  
+                    <select id="counselor_name" name="counselor_name">
+                        <option value="">Select a counselor</option>
+                        <?php
+                        // Query your database to fetch counselor names
+                        $sql = "SELECT  name FROM counselors ORDER BY name DESC";
+                        $result = $conn->query($sql);
+
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                    
+                                $counselorName = $row["name"];
+                                echo '<option value="' . $counselorName . '">' . $counselorName . '</option>';
+                            }
+                        }
+                        ?>
+                    </select>
+
+                    
+                </div>
+
 
                 <label class="label" for="date">Date</label>  
                 <input type="date" id="date" name="date" required> <br>
@@ -76,6 +106,26 @@ if (isset($_SESSION["error_message"])){
                       <?php }
                   ?>
                 </form>
+    <script>
+        var specificCounselorInput = document.getElementById("specific_counselor_yes");
+        var specificCounselorInputNo = document.getElementById("specific_counselor_no");
+        var counselorNameInput = document.getElementById("counselor_name_input");
+
+        // Add event listener to the radio button
+        specificCounselorInput.addEventListener("change", function() {
+            if (specificCounselorInput.checked) {
+                counselorNameInput.style.display = "block";
+            } else {
+                counselorNameInput.style.display = "none";
+            }
+        });
+
+        specificCounselorInputNo.addEventListener("change", function() {
+            if (specificCounselorInputNo.checked) {
+                counselorNameInput.style.display = "none";
+            } 
+        });
+    </script>
 
 </body>
 </html>

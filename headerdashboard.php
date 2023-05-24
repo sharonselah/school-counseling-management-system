@@ -7,7 +7,7 @@
         <div class="personal-info">
                 <h2>Welcome, <span id="username"><?php echo $_SESSION["name"]; ?></span></h2>
                 <div class="notification-icon">
-                        <span class="notification-count" id="notificationCount">7</span>
+                        <span class="notification-count" id="notificationCount">...</span>
                         <span class="icon" id="notificationIcon" onclick="toggleNotifications()"></span>
                 </div>
         </div>

@@ -1,67 +1,56 @@
+<form id="rescheduleForm" action="reschedule.php" method="POST">
+  <label for="new_date">New Date:</label>
+  <input type="date" name="new_date" id="new_date" required><br>
+
+  <label for="new_time">New Time:</label>
+  <input type="time" name="new_time" id="new_time" required><br>
+
+  <input type="hidden" name="appointment_id" value="<?php echo $_GET['id']; ?>">
+  <input type="submit" value="Reschedule Appointment">
+</form>
+
 <?php
-session_start();
-
-
-if (!isset($_SESSION['authenticated'])|| $_SESSION["role"] !== 'student') {
-    // User is not authenticated, redirect to login page
-    header('Location: Login.php');
-    exit();
-}
-
-// Connect to database and get user ID from URL parameter
+// Connect to the database and retrieve the appointment ID from the URL parameter
 include '../Backend/db.php';
 $id = $_GET["id"];
 
-// Get user data from database
-$stmt = $conn->prepare("SELECT * FROM appointments WHERE id = ?");
-$stmt->bind_param("i", $id);
-$stmt->execute();
-$result = $stmt->get_result();
-$appointment = $result->fetch_assoc();
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+  // Get the new date and time from the form submission
+  $new_date = $_POST["new_date"];
+  $new_time = $_POST["new_time"];
 
-// Check if form was submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get new name and specialty from form
-    $date = $_POST["date"];
-    $startTime = $_POST["start-time"];
-    $endTime = $_POST["end-time"]; 
+  // Reschedule the appointment to the new date and time
+  $stmt = $conn->prepare("UPDATE appointments SET date = ?, start_time = ? WHERE id = ?");
+  $stmt->bind_param("ssi", $new_date, $new_time, $id);
+  $stmt->execute();
+  $stmt->close();
 
-    // Update user data in database
-    $stmt = $conn->prepare("UPDATE appointments SET date = ?, start_time = ?, end_time = ? WHERE id = ?");
-    $stmt->bind_param("sssi", $date, $startTime, $endTime, $id);
-    $stmt->execute();
+  // Retrieve the student ID and current appointment details
+  $stmt = $conn->prepare("SELECT student_id, date, start_time FROM appointments WHERE id = ?");
+  $stmt->bind_param("i", $id);
+  $stmt->execute();
+  $result = $stmt->get_result();
+  $row = $result->fetch_assoc();
+  $stmt->close();
 
-    // Redirect back to user list
-    header("Location: studentdashboard.php");
-    exit();
+  $student_id = $row["student_id"];
+  $current_date = $row["date"];
+  $current_time = $row["start_time"];
+
+  // Compose the notification message
+  $message = "Your appointment has been rescheduled from $current_date at $current_time to $new_date at $new_time.";
+
+  // Insert the notification for the student
+  $stmt = $conn->prepare("INSERT INTO notifications (recipient_id, sender_id, notification_type, message) 
+                          VALUES (?, ?, 'appointment_reschedule', ?)");
+  $stmt->bind_param("iis", $student_id, $id, $message);
+  $stmt->execute();
+  $stmt->close();
+
+  // Redirect back to the counselor dashboard
+  header("Location: ../Counselor/counselordashboard.php");
+  exit();
 }
 
+$conn->close();
 ?>
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reschedule Appointment</title>
-</head>
-<body>
-                <form  method="post">
-                <h2>Reschedule the Appointment</h2>
-                
-                <label for="date">Date:</label>
-                <input type="date" id="date" name="date" value ="<?php echo $appointment['date'];?>"required>
-            
-                <label for="start-time">Start Time:</label>
-                <input type="time" id="start-time" name="start-time" value ="<?php echo $appointment['start_time'];?>" required>
-
-                <label for="end-time">End Time:</label>
-                <input type="time" id="end-time" name="end-time" value ="<?php echo $appointment['end_time'];?>" required>
-
-                <button type="submit">Submit</button>
-                </form>
-
-</body>
-</html>

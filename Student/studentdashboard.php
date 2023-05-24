@@ -198,14 +198,9 @@ if (isset($_GET['voted'])) {
 </div> <!-- end of snapshot-->
 
 
- 
- 
-
-
     <div id="goals">
       <?php include 'function_goals.php'; ?>
     </div>
-
 
 
 
@@ -263,8 +258,6 @@ if (isset($_GET['voted'])) {
    </div>
  
 
-  
-
    <div id="articles">
       <?php include 'articles.php';?>
    </div>
@@ -273,6 +266,21 @@ if (isset($_GET['voted'])) {
    <div id="support">
       <?php include 'support.php';?>
    </div>
+
+   <div id="notificationList" class="notification-list">
+
+    <div class="header" 
+        style="display: flex;
+        justify-content: center;
+        border-bottom:2px solid whitesmoke;">
+        <h3>Notifications</h3>
+        
+    </div>
+
+
+  <?php include '../Counselor/notifications.php';?>    
+
+</div>
 
 
 </div>

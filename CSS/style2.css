@@ -256,12 +256,13 @@
             right: 10px;
             z-index: 9999;
             display: none;
-            min-height: 100vh;
+            max-height: calc(100vh - 85px);
             width: 320px;
             background-color: white;
             border: 1px solid whitesmoke;
             border-radius: 10px; 
             padding: 10px;
+            overflow-y: scroll; /* enable vertical scrolling */
           }
           
           
@@ -276,34 +277,7 @@
             font-weight: bold;
           }
 
-          .notification-item{
-            background-color: #FEF6F0;
-            list-style-type: none;
-            border-bottom: 1px solid gray;
-            padding: 10px 5px;
-          }
-
-          .accept-btn {
-            background-color: black;
-            color: white;
-            padding: 8px 16px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-          }
           
-          .decline-btn {
-            background-color: white;
-            color: black;
-            padding: 8px 16px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-          }
-
-          .accept-btn:hover, .decline-btn:hover{
-            background-color: gray;
-          }
           
 
           

@@ -82,7 +82,7 @@ $stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_
         left: 9%; 
         width: 89%;  
         padding: 15px 10px 10px 10px;
-        height: 100vh; 
+        min-height: 100vh; 
         overflow-y: scroll; /* enable vertical scrolling */
         background-color: #FAFAFA;
         }
@@ -216,8 +216,10 @@ $stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_
                     switch ($status_app) {
                         case 'pending':
                             $status_color = '';
-                            $status_action = "<a href='confirmappointment.php?id=" . $row['id'] . "' onclick='return confirmAppointment()' id='confirm_btn1'>Confirm</a> <a href='rescheduleappointment.php?id=" . $row['id'] . "' onclick='return rescheduleAppointment()' id='confirm_btn2'>Reschedule</a>";
-                            $notes = 'Activated when Confirmed';
+                            $status_action = "<a href='confirmappointment.php?id=" . $row['id'] . "' onclick='return confirmAppointment()' id='confirm_btn1'>Confirm</a>
+                             <a href='../Appointment/rescheduleappointment.php?id=" . $row['id'] . "' onclick='return rescheduleAppointment()' id='confirm_btn2'>Reschedule</a>";
+                            
+                             $notes = 'Activated when Confirmed';
                             break;
                         case 'confirmed':
                             $status_color = 'color: green;';
@@ -263,18 +265,20 @@ $stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_
      </div>
     </div>
     
-     <div class="right-d hide"> <?php include 'Referrals/referal.php'; ?> </div>
+    <div class="right-d hide"> <?php include 'Referrals/referal.php'; ?> </div>
     <div class="right-e hide"> <?php include 'Referrals/acceptreferal.php'; ?></div>
   
     <div id="notificationList" class="notification-list">
 
         <div class="header" 
             style="display: flex;
-            justify-content: space-between;
+            justify-content: center;
             border-bottom:2px solid whitesmoke;">
             <h3>Notifications</h3>
-            <button id="markAllReadBtn">Mark all as read</button>
+            
         </div>
+
+      
         <?php include 'notifications.php';?>    
        
     </div>

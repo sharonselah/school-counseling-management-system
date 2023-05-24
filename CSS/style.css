@@ -777,7 +777,7 @@ align-items: center;
   border-radius:10px; 
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-  height: 85vh; 
+  height: 95vh; 
   padding: 20px; 
   font-family: 'Times New Roman', Times, serif;
 
@@ -789,7 +789,7 @@ align-items: center;
   line-height: 1.25 rem; 
 }
 
-.form_appointment input[type="date"],.form_appointment input[type="text"]{
+.form_appointment input[type="date"],.form_appointment input[type="text"], .form_appointment select{
   margin: 10px 20px ; 
   font-size: 90%; 
   width: 83%; 
@@ -797,9 +797,14 @@ align-items: center;
   display: block; 
 }
 
+.form_appointment input[type = "radio"]{
+  padding: 5px; 
+  font-size: 90%; 
+}
+
 .label{
-  margin: 0px 19px; 
-  font-size: 90%;    
+  font-size: 90%; 
+  text-align: justify;   
 }
 
 
@@ -845,6 +850,71 @@ padding: 10px;
   overflow-y: scroll; /* enable vertical scrolling */
   background-color: #FAFAFA;
 }
+
+.personal-info {
+  width: 30%; 
+  font-size: 18px;
+  font-weight: bold;
+  display: flex;
+
+  
+}
+
+.notification-icon {
+  position: relative;
+  padding-top: 22px;
+  margin-left: 10px;
+}
+
+.notification-count {
+  position: absolute;
+  top: 10px;
+  right: -10px;
+  background-color: red;
+  color: white;
+  font-size: 12px;
+  padding: 3px 6px;
+  border-radius: 50%;
+}
+
+.icon {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  background-image: url('../Images/notification-icon.png'); /* Replace with your icon image */
+  background-size: cover;
+  cursor: pointer;
+}
+
+
+.notification-list {
+  position: fixed;
+  top: 85px;
+  right: 10px;
+  z-index: 9999;
+  display: none;
+  max-height: calc(100vh - 85px);
+  width: 320px;
+  background-color: white;
+  border: 1px solid whitesmoke;
+  border-radius: 10px; 
+  padding: 10px;
+  overflow-y: scroll; /* enable vertical scrolling */
+}
+
+
+.notification-list.show {
+  display: block;
+}
+
+#markAllReadBtn{
+  background-color: white;
+  border: none;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+
 
 
 
