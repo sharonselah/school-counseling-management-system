@@ -36,7 +36,6 @@ if (isset($_GET['error'])) {
     <div class="signupform">
         <form  id ="form"  onsubmit="return validateForm()" method="POST" action="Backend/signupmodel.php">
 
-
                 <h2>Create an Account</h2>
                 <p>Already have an account? <a href="Login.php">Log In </a></p>
 

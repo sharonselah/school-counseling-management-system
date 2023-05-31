@@ -13,13 +13,12 @@
             CUEA Counseling
         </div>
 
-        <ul>
-            
+        <ul style="width: 35%;">  
             <li><a href="#services">Services</a></li>
             <li><a href="#counselors">Providers</a></li>
             <li><a href="#selfcare">Selfcare</a></li>
             <li><a href="Student/support.php">Resources</a></li>
-            <li><a href="Student/studentdashboard.php">Contact Us</a></li>
+            
         </ul>
 
         <div class="button">

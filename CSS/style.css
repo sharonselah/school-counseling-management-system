@@ -21,11 +21,9 @@ header{
 }
 
 header ul{
-    display: flex;
-    width: 55%; 
+    display: flex; 
     justify-content: space-around;
-    margin-top: 0px; 
-    
+    margin-top: 0px;    
 }
 
 header ul li{
@@ -46,8 +44,7 @@ header ul a:hover{
 
 .button{
     margin-top: 5px; 
-   
-  
+    
 }
 
 .button a{
@@ -107,10 +104,9 @@ header ul a:hover{
 }
 
 .counselors-container{
-
     min-height: 500px; 
     background: #F4F4F4;
-    padding-top: 55px;
+    padding-top: 15px;
     padding-bottom: 50px;
     text-align: center; 
 }
@@ -150,24 +146,56 @@ header ul a:hover{
     width: 95%; 
     flex-wrap: wrap;
     padding: 20px;
-    
-
 }
 
 .counselor{
     width: 355px; 
     margin: 10px 20px; 
-    border: 1px solid #8000007a;
-    height: 600px; 
+    border: 1px solid #E1EBEE;
+    background-color: #f8f9f5;
+    border-radius: 10px;
+    height: 350px; 
     text-align: center;
-    padding: 5px 10px; 
+    padding: 10px; 
     line-height: 1.5; 
+    font-size: 90%;
+    transition: transform 0.3s ease;
+}
+
+.counselor:hover{
+  transform: translateY(-10px);
+}
+
+.counselor .img_container{
+  border-radius: 50%; 
+  height: 200px; 
+  width: 200px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #E1EBEE;
 }
 
 .counselor img{
-    height: 250px; 
-    width: 90%;
+    height: 120px; 
+    width: 120px;
     padding: 0px; 
+}
+
+.counselors-container input{
+  height: 40px; 
+  width: 30%; 
+  border: 1px solid gray; 
+  border-radius: 10px; 
+  margin-left: 58%; 
+
+}
+::placeholder{
+  font-family: "Times New Roman";
+  font-size: 110%;
+  letter-spacing: 1;
+  text-align: center;
 }
 
 .counselor button:hover{
@@ -245,8 +273,8 @@ header ul a:hover{
      
  }
 
- .self-care, .self-cares.self-cares{
-
+ .self-care{
+    background-color: #ccccff65;
     min-height: 500px; 
     padding: 20px; 
     display: flex; 
@@ -256,7 +284,7 @@ header ul a:hover{
 
  .self-care .image img{
     width: 550px; 
-    height: 550px;
+    height: 500px;
  }
 
  .self-care .content{

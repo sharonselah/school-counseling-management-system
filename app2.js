@@ -16,41 +16,45 @@ function validateForm(){
 
     //validate the name 
 
-    if (uname == ""){
+    if (uname.trim() == ""){
         name_error.innerHTML="Username is Required"; 
         hasErrors = true; 
     }
     //validate email 
 
-    if (email == ""){
+    if (email.trim() == ""){
         email_error.innerHTML= "Email cannot be empty";
         hasErrors = true; 
     }
     
-    if(!email.match(/^\S+@\S+\.\S+$/)){
+    if(!email.match(/^[\w.-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)){
         email_error.innerHTML= "Email should be valid";
         hasErrors = true; 
     }
 
     //validate password
 
-    if (password == ""){
+    if (password.trim() == ""){
         pwd_error.innerHTML=  "Password cannot be empty"; 
         hasErrors = true; 
     }
-    
-    if (!password.match(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/)){
-        pwd_error.innerHTML= "Weak Password <br />Minimum 8 characters <br />Upper & lowercase letters <br /> At least one number <br /> -- At least one special character";
+
+    if (!password.match(/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).*$/)){
+        pwd_error.innerHTML= "Weak Password<br /> At least one Uppercase letter <br />At least one Lowercase letter <br /> At least one number";
         hasErrors = true; 
     }
 
+    if (password.trim().length <8){
+        pwd_error.innerHTML = "Password should have at least 8 characters"; 
+    }
+
     //validate repeat Password 
-    if (passwordCheck == ""){
+    if (passwordCheck.trim() == ""){
         pwdCheck_error.innerHTML=  "Password cannot be empty"; 
         hasErrors = true; 
     }
     
-    if (!passwordCheck == password){
+    if (!passwordCheck.trim() == password.trim()){
         pwdCheck_error.innerHTML=  "Password must match";
         hasErrors = true; 
     }

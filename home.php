@@ -1,8 +1,6 @@
 <?php include 'header.php' ?>
     <div class="call-to-action">
 
-   
-
             <div class="emotions">
                     <p>Depressed? 	&#128531</p>
                     <p>Scared? &#128552</p>
@@ -20,10 +18,7 @@
     </div>
 
 
-   
-
-
-
+<div id="services">
     <div class="services-container">
         <h1>Our Services</h1>
         <p> CUEA's expansive network of licensed clinicians offers a wide variety of services </p>
@@ -52,7 +47,7 @@
 
                 <div class="content">
 
-                    <h2>Alcohol Use</h2>
+                    <h2>Drug Abuse</h2>
                     <p> University alcoholism affects millions fo students each year. Frequent heavy
                         drinking causes great emotional and physical damages. 
                     </p>
@@ -124,99 +119,89 @@
                      Some teens are bullied or treated as outcasts by peers. This can influence later relationships.
                     </p>
                 </div>
-
-                
+  
             </div>
 
-            
-            <div class="button">
-                <a href=""> View All Services</a>
-            </div>
-
-            
         </div>
       
+</div>
 </div>
 
 
 <!-- Counseling Team -->
-
+<div id="counselors">
 
 <div class="counselors-container">
 
-<h1>Our Counselors</h1>
+<h2>Our Counselors</h2>
 
-<p>Our Work is to Help Students Dealing with a Variety of Mental Health Conditions</p>
+<p style="font-size: 90%;">Our Work is to Help Students Dealing with a Variety of Mental Health Conditions</p>
    
-
-
 <div class="counselors">
     <div class="counselor">
-        <img src="Images/florence-lec.jpg" alt="image">
-        <h2>Florence Wamahiga (PhD)</h2>
-        <p>Senior lecturer in the department of counseling psychology.
-        She is well versed with issues concerning school dropout and HIV counseling
-       </p>
-
-        <button>Book Appointment</button>
-
+        <div class= "img_container">
+            <img src="Images/user.png" alt="image">
+        </div>
+        <h3>Dr Amanda Parker</h3>
+        <p>Specialty: Anxiety and Depression Counseling </p>
     </div>
     <div class="counselor">
-        <img src="Images/asatsa-lec.jpg" alt="">
-        <h2>Stephen Asatsa <br>(PhD)</h2>
-        <p>
-        Head of the Department of Counselling Psychology.
-        He is an expert at dealing with behavioral psychology; depression and anxiety. 
-        </p>
-
-        <button>Book Appointment</button>
-
+        <div class= "img_container">
+            <img src="Images/user2.png" alt="image">
+        </div>
+        <h3>Mrs. Olivia Smith </h3>
+        <p>Specialty: Relationship and Marriage Counseling</p>
     </div>
     <div class="counselor">
-        <img src="Images/elijah-lec.jpg" alt="">
-        <h2>Elijah Macharia <br> (PhD)</h2>
-        <p>
-        Lecturer at CUEA. He is well-experienced in dealing
-         with poverty trauma, financial instability, food insecurity and the associated effects. 
-       </p>
-
-        <button>Book Appointment</button>
-
+        <div class= "img_container">
+            <img src="Images/user.png" alt="image">
+        </div>
+        <h2>Mr. Daniel Carter</h2>
+        <p>Specialty: Substance Abuse Counseling </p>
     </div>
 </div>
 
 <div class="button">
-    <a href=""> View All Counselors</a>
+    <a href="counselors.php"> View All Counselors</a>
 </div>
-</div> <!-- end of counselors --> 
+</div> 
+</div><!-- end of counselors --> 
 
 <div class="self-care">
     <div class="image">
-        <img src="Images/selfcare5.jpg" alt="">
+        <img src="Images/mental-health2.png" alt="mental health image">
     </div>
 
     <div class="content">
 
     <h2>How and Why to Practice Self-Care</h2>
 
-    <p style="font-style: italic;">Self-care means taking the time to do things that help you live well 
-        and improve both your physical health and mental health.
-        Self-care can help you manage stress, 
-        lower your risk of illness, and increase your energy.</p>
+    <p style="color: blue;">
+    "Or do you not know that <span style="text-decoration: underline;" >your body is a temple of the Holy Spirit</span>  within you,
+     whom you have from God? You are not your own, for you were bought with a price.
+      So glorify God in your body." - 1 Corinthians 6:19-20
+    </p>
     <div class="list">
         <ul>
             <li>Healthy Food</li>
+            <li>Hygiene (Bath Daily)</li>
             <li>Daily Walk</li>
             <li>Drinking Water</li>
-            <li>Daily Exercises</li>
         </ul>
 
         <ul style="margin-left: 40px; ">
             <li>Time Management </li>
-            <li>Quality Time with Family</li>
+            <li>Social connections</li>
             <li>8 Hours of Sleep</li>
             <li>Nurture Friendships</li>
         </ul>
+        <ul style="margin-left: 40px;">
+            <li>Setting Boundaries</li>
+            <li>Seeking Support</li>
+            <li>Journaling</li>
+            <li>Limiting Screen Time</li>
+        </ul>
+       
     </div>
 
     
