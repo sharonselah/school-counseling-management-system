@@ -41,6 +41,59 @@ if (!isset($_SESSION['authenticated']) || $_SESSION["role"] !== 'admin') {
         .hide{
             display: none;
         }
+
+        .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        font-size: 14px;
+        color: gray;
+        }
+
+        .add-button {
+        padding: 5px 10px;
+        background-color: #800000;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 14px;
+        }
+
+        .search-bar input {
+        width: 350px;
+        height: 30px;
+        font-size: 12px;
+        border: 1px solid black; 
+        border-radius: 6px; 
+        color: gray;
+        }
+
+        .sort-buttons {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        }
+
+        .sort-buttons p {
+        margin: 0;
+        }
+
+        .sort-buttons button {
+        font-size: 14px;
+        padding: 5px 10px;
+        border-radius: 5px;
+        background-color: #FFFFFF;
+        border: 1px solid #CCCCCC;
+        color: #333333;
+        }
+
+        .sort-buttons button:hover {
+        background-color: #CCCCCC;
+        border-color: #CCCCCC;
+        color: #FFFFFF;
+        }
+
     </style>
 </head>
 <body style=" padding: 0; ">
@@ -81,17 +134,19 @@ if (!isset($_SESSION['authenticated']) || $_SESSION["role"] !== 'admin') {
 
         if ($result->num_rows > 0) { ?>
 
-            <div style="display: flex; align-items: center; gap: 10px; font-size: 14px; color: gray;">
-                <a href="CounselorSignup.php" style="text-decoration: none; color: gray;">Add</a>
-               
-                <input style="width: 200px; height: 30px; font-size: 12px; color: gray;" type="search" name="search" id="search" placeholder="Search by Name">
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <p style="margin: 0;">Sort by:</p>
-                    <button id="Nothing" style="font-size: 14px;">Default</button>
-                    <button id="sortName" style="font-size: 14px;">Name</button>
-                    <button id="sortSpeciality" style="font-size: 14px;">Specialty</button>
+            <div class="header">
+            <a href="CounselorSignup.php" class="add-button">Add New Counselor</a>
+                <div class="search-bar">
+                    <input type="search" name="search" id="search" placeholder="Search by Name">
+                </div>
+                <div class="sort-buttons">
+                    <p>Sort by:</p>
+                    <button id="Nothing">Default</button>
+                    <button id="sortName">Name</button>
+                    <button id="sortSpeciality">Specialty</button>
                 </div>
             </div>
+
 
 
         <table id ="table" class="table" style="width: 100%;">

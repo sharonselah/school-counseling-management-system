@@ -119,7 +119,7 @@ if (isset($_GET['voted'])) {
           border: none;
           cursor: pointer;"onclick="toggleForm(<?php echo $appointment_id; ?>)">Cancel Appointment</button>
 
-                <form id="cancelForm" action="" method="POST" style="display: none; width: 35%; max-height: 30vh;">
+                <form id="cancelForm" action="" method="POST" style="display: none; width: 65%; max-height: 30vh; background-color: white; line-height: 2; ">
                   <label for="reason">Reason for Cancelation:</label><br>
                   <select name="reason" id="reason">
                     <option value="unforeseen_circumstances">Unforeseen Circumstances</option>
@@ -128,7 +128,7 @@ if (isset($_GET['voted'])) {
                     <option value="other">Other</option>
                   </select><br>
                   <label for="other_reason">Other Reason:</label><br>
-                  <textarea name="other_reason" id="other_reason" rows="2" cols="15" placeholder="Please specify if you selected 'Other'"></textarea><br>
+                  <textarea name="other_reason" id="other_reason" rows="3" cols="25" placeholder="Please specify if you selected 'Other'"></textarea><br>
                   <input type="hidden" name="student_id" id="student_id" value="<?php echo $id;?>">
                   <input type="hidden" name="appointment_id" id="appointment_id" value="">
                   <input type="submit" value="Submit" onclick="return confirm('Are you sure you want to cancel the appointment?');">
@@ -259,7 +259,7 @@ if (isset($_GET['voted'])) {
    </div>
 
 
-   <div id="notes">
+   <div id="notes" style="margin-top: 10px; min-height: 50vh; box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;">
     <h2>Notes</h2>
     <?php
     // Query the notes table for the student's notes and counselor's name
@@ -290,7 +290,10 @@ if (isset($_GET['voted'])) {
 
         echo '</table>';
     } else {
-        echo 'No notes found.';
+        echo '<div style="height: 30vh; width: 100%; display: flex; justify-content: center; align-items: center;">
+                <p style="text-align: center;">No notes found. <br>
+                Please book and attend a counseling session to get notes</p>
+              </div>';
     }
     ?>
 </div>
@@ -305,9 +308,6 @@ if (isset($_GET['voted'])) {
         }
     }
 </script>
-
-
-
 
 
 

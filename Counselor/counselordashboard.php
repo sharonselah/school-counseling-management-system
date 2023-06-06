@@ -31,7 +31,9 @@ COUNT(*) AS total_appointments,
 COUNT(CASE WHEN status = 'pending' THEN 1 ELSE NULL END) AS pending_appointments, 
 COUNT(CASE WHEN status = 'canceled' THEN 1 ELSE NULL END) AS canceled_appointments, 
 COUNT(CASE WHEN status = 'confirmed' THEN 1 ELSE NULL END) AS confirmed_appointments,
-COUNT(CASE WHEN status = 'overdue' THEN 1 ELSE NULL END) AS overdue_appointments
+COUNT(CASE WHEN status = 'overdue' THEN 1 ELSE NULL END) AS overdue_appointments,
+COUNT(CASE WHEN status = 'missed' THEN 1 ELSE NULL END) AS missed_appointments,
+COUNT(CASE WHEN status = 'completed' THEN 1 ELSE NULL END) AS completed_appointments
 FROM appointments
 WHERE counselor_id = ?");
 
@@ -73,8 +75,7 @@ $stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_
 
     <style>
         .sort{ 
-            width: 25%;   
-           
+            width: 25%;     
         }
 
         .right-c, .right-d, .right-e, .right-f{
@@ -123,6 +124,10 @@ $stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_
                 <p><?php echo $number["total_appointments"];?></p>
             </div>
             <div class="box">
+                <h2><span style="background-color: brown;" class="bullet"></span>Completed</h2>
+                <p><?php echo $number["completed_appointments"];?></p>
+            </div>
+            <div class="box">
                 <h2><span style="background-color: #FFBF00;" class="bullet"></span>Pending </h2>
                 <p><?php echo $number["pending_appointments"];?></p>
             </div>
@@ -134,10 +139,7 @@ $stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_
                 <h2><span style="background-color: red;" class="bullet"></span>Canceled</h2>
                 <p><?php echo $number["canceled_appointments"];?></p>
             </div>
-            <div class="box">
-                <h2><span style="background-color: brown;" class="bullet"></span>Overdue</h2>
-                <p><?php echo $number["overdue_appointments"];?></p>
-            </div>
+            
            
             
 	    </div> 
@@ -162,6 +164,8 @@ $stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_
                         <option value="confirmed">confirmed</option>
                         <option value="canceled">canceled</option>
                         <option value="overdue">overdue</option>
+                        <option value="missed">missed</option>
+                        <option value="completed">completed</option>
                     </select>
                 </div>
             </div>
@@ -173,6 +177,7 @@ $stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_
                         <th>Date</th>
                         <th>Start Time</th>
                         <th>Status</th>
+                        <th>Show up</th>
                         <th>Notes</th>
                     </tr>
                 </thead> 
@@ -208,6 +213,8 @@ $stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_
                     
                         $_SESSION['student_id'] = $student2['student_id'];
 
+                     
+
                         //Full name of the day of the week; Day of the month; abb name of the month
 
                     $row['date'] = date_format(date_create($row['date']), 'l j M');
@@ -215,25 +222,50 @@ $stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_
 
                     switch ($status_app) {
                         case 'pending':
-                            $status_color = '';
+                            $status_color = '#888888';
                             $status_action = "<a href='confirmappointment.php?id=" . $row['id'] . "' onclick='return confirmAppointment()' id='confirm_btn1'>Confirm</a>
                              <a href='../Appointment/rescheduleappointment.php?id=" . $row['id'] . "' onclick='return rescheduleAppointment()' id='confirm_btn2'>Reschedule</a>";
-                            
+                             $checkup = "&#10004; or &#10007;";
                              $notes = 'Activated when Confirmed';
                             break;
                         case 'confirmed':
                             $status_color = 'color: green;';
                             $status_action = $status_app;
+                            $currentDate = date("Y-m-d");
+                            $currentDate = date("Y-m-d", strtotime("Tuesday, May 23, 2023"));
+
+                            if ($appointment_date_time == $currentDate) {
+                                // Display buttons to indicate student's attendance
+                            $checkup= "<a href='../Appointment/confirmshowup.php?id=" . $row['id'] . "'>Show up</a>
+                            <a href='../Appointment/rejectshowup.php?id=" . $row['id'] . "'>No show up</a>";
+                            }else {
+                                $checkup = "&#10004; or &#10007;";
+                            }
+                          
                             $notes = "<a href='notes.php' id='confirm_btn1'>Take Notes</a>";
                             break;
                         case 'canceled':
                             $status_color = 'color: red;';
                             $status_action = $status_app;
+                            $checkup = "&#10007;";
                             $notes = 'No Notes';
+                            break;
+                        case 'completed':
+                            $status_color = 'color: #007bff;';
+                            $status_action = $status_app;
+                            $checkup = "&#10004;";
+                            $notes ="<a href='notes.php' id='confirm_btn1'>Take Notes</a>";
+                            break;
+                        case 'missed':
+                            $status_color = 'color: #ff8c00;';
+                            $status_action = $status_app;
+                            $checkup = "&#10007;";
+                            $notes ="<a href='notes.php' id='confirm_btn1'>Take Notes</a>";
                             break;
                         default:
                             $status_color = 'color: orange;';
                             $status_action = $status_app . ' (Lack of confirmation)';
+                            $checkup = "&#10007;";
                             $notes = 'No Notes';
                             break;
                     }
@@ -243,9 +275,10 @@ $stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_
                     <td>" . $row['date'] . "</td>
                     <td>" . $row['start_time'] . "</td>
                     <td style='" . $status_color . "'>" . $status_action . "</td>
+                    <td>" . $checkup . "</td>
                     <td>" . $notes . "</td></tr>";
 
-                    
+                  
                 }
             }
 
@@ -254,7 +287,7 @@ $stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_
                     echo "<tr><td colspan='10' style='text-align:center; font-size: 24px; color: red;'> <br>
                     No pending appointments. It may be a slow season, but keep up the good work!</td></tr>";
                 }
-
+              
                 ?>
                 
                 </tbody>
@@ -279,7 +312,9 @@ $stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_
         </div>
 
       
-        <?php include 'notifications.php';?>    
+        <?php 
+      
+        include 'notifications.php';?>    
        
     </div>
 

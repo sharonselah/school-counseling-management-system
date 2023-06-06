@@ -53,7 +53,8 @@ if (isset($_GET['error'])) {
 
                 <div class="form-control">
                     <label for="password">Password</label><br>
-                    <input type="password" name ="password" id ="password"> <br>
+                    <input type="password" name ="password" id ="password" placeholder="Use 8 characters or more"> <br>
+                  
                     <small style="color:red;" id ="pwd-error"></small>
                 </div>
 

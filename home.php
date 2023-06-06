@@ -12,9 +12,10 @@
             <p style="line-height: 36px; text-align: center; ">The CUEA Counseling team provides high quality mental health services using an<br>
             evidence-based approach and Christian values. <br> We believe in early identification</p>
 
-         <div class="button">
-            <a href="">Book an Appointment</a>
-        </div>
+       
+
+         <button class="button"><a href="Login.php">Book an Appointment</a></button>
+            
     </div>
 
 
@@ -176,7 +177,7 @@
 
     <h2>How and Why to Practice Self-Care</h2>
 
-    <p style="color: blue;">
+    <p style="color: #800000; font-weight: 600;">
     "Or do you not know that <span style="text-decoration: underline;" >your body is a temple of the Holy Spirit</span>  within you,
      whom you have from God? You are not your own, for you were bought with a price.
       So glorify God in your body." - 1 Corinthians 6:19-20
@@ -184,21 +185,21 @@
     <div class="list">
         <ul>
             <li>Healthy Food</li>
-            <li>Hygiene (Bath Daily)</li>
             <li>Daily Walk</li>
-            <li>Drinking Water</li>
+            <li>Hygiene (Bath Daily)</li>
         </ul>
 
         <ul style="margin-left: 40px; ">
-            <li>Time Management </li>
-            <li>Social connections</li>
+            
             <li>8 Hours of Sleep</li>
-            <li>Nurture Friendships</li>
+            <li>Time Management </li>
+            <li>Social Connections</li>
+            
         </ul>
         <ul style="margin-left: 40px;">
-            <li>Setting Boundaries</li>
-            <li>Seeking Support</li>
+            
             <li>Journaling</li>
+            <li>Setting Boundaries</li>
             <li>Limiting Screen Time</li>
         </ul>
        

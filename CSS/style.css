@@ -44,21 +44,37 @@ header ul a:hover{
 
 .button{
     margin-top: 5px; 
+    padding: 10px;
+    background-color: #800000; 
+    border: 1px solid #800000;
+    border-radius: 5px;  
     
 }
 
+#button_login{
+  background-color: white;
+  transition: background-color 0.3s ease; 
+}
+
 .button a{
-    
-    background-color: #800000; 
-    border: 1px solid #800000; 
-    border-radius: 6px; 
+    text-decoration: none;
     font-size: 18px;
     font-weight: 500;
-    line-height: 20px;
-    list-style: none;
     padding: 10px 30px;
-    transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
     color: white;  
+}
+#button_login a {
+  color: black; 
+}
+
+.button:hover , #button_login:hover{
+  background-color: #b40909; 
+  border-color: #8B0000; 
+}
+
+
+.button:hover a , #button_login:hover a{
+  color: #FFF; 
 }
 
 
@@ -88,20 +104,23 @@ header ul a:hover{
     text-align: center;   
 }
 
+.emotions p:hover{
+  background-color: #6F8FAF;
+  border: 1px solid #6F8FAF;
+}
+
 .call-to-action .button{
-    margin-left:35px;  
+    margin-left:35px;
+    height: 50px;  
 }
 
 .call-to-action .button a{
-    padding: 15px 10px; 
-    background-color: #800000;
+  font-size: 120%; 
+  line-height: 1.5; 
 }
 
-.button a:hover{
-    background-color: white;
-    border: 1px solid #800000; 
-    color: black; 
-}
+
+
 
 .counselors-container{
     min-height: 500px; 
@@ -111,35 +130,12 @@ header ul a:hover{
     text-align: center; 
 }
 .counselors-container .button{
-    padding-top: 30px; 
+   
     margin: auto; 
-    width: 25%; 
-    
-}
-.counselors-container .button a, .counselor button, .services .button a{
-    
-    background-color: #FFFFFF;
-    border: 1px solid #800000;
-    border-radius: .25rem;
-    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
-    box-sizing: border-box;
-    color: rgba(0, 0, 0, 0.85);
-    line-height: 1.25;
-    margin: 0;
-    min-height: 3rem;
-    padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+    width: 25%;    
 }
 
-.counselors-container .button a{
-    background-color: brown;
-    color: white; 
-    
-}
 
-.counselors-container .button a:hover, .services .button a:hover, .counselor button:hover{
-    background-color: #800000; 
-    color: white;
-}
 
 .counselors-container .counselors{
     display: flex; 
@@ -195,7 +191,7 @@ header ul a:hover{
   font-family: "Times New Roman";
   font-size: 110%;
   letter-spacing: 1;
-  text-align: center;
+  
 }
 
 .counselor button:hover{
@@ -943,7 +939,9 @@ padding: 10px;
 }
 
 
-
+.error{
+  color: red;
+}
 
 
 

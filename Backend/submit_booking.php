@@ -23,7 +23,9 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
             $counselor_id = $row["counselor_id"]; 
-        } else {
+        } 
+    } else  
+         {
             $stmt = $conn->prepare("SELECT receiving_therapist_id FROM referrals WHERE student_id = ? AND Accept = 1"); 
             $stmt->bind_param("i", $student_id); 
             $stmt->execute(); 
@@ -47,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
                 }
             }
         }
-    }
+    
     
 
     $status ="pending"; 

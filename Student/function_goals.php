@@ -71,7 +71,17 @@
                     </form>
                 </div>
             <?php
-            } $stmt->close(); ?>
+            } 
+            
+            if ($result->num_rows == 0){
+              ?>
+
+              <div class="goal_track">
+                  <p>No Goal to track</p>
+              </div> <?php
+            }
+            
+            $stmt->close(); ?>
 
                 
 </div>

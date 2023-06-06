@@ -3,8 +3,6 @@ session_start();
 
 include 'sessiondeleting.php'; 
 
-
-
 if (isset($_GET['login'])) {
   if ($_GET['login'] === 'error') {
     $message = 'Incorrect email or password';
@@ -13,7 +11,6 @@ if (isset($_GET['login'])) {
   unset($_GET['login']);
   header("Refresh:0; Login.php"); //refresh the current page 
 }
-
 ?>
 
 
@@ -28,7 +25,7 @@ if (isset($_GET['login'])) {
 </head>
 <body>
     <div class="login">
-        <form  action="Backend/loginmodel.php" method="post">
+        <form onsubmit =" return Validateform()" action="Backend/loginmodel.php" method="post">
 
 
                 <h2>Create an Account</h2>
@@ -36,22 +33,15 @@ if (isset($_GET['login'])) {
            
                 <label for="email">Email</label> <br>
                 <input type="email" name ="email" id ="email" autocomplete="off"> <br>
+                <small id="error_email" style="color:red;"></small> <br>
+
                 <label for="password">Password</label><br>
                 <input type="password" name ="password" id ="password"  autocomplete="off"> <br>
-              <br>
-                
+                <small id ="error_password" style="color:red;"></small><br>
 
                 <button  type="submit" name="submit" id="button_signup">Log In </button>
 
                 <br>
-
-                
-                  <?php 
-                    if (isset($error_message)){
-                      ?>
-                      <p id="error_message" style="color:red;"> <?php echo $error_message; ?>  </p>
-                      <?php }
-                  ?>
 
               
                 <p>Forgot Password? <a href="forgetpassword.php">Reset Password</a></p>
@@ -62,27 +52,25 @@ if (isset($_GET['login'])) {
 
 
      <script>
-        const errorMessage = document.getElementById("error_message");
-        const emailInput = document.getElementById('email');
-        const passwordInput = document.getElementById('password');
+       
+        function Validateform(){
+          let email = document.getElementById("email").value;
+          let password = document.getElementById("password").value;
+          let error_email = document.getElementById("error_email");
+          let error_password = document.getElementById("error_password");
 
-        // Set a timer to hide the error message when the user starts typing
-        let timerId;
-        emailInput.addEventListener('input', startTimer);
-        passwordInput.addEventListener('input', startTimer);
+          if (email.trim() == ""){
+            error_email.innerHTML = "Email cannot be empty";
+            return false; 
+          }
 
-        function startTimer() {
-    // Clear the previous timer if it exists
-    if (timerId) {
-      clearTimeout(timerId);
-    }
+          if (password.trim() == ""){
+            error_password.innerHTML = "Password cannot be empty";
+            return false; 
+          }
 
-     // Set a new timer to hide the error message after 2 seconds
-     timerId = setTimeout(function() {
-      errorMessage.style.display = 'none';
-    }, 500);
-  }
-
+          return true;
+        }
 
      </script>
 </body>

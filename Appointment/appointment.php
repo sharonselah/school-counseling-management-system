@@ -15,6 +15,7 @@ if (isset($_SESSION["error_message"])){
   
     //retrieve the time slots
     include '../Backend/db.php';
+  
  
 ?>
 
@@ -29,11 +30,11 @@ if (isset($_SESSION["error_message"])){
     <title>Appointment</title>
 </head>
 <body>
-        <form action="../Backend/submit_booking.php" method="post" class="form_appointment">
+        <form id ="form" onsubmit ="return validateForm()" action="../Backend/submit_booking.php" method="post" class="form_appointment">
             <p>Book a Consultation</p>
                     
                 <label class="label" for="student">Student</label> 
-                <input type="text" value="<?php echo $_SESSION["name"]; ?>">
+                <input readonly type="text" value="<?php echo $_SESSION["name"]; ?>">
 
                 <label class="label" for="specific_counselor">Do You Want to Choose a Specific Counselor?</label>
                 <div>
@@ -61,14 +62,14 @@ if (isset($_SESSION["error_message"])){
                             }
                         }
                         ?>
-                    </select>
-
-                    
+                    </select>   
                 </div>
 
 
                 <label class="label" for="date">Date</label>  
-                <input type="date" id="date" name="date" required> <br>
+                <input type="date" id="date" name="date" required> <span class="error" id ="error_date"></span>
+                <br> <br>
+                
                 
                 <?php 
 
@@ -93,7 +94,6 @@ if (isset($_SESSION["error_message"])){
                     } else {
                         echo "No time slots available";
                     }
-                  
                     ?>
 
                 <button type="submit">Confirm Date and Time</button>
@@ -125,6 +125,44 @@ if (isset($_SESSION["error_message"])){
                 counselorNameInput.style.display = "none";
             } 
         });
+
+        //validating the form 
+
+        function validateForm(){
+
+            let date = document.getElementById("date");
+            let error_date = document.getElementById("error_date"); 
+
+            let todaysDate = new Date();
+            let chosenDate = new Date (date.value);
+
+
+            if (chosenDate < todaysDate){
+                error_date.innerHTML = "You cannot choose a date that has passed and book one day in advance"; 
+                return false;  
+            }
+            
+            //validate for weekends
+
+          
+            let chosenDay = chosenDate.getDay(); //0 is sunday 
+
+            if (chosenDay == 0 || chosenDay == 6){
+                error_date.innerHTML = "Cannot book an appointment on weekend"; 
+                return false; 
+                
+            }
+
+          return true; 
+          
+
+        };
+     
+
+            
+            
+        
+
     </script>
 
 </body>

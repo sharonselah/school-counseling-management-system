@@ -30,10 +30,22 @@ $conn-> close();
     
     <link rel="stylesheet" href="../CSS/style.css">
     <title>Student Dashboard</title>
+
+    <style>
+        select{
+            width: 100%;  
+            padding-top: 32px; 
+            margin: 10px 0px; 
+            border: none; 
+            outline: none;
+            border: 1px solid black; 
+            border-radius: 6px;
+        }
+    </style>
 </head>
 
 <div class="signupform">
-        <form method="post">
+        <form onsubmit = "return ValidateForm()" method="post" >
 
                <p>Complete Profile</p>
 
@@ -50,12 +62,18 @@ $conn-> close();
                 <div class="form-control">
                     <label for="name">Phone Number</label> <br>
                     <input type="phone" name ="phone" id ="uphone"> <br>
+                    <small id ="uphone_error" style ="color:red;" ></small><br>
                 </div>
 
                 <div class="form-control">
                     <label for="gender">Gender</label> <br>
-                    <input type="gender" name ="gender" id ="gender"> <br>
+                    <select name="gender" id="gender">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="not_specified">Prefer Not to Say</option>
+                    </select>
                 </div>
+
 
                 <br>
                 <button type="submit" name="submit" >Complete Profile </button>
@@ -63,3 +81,20 @@ $conn-> close();
 
         </form>
      </div>
+
+     <script>
+
+        function ValidateForm(){
+            let uphone = document.getElementById("uphone").value;
+            let uphone_error = document.getElementById("uphone_error");
+          
+            let phone_regex = /^\d{10}$/;
+
+            if (!(phone_regex.test(uphone))){
+                uphone_error.innerHTML = "Should have ten digits (07... or 01...)";
+                return false;
+            }
+
+            return true; 
+        }
+     </script>

@@ -15,17 +15,21 @@
 
         <ul style="width: 35%;">  
             <li><a href="#services">Services</a></li>
-            <li><a href="#counselors">Providers</a></li>
+            <li><a href="#counselors">Counselors</a></li>
             <li><a href="#selfcare">Selfcare</a></li>
-            <li><a href="Student/support.php">Resources</a></li>
-            
+            <li><a href="Student/support.php">Resources</a></li>  
         </ul>
 
-        <div class="button">
-            <a href="Signup.php">Sign Up</a>
+        <div style=" margin-top: -3px; width: 25%; display: flex; justify-content: space-between;">
+
+            <div class="button">
+                <a href="Signup.php">Sign Up</a>
+            </div>
+
+            <div id ="button_login" class="button">
+                <a href="Login.php">Log In</a>
+            </div>
         </div>
 
-        <div class="button">
-            <a href="Login.php">Log In</a>
-        </div>
+      
     </header>
