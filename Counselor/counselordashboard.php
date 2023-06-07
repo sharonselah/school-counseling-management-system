@@ -16,6 +16,7 @@ if (isset($_GET['referral']) && $_GET['referral'] === 'success') {
 
 //counselor's id 
 $id = $_SESSION['user_id']; 
+
   
 // Retrieve appointments from database
 $stmt = $conn-> prepare("SELECT * FROM appointments where counselor_id = ? ORDER BY created_at DESC");
@@ -262,6 +263,12 @@ $stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_
                             $checkup = "&#10007;";
                             $notes ="<a href='notes.php' id='confirm_btn1'>Take Notes</a>";
                             break;
+                        case 'rescheduled':
+                            $status_color = 'color: #8B8000;';
+                            $status_action = $status_app;
+                            $checkup = "&#10004; or &#10007;";
+                            $notes ="No notes";
+                            break;
                         default:
                             $status_color = 'color: orange;';
                             $status_action = $status_app . ' (Lack of confirmation)';
@@ -314,7 +321,7 @@ $stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_
       
         <?php 
       
-        include 'notifications.php';?>    
+        include '../notifications.php';?>    
        
     </div>
 

@@ -24,7 +24,7 @@
 
 <?php
 
-include '../Backend/db.php';
+include 'Backend/db.php';
 
 // Retrieve notifications for the counselor from the database
 
@@ -68,28 +68,28 @@ if (mysqli_num_rows($result) > 0) {
       case 'appointment_cancel':
         echo "<p>$message</p>
               <p>$hoursDifference  hours ago</p>
-              <button><a href='markasread.php?id=$rowId'>Mark as Read</a></button>";
+              <button><a href='../markasread.php?id=$rowId'>Mark as Read</a></button>";
         break;
       case 'appointment_reschedule':
           echo "<p>$message</p>
                 <p>$hoursDifference hours ago</p>
-                <button><a href='markasread.php?id=$rowId'>Mark as Read</a></button>";
+                <button><a href='../markasread.php?id=$rowId'>Mark as Read</a></button>";
           break;
         
       case 'referral_accept':
           echo "<p>$message</p>
           <p>$hoursDifference hours ago</p>
-          <button><a href='markasread.php?id=$rowId'>Mark as Read</a></button>";
+          <button><a href='../markasread.php?id=$rowId'>Mark as Read</a></button>";
           break;
       case 'referal_reject':
           echo "<p>$message</p>
           <p>$hoursDifference hours ago</p>
-          <button><a href='markasread.php?id=$rowId'>Mark as Read</a></button>";
+          <button><a href='../markasread.php?id=$rowId'>Mark as Read</a></button>";
           break;
       case 'review':
           echo "<p>$message</p>
           <p>$hoursDifference hours ago</p>
-          <button><a href='markasread.php?id=$rowId'>Mark as Read</a></button>";
+          <button><a href='../markasread.php?id=$rowId'>Mark as Read</a></button>";
           break;
       // Add more cases for other notification types
       default:

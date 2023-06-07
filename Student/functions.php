@@ -66,6 +66,8 @@ if ($result2->num_rows == 1) {
     $appointment_details = 'No appointments found.';
 }
 
+
+
 //goals 
 
 $stmt3= $conn->prepare("SELECT *, COUNT(*) as count FROM goals WHERE student_id =?"); 
@@ -74,6 +76,7 @@ $stmt3->execute();
 $result3= $stmt3->get_result(); 
 $noOfGoals = $result3-> fetch_assoc(); 
 $totalGoals = $noOfGoals["count"]; 
+$stmt3->close();
 
 $stmt4= $conn->prepare("SELECT *, COUNT(*) as count FROM appointments WHERE student_id =?
                         AND status != 'canceled'"); 
@@ -82,6 +85,7 @@ $stmt4->execute();
 $result4= $stmt4->get_result(); 
 $noOfAppointments= $result4 -> fetch_assoc();
 $totalAppointments = $noOfAppointments["count"]; 
+$stmt4->close();
 
  
 

@@ -2,6 +2,9 @@
 
 include '../Backend/db.php'; 
 
+session_start();
+$name = $_SESSION["name"];
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     echo $counselor_id;
@@ -31,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         if ($stmt2->execute()){
             $stmt2->close();
-                $message = "{$_SESSION['name']} has canceled a request";
+                $message = "$name has canceled a request";
             
                 $stmt = $conn-> prepare ("SELECT counselor_id FROM appointments where 
                 id = ? LIMIT 1"); 
