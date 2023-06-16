@@ -1,6 +1,7 @@
 <?php 
 
 include 'Backend/db.php';
+
 $id = $_GET["id"];
 
 session_start();
@@ -22,13 +23,6 @@ if ($stmt -> execute()){
         echo "The notification does not exist";
     }
 }
-
-
-
-
-
-
-
 
 
 

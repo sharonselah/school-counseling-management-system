@@ -7,6 +7,11 @@ if (!isset($_SESSION['authenticated']) || $_SESSION["role"] !== 'admin') {
     header('Location: ../Login.php');
     exit();
   }
+
+  
+if (isset($_GET['error']) && $_GET['error']=="too_many_specialties"){
+    echo '<script>alert("Choose only 2 specialties Please!!");</script>';
+}
   //retrive the counselors
   include '../Backend/db.php';
 

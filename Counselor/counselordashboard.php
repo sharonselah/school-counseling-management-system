@@ -108,7 +108,7 @@ $stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_
             <li><a href="#">Referrals</a></li> 
         </ul> 
         <ul>
-            <li style="position: absolute; bottom: 100px;"><a href="../logout.php">Log Out</a></li>
+            <li style="position: absolute; bottom: 130px;"><a href="../logout.php">Log Out</a></li>
         </ul>
     </div>
 

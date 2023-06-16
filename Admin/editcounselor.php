@@ -1,6 +1,7 @@
 <?php
 
 
+
 // Connect to database and get user ID from URL parameter
 include '../Backend/db.php';
 $id = $_GET["id"];
@@ -16,18 +17,32 @@ $user = $result->fetch_assoc();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get new name and specialty from form
     $name = $_POST["name"];
-    $specialty = $_POST["specialty"];
+    $selectedSpecialties = $_POST['specialties'];
     $email = $_POST['email'];
+
+    if (count($selectedSpecialties) > 2) {
+        // More than 2 specialties selected
+        header("Location: admindashboard.php?error=too_many_specialties");
+        exit();
+    }
+
+    $selectedSpecialties = implode(", ", $_POST['specialties']);
     
 
     // Update user data in database
     $stmt = $conn->prepare("UPDATE counselors SET name = ?, specialty = ?, email =? WHERE counselor_id = ?");
-    $stmt->bind_param("ssssi", $name, $specialty,$email, $id);
-    $stmt->execute();
+    $stmt->bind_param("sssi", $name, $selectedSpecialties, $email, $id);
 
-    // Redirect back to user list
-    header("Location: admindashboard.php");
-    exit();
+    if ( $stmt->execute()){
+        
+        // Redirect back to user list
+        header("Location: admindashboard.php");
+        exit();
+    }else {
+        echo "Could not update";
+    }
+   
+
 }
 ?>
 
@@ -35,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     form{
 
-    height: 350px; 
+    height: 400px; 
     width: 400px; 
     border-radius: 6px;
     margin: 20px auto; 
@@ -44,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     padding-top: 5px; 
 }
 
-input{
+input[type="text"]{
     width: 100%;  
     padding-top: 32px; 
     margin: 10px 0px; 
@@ -67,17 +82,40 @@ button{
     color: white; 
     margin-left: 30%; 
 }
+
+
+
 </style>
 
 <!-- Display form with current user data -->
 
     <form method="POST" id="edit_form">
         <label for="name">Name:</label>
-        <input type="text" name="name" value="<?php echo $user['name']; ?>"><br>
-        <label for="specialty">Specialty:</label>
-        <input type="text" name="specialty" value="<?php echo $user['specialty']; ?>"><br>
-        <label for="specialty">Email:</label>
-        <input type="text" name="email" value="<?php echo $user['email']; ?>"><br>
+        <input type="text" name="name" value="<?php echo $user['name']; ?>"><br><br>
+        <label for="specialty">Specialty: (Choose upto 2) </label><br> <br>
+
+        <div style="display:flex; justify-content:space-around;">
+
+        <div>
+            <input type="checkbox" name="specialties[]" value="Substance Abuse Counseling"> Substance Abuse Counseling <br><br>
+            <input type="checkbox" name="specialties[]" value="Trauma Therapy"> Trauma Therapy <br> <br>
+            <input type="checkbox" name="specialties[]" value="Career Counseling"> Career Counseling <br> <br>
+        </div>
+
+        <div>
+            <input type="checkbox" name="specialties[]" value="Stress Management"> Stress Management<br> <br>
+            <input type="checkbox" name="specialties[]" value="Self-esteem Building"> Self-esteem Building<br> <br>
+            <input type="checkbox" name="specialties[]" value="Relationship Counseling"> Relationship Counseling<br> <br>
+        </div>
+        </div>
+            
+            
+   
+
+<!-- Add more specialties as needed -->
+
+        <label for="email">Email:</label>
+        <input type="text" name="email" value="<?php echo $user['email']; ?>"><br><br>
         <button type="submit" id="edit-button">Save</button>
     </form>
 

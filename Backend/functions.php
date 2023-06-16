@@ -1,4 +1,6 @@
 <?php
+
+
 function processForm($table, $name, $email, $password, $role) {
 
 include 'db.php'; 
@@ -13,10 +15,19 @@ $stmt-> execute();
 // checks if there is at least one row returned by the query using the fetch() method.
 
 if ($stmt-> fetch()){
-    header("Location: ../Signup.php?error=email_exists"); 
-    exit(); 
+    session_start();
+    $rolez = $_SESSION["role"];
+    
+    if ($rolez == 'admin') {
+        
+        header('Location: ../Admin/CounselorSignup.php?error=email_exists');
+        exit();
+    }else {
+        header("Location: ../Signup.php?error=email_exists"); 
+        exit(); 
+    }
+  
 }
-
 
 //hash the password
 $hash = password_hash($password, PASSWORD_BCRYPT); 
