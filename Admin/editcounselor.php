@@ -13,25 +13,27 @@ $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 
+$userSpecialties = explode(',', $user['specialty']);
+
 // Check if form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get new name and specialty from form
     $name = $_POST["name"];
-    $selectedSpecialties = $_POST['specialties'];
+    $userSpecialties = $_POST['specialties'];
     $email = $_POST['email'];
 
-    if (count($selectedSpecialties) > 2) {
-        // More than 2 specialties selected
+    if (count($userSpecialties) > 2) {
+        // More than 2 specialties user
         header("Location: admindashboard.php?error=too_many_specialties");
         exit();
     }
 
-    $selectedSpecialties = implode(", ", $_POST['specialties']);
+    $userSpecialties = implode(',', $_POST['specialties']);
     
 
     // Update user data in database
     $stmt = $conn->prepare("UPDATE counselors SET name = ?, specialty = ?, email =? WHERE counselor_id = ?");
-    $stmt->bind_param("sssi", $name, $selectedSpecialties, $email, $id);
+    $stmt->bind_param("sssi", $name, $userSpecialties, $email, $id);
 
     if ( $stmt->execute()){
         
@@ -97,21 +99,20 @@ button{
         <div style="display:flex; justify-content:space-around;">
 
         <div>
-            <input type="checkbox" name="specialties[]" value="Substance Abuse Counseling"> Substance Abuse Counseling <br><br>
-            <input type="checkbox" name="specialties[]" value="Trauma Therapy"> Trauma Therapy <br> <br>
-            <input type="checkbox" name="specialties[]" value="Career Counseling"> Career Counseling <br> <br>
+            <input type="checkbox" name="specialties[]" value="Substance Abuse Counseling" <?php if (in_array('Substance Abuse Counseling', $userSpecialties)) echo 'checked'; ?>> Substance Abuse Counseling <br><br>
+            <input type="checkbox" name="specialties[]" value="Trauma Therapy" <?php if (in_array('Trauma Therapy', $userSpecialties)) echo 'checked'; ?>> Trauma Therapy <br> <br>
+            <input type="checkbox" name="specialties[]" value="Career Counseling" <?php if (in_array('Career Counseling', $userSpecialties)) echo 'checked'; ?>> Career Counseling <br> <br>
+            
         </div>
 
         <div>
-            <input type="checkbox" name="specialties[]" value="Stress Management"> Stress Management<br> <br>
-            <input type="checkbox" name="specialties[]" value="Self-esteem Building"> Self-esteem Building<br> <br>
-            <input type="checkbox" name="specialties[]" value="Relationship Counseling"> Relationship Counseling<br> <br>
+            <input type="checkbox" name="specialties[]" value="Stress Management" <?php if (in_array('Stress Management', $userSpecialties)) echo 'checked'; ?>> Stress Management<br> <br>
+            <input type="checkbox" name="specialties[]" value="Self-esteem Building" <?php if (in_array('Self-esteem Building', $userSpecialties)) echo 'checked'; ?>> Self-esteem Building<br> <br>
+            <input type="checkbox" name="specialties[]" value="Relationship Counseling" <?php if (in_array('Relationship Counseling', $userSpecialties)) echo 'checked'; ?>> Relationship Counseling<br> <br>
         </div>
-        </div>
-            
-            
-   
 
+        </div>
+            
 <!-- Add more specialties as needed -->
 
         <label for="email">Email:</label>

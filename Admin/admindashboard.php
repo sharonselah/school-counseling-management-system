@@ -8,10 +8,29 @@ if (!isset($_SESSION['authenticated']) || $_SESSION["role"] !== 'admin') {
     exit();
   }
 
-  
 if (isset($_GET['error']) && $_GET['error']=="too_many_specialties"){
     echo '<script>alert("Choose only 2 specialties Please!!");</script>';
+
+    unset($_GET['delete']);
+    header("Refresh:0; admindashboard.php"); //refresh the current page 
 }
+
+if (isset($_GET['delete']) && $_GET['delete']=="success"){
+    echo '<script>alert("Successfully deleted the counselor XX");</script>';
+
+    unset($_GET['delete']);
+    header("Refresh:0; admindashboard.php"); //refresh the current page 
+}
+
+if (isset($_GET['delete']) && $_GET['delete']=="failure"){
+    echo '<script>alert("Could not delete the counselor");</script>';
+
+    unset($_GET['delete']);
+    header("Refresh:0; admindashboard.php"); //refresh the current page 
+}
+
+
+
   //retrive the counselors
   include '../Backend/db.php';
 
@@ -57,19 +76,23 @@ if (isset($_GET['error']) && $_GET['error']=="too_many_specialties"){
         }
 
         .add-button {
-        padding: 5px 10px;
-        background-color: #800000;
+        padding: 5px 35px;
+        background-color: #3F5CA4;
         color: white;
         text-decoration: none;
-        border-radius: 5px;
+        border-radius: 3px;
         font-size: 14px;
+        height: 30px;
+        display: flex;
+        align-items: center;
         }
 
         .search-bar input {
         width: 350px;
-        height: 30px;
+        height: 40px;
         font-size: 12px;
-        border: 1px solid black; 
+        padding: 10px;
+        border: 1px solid lightgray; 
         border-radius: 6px; 
         color: gray;
         }
@@ -86,17 +109,32 @@ if (isset($_GET['error']) && $_GET['error']=="too_many_specialties"){
 
         .sort-buttons button {
         font-size: 14px;
-        padding: 5px 10px;
+        padding: 5px 25px;
         border-radius: 5px;
         background-color: #FFFFFF;
-        border: 1px solid #CCCCCC;
+        border: 1px solid #CC8E58;
         color: #333333;
+        height: 40px;
         }
 
         .sort-buttons button:hover {
-        background-color: #CCCCCC;
-        border-color: #CCCCCC;
+        background-color: #CC8E58;
         color: #FFFFFF;
+        }
+
+        td a img{
+            width: 30px;
+            height: 30px;
+        }
+
+        .search_inline{
+            height: 40px; 
+            width: 300px; 
+            border: 1px solid lightgray; 
+            border-radius: 5px; 
+            margin-left: 10%; 
+            margin-bottom: 20px;
+            padding: 10px;
         }
 
     </style>
@@ -134,19 +172,19 @@ if (isset($_GET['error']) && $_GET['error']=="too_many_specialties"){
 
     <?php 
         
-        $sql = "SELECT * FROM counselors ORDER BY created_at DESC";
+        $sql = "SELECT * FROM counselors  WHERE status ='active' ORDER BY created_at DESC";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) { ?>
 
             <div class="header">
-            <a href="CounselorSignup.php" class="add-button">Add New Counselor</a>
+            <a href="CounselorSignup.php" class="add-button">Add New Counselor+</a>
                 <div class="search-bar">
                     <input type="search" name="search" id="search" placeholder="Search by Name">
                 </div>
                 <div class="sort-buttons">
                     <p>Sort by:</p>
-                    <button id="Nothing">Default</button>
+                    <button style="background-color: #CC8E58;" id="Nothing">Default</button>
                     <button id="sortName">Name</button>
                     <button id="sortSpeciality">Specialty</button>
                 </div>
@@ -161,17 +199,22 @@ if (isset($_GET['error']) && $_GET['error']=="too_many_specialties"){
                     <th>Speciality</th>
                     <th>Email</th>
                     <th>Start Date</th>
-                    <th>Edit</th>
                     <th>Update</th>
+                    <th>Delete</th>
+                    
                 </tr>
             </thead> <?php }?>
             <tbody>
             <tr>
                <?php
                while ($row = $result->fetch_assoc()) {
-                echo "<tr><td>" . $row["name"] . "</td><td>" . $row["specialty"] . "</td><td>" . $row["email"] . "</td><td>" . $row["created_at"] . "</td>
-                <td><a href='editcounselor.php?id=". $row ["counselor_id"]."'>Edit</a></td>
-                <td><a href='deletecounselor.php?id=". $row ["counselor_id"]."'>Delete</a></td></tr>"; 
+
+                $start_time_full = $row["created_at"];
+                $start_time = date("Y-m-d", strtotime($start_time_full));
+                echo "<tr style='border-bottom: 1px solid lightgray;'><td>" . $row["name"] . "</td><td>" . $row["specialty"] . "</td><td>" . $row["email"] . "</td><td>" . $start_time . "</td>
+                <td><a href='editcounselor.php?id= " . $row['counselor_id']. " ?>'><img src='../Images/edit1.png' alt='Edit'></a></td>
+
+                <td><a href='deletecounselor.php?id=". $row ["counselor_id"]."'><img src='../Images/remove.png' alt='Edit'></a></td></tr>"; 
             }
 
             ?>
@@ -182,19 +225,19 @@ if (isset($_GET['error']) && $_GET['error']=="too_many_specialties"){
         </div>
 
         <div class="right-d hide">
-        <input type="search" name="search" id="searchCounselors" placeholder="search anything">
+        <input class ="search_inline"
+        type="search" name="search" id="searchCounselors" placeholder="search anything">
 
         <?php
 
-        // Specify the time frame for the report (replace with your desired start and end dates)
+        /* Specify the time frame for the report (replace with your desired start and end dates)
         $start_date = '2023-01-01';
-        $end_date = '2023-12-31';
+        $end_date = '2023-12-31';*/
 
     // Query to retrieve counselor data and the count of their appointments within the specified time frame
-    $sql = "SELECT c.name AS counselor_name, c.specialty, c.email, COUNT(a.id) AS appointment_count
+    $sql = "SELECT c.name AS counselor_name, c.email, c.status, COUNT(a.id) AS appointment_count
             FROM counselors AS c
             LEFT JOIN appointments AS a ON c.counselor_id = a.counselor_id
-            WHERE a.date BETWEEN '$start_date' AND '$end_date'
             GROUP BY c.counselor_id
             ORDER BY counselor_name ASC";
 
@@ -203,22 +246,26 @@ if (isset($_GET['error']) && $_GET['error']=="too_many_specialties"){
 // Check if there are any counselors
 if ($result->num_rows > 0) {
     // Output table headers
-    echo "<table id ='tableCounselors' class='table'  style='width: 100%;'>
-            <tr style='text-align: center;'>
+    echo "<table id ='tableCounselors' class='table'  style='width: 80%; margin: auto;'>
+            <tr style='text-align: left;'>
                 <th>Counselor Name</th>
-                <th>Specialty</th>
                 <th>Email</th>
-                <th>Appointment Count</th>
+                <th>Appointment Count
+                    <span id='sortDowntableCounselors'>&#9660;</span>
+                    <span id='sortUptableCounselors'>&#9650;</span>
+                </th>
+                <th>Status</th>
             </tr>";
 
     // Output each counselor row
     while ($row = $result->fetch_assoc()) {
-        echo "<tr>
-                <td>" . $row['counselor_name'] . "</td>
-                <td>" . $row['specialty'] . "</td>
-                <td>" . $row['email'] . "</td>
-                <td>" . $row['appointment_count'] . "</td>
-              </tr>";
+       echo "<tr>
+        <td>" . $row['counselor_name'] . "</td>
+        <td>" . $row['email'] . "</td>
+        <td style='color: #C88550;'>" . $row['appointment_count'] . "</td>
+        <td> " . $row['status'] . "</td>
+      </tr>";
+
     }
 
     echo "</table>";
@@ -234,7 +281,7 @@ if ($result->num_rows > 0) {
 
         <!-- appointments --> 
 
-        <input type="search" name="search" id="searchAppointments" placeholder="search anything">
+        <input class ="search_inline" type="search" name="search" id="searchAppointments" placeholder="search anything">
        <?php 
         // Specify the time frame for the report (replace with your desired start and end dates)
         $start_date = '2023-01-01';
@@ -288,7 +335,7 @@ if ($result->num_rows > 0) {
 
 <div class="right-f hide">
 
-<input type="search" name="search" id="searchStudents" placeholder="search anything">
+<input type="search" class ="search_inline" name="search" id="searchStudents" placeholder="search anything">
 <!-- Students -->
 
 <?php
@@ -337,7 +384,7 @@ if ($result->num_rows > 0) {
 <div class="right-g hide">
 <!-- referrals -->
 
-<input type="search" name="search" id="searchReferrals" placeholder="search anything">
+<input type="search" class ="search_inline" name="search" id="searchReferrals" placeholder="search anything">
 
 <?php
 

@@ -79,8 +79,8 @@ if (isset($_GET['error'])) {
                 <small style="color:red;" id ="name-error"></small><br>
 
                 <label for="email">Email</label>
+                <input type="text" name ="email" id ="email" autocomplete="off"><br>
                 <small style="color:red;" id ="email-error"></small><br>
-                <input type="text" name ="email" id ="email" autocomplete="off"> <br>
 
                 <label for="password">Password</label><br>
                 <input type="password" name ="password" id ="password"  autocomplete="off"> <br>
@@ -105,9 +105,9 @@ if (isset($_GET['error'])) {
 
         
 
-        function validateSignUpForm(event){
+        function validateSignUpForm(){
 
-        event.preventDefault();
+       
         let uname = document.getElementById("uname").value;
         let email = document.getElementById("email").value; 
         let password = document.getElementById("password").value; 
@@ -148,28 +148,28 @@ if (isset($_GET['error'])) {
 
         if (password.trim() == ""){
                 pwd_error.innerHTML=  "Password cannot be empty"; 
-                errror = true;
+                error = true;
         }
 
         if (!password.match(/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).*$/)){
                 pwd_error.innerHTML= "Weak Password<br /> At least one Uppercase letter <br />At least one Lowercase letter <br /> At least one number";
-                errror = true;
+                error = true;
         }
 
         if (password.trim().length <8){
                 pwd_error.innerHTML = "Password should have at least 8 characters"; 
-                errror = true;
+                error = true;
         }
 
         //validate repeat Password 
         if (passwordCheck.trim() == ""){
                 pwdCheck_error.innerHTML=  "Password cannot be empty"; 
-                errror = true;
+                error = true;
         }
         
         if (passwordCheck.trim() != password.trim()){
                 pwdCheck_error.innerHTML=  "Password must match";
-                errror = true;
+                error = true;
         }
 
         if (error){
