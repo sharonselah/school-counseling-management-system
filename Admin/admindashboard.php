@@ -52,7 +52,7 @@ if (isset($_GET['delete']) && $_GET['delete']=="failure"){
             width: 25%;     
         }
 
-        .right-c, .right-d, .right-e, .right-f, .right-g, .right-h{
+        .right-c, .right-d, .right-e, .right-f, .right-g, .right-h, .right-i{
         position: absolute; 
         left: 9%; 
         width: 89%;  
@@ -137,6 +137,18 @@ if (isset($_GET['delete']) && $_GET['delete']=="failure"){
             padding: 10px;
         }
 
+        .progress {
+        width: 100%;
+        background-color: #f2f2f2;
+        border-radius: 4px;
+    }
+    
+    .progress-bar {
+        height: 20px;
+        background-color: #C88550;
+        border-radius: 4px;
+    }
+
     </style>
 </head>
 <body style=" padding: 0; ">
@@ -155,15 +167,16 @@ if (isset($_GET['delete']) && $_GET['delete']=="failure"){
     <div class="menu-dashboard">
         <p>DASHBOARD</p>
         <ul>
-            <li><a href="#">Appointment</a></li>
-            <li><a href="#">Count</a></li>
             <li><a href="#">Counselors</a></li>
+            <li><a href="#">Progress</a></li>
+            <li><a href="#">Appointments</a></li>
             <li><a href="#">Students</a></li>
             <li><a href="#">Referrals</a></li>
             <li><a href="#">Goals</a></li>
+            <li><a href="#">Terminations</a></li>
         </ul>
         <ul>
-            <li style="padding-top:180px;"><a href="../logout.php">Log Out</a></li>
+            <li style="position: fixed; bottom: 0px;"><a href="../logout.php">Log Out</a></li>
         </ul>
     </div>
 
@@ -178,17 +191,19 @@ if (isset($_GET['delete']) && $_GET['delete']=="failure"){
         if ($result->num_rows > 0) { ?>
 
             <div class="header">
-            <a href="CounselorSignup.php" class="add-button">Add New Counselor+</a>
-                <div class="search-bar">
-                    <input type="search" name="search" id="search" placeholder="Search by Name">
-                </div>
-                <div class="sort-buttons">
-                    <p>Sort by:</p>
-                    <button style="background-color: #CC8E58;" id="Nothing">Default</button>
-                    <button id="sortName">Name</button>
-                    <button id="sortSpeciality">Specialty</button>
-                </div>
+                <a href="CounselorSignup.php" class="add-button">Add New Counselor+</a>
+                    <div class="search-bar">
+                        <input type="search" name="search" id="search" placeholder="Search by Name">
+                    </div>
+                    <div class="sort-buttons">
+                        <p>Sort by:</p>
+                        <button style="background-color: #CC8E58;" id="Nothing">Default</button>
+                        <button id="sortName">Name</button>
+                        <button id="sortSpeciality">Specialty</button>
+                    </div>
             </div>
+
+            <p style="" ><?php echo "Total Number of Active Counselors:" . $result->num_rows; ?></p>
 
 
 
@@ -224,22 +239,41 @@ if (isset($_GET['delete']) && $_GET['delete']=="failure"){
 
         </div>
 
-        <div class="right-d hide">
-        <input class ="search_inline"
-        type="search" name="search" id="searchCounselors" placeholder="search anything">
+        <div class="right-d hide">    
 
-        <?php
+        <form method="POST" action="" style="display: flex; align-items: center; margin-left: 10%; padding: 20px;">
 
-        /* Specify the time frame for the report (replace with your desired start and end dates)
-        $start_date = '2023-01-01';
-        $end_date = '2023-12-31';*/
+        <input style='margin:0px; margin-right: 10px; 'class ="search_inline" type="search" name="search" id="searchCounselors" placeholder="search anything">
+            <label for="start_date" style="margin-right: 10px;">Start Date:</label>
+            <input type="date" name="start_date" id="start_date" style="margin-right: 10px; height: 25px; padding: 3px 15px;"><br>
+
+            <label for="end_date" style="margin-right: 10px;">End Date:</label>
+            <input type="date" name="end_date" id="end_date" style="margin-right: 10px; height: 25px; padding: 3px 15px;"><br>
+
+            <input style ="height: 30px; padding: 3px 20px; "type="submit" value="Search">
+        
+           
+           
+        </form>
+
+   <?php 
+    // Specify the time frame for the report (replace with your desired start and end dates)
+    $default_start_date = '2023-01-01';
+    $default_end_date = '2023-12-31';
+
+    // Retrieve the start date and end date from the form submission
+    $start_date = isset($_POST['start_date']) ? $_POST['start_date'] : $default_start_date;
+    $end_date = isset($_POST['end_date']) ? $_POST['end_date'] : $default_end_date;
+       
 
     // Query to retrieve counselor data and the count of their appointments within the specified time frame
-    $sql = "SELECT c.name AS counselor_name, c.email, c.status, COUNT(a.id) AS appointment_count
-            FROM counselors AS c
-            LEFT JOIN appointments AS a ON c.counselor_id = a.counselor_id
-            GROUP BY c.counselor_id
-            ORDER BY counselor_name ASC";
+    $sql = "SELECT c.name AS counselor_name, c.status AS counselor_status, COUNT(a.id) AS total_appointments,
+    COUNT(CASE WHEN a.status = 'completed' THEN 1 END) AS completed_appointments
+    FROM counselors AS c
+    LEFT JOIN appointments AS a ON c.counselor_id = a.counselor_id
+    WHERE a.date BETWEEN '$start_date' AND '$end_date'
+    GROUP BY c.counselor_id
+    ORDER BY c.name ASC";
 
     $result = $conn->query($sql);
 
@@ -249,23 +283,34 @@ if ($result->num_rows > 0) {
     echo "<table id ='tableCounselors' class='table'  style='width: 80%; margin: auto;'>
             <tr style='text-align: left;'>
                 <th>Counselor Name</th>
-                <th>Email</th>
-                <th>Appointment Count
+                <th>Total Count
                     <span id='sortDowntableCounselors'>&#9660;</span>
                     <span id='sortUptableCounselors'>&#9650;</span>
                 </th>
-                <th>Status</th>
+                <th>Completed</th>
+                <th>Progress</th>
+                <th>Status</th>    
             </tr>";
-
+            $i = 0;
     // Output each counselor row
     while ($row = $result->fetch_assoc()) {
-       echo "<tr>
-        <td>" . $row['counselor_name'] . "</td>
-        <td>" . $row['email'] . "</td>
-        <td style='color: #C88550;'>" . $row['appointment_count'] . "</td>
-        <td> " . $row['status'] . "</td>
-      </tr>";
-
+        $totalAppointments = $row['total_appointments'];
+        $completedAppointments = $row['completed_appointments'];
+        $completionPercentage = ($totalAppointments > 0) ? ($completedAppointments / $totalAppointments) * 100 : 0;
+     
+        echo "<tr>
+                <td>" . $row['counselor_name'] . "</td>
+                <td>" . $totalAppointments . "</td>
+                <td>" . $completedAppointments . "</td>
+                <td>
+                    <div class='progress'>
+                        <div class='progress-bar' role='progressbar' style='width: " . $completionPercentage . "%;' aria-valuenow='" . $completionPercentage . "' aria-valuemin='0' aria-valuemax='100'></div>
+                    </div>
+                </td>
+                <td style='color: #C88550;'> " . $row['counselor_status'] . "</td>
+            </tr>";
+        
+        $i= $i+1;
     }
 
     echo "</table>";
@@ -281,11 +326,29 @@ if ($result->num_rows > 0) {
 
         <!-- appointments --> 
 
-        <input class ="search_inline" type="search" name="search" id="searchAppointments" placeholder="search anything">
+        
+
+       <form method="POST" action="" style="display: flex; align-items: center;">
+            <label for="start_date" style="margin-right: 10px;">Start Date:</label>
+            <input type="date" name="start_date" id="start_date" style="margin-right: 10px; height: 25px; padding: 3px 15px;"><br>
+
+            <label for="end_date" style="margin-right: 10px;">End Date:</label>
+            <input type="date" name="end_date" id="end_date" style="margin-right: 10px; height: 25px; padding: 3px 15px;"><br>
+
+            <input style ="height: 30px; padding: 3px 20px; "type="submit" value="Search">
+        
+
+            <input class ="search_inline" style="margin: 0px; margin-left: 150px;"type="search" name="search" id="searchAppointments" placeholder="search anything">
+        </form>
+
        <?php 
         // Specify the time frame for the report (replace with your desired start and end dates)
-        $start_date = '2023-01-01';
-        $end_date = '2023-12-31';
+        $default_start_date = '2023-01-01';
+        $default_end_date = '2023-12-31';
+
+        // Retrieve the start date and end date from the form submission
+        $start_date = isset($_POST['start_date']) ? $_POST['start_date'] : $default_start_date;
+        $end_date = isset($_POST['end_date']) ? $_POST['end_date'] : $default_end_date;
 
         // Query to retrieve appointment data within the specified time frame
         $sql = "SELECT a.date, a.start_time, a.end_time, a.status, s.name AS student_name, c.name AS counselor_name
@@ -299,6 +362,7 @@ if ($result->num_rows > 0) {
 
 // Check if there are any appointments
 if ($result->num_rows > 0) {
+    echo "<p>Total Number of Appointments: $result->num_rows</p>";
     // Output table headers
     echo "<table id ='tableAppointments' class='table' style='width: 100%;'>
             <tr style='text-align: left;'>
@@ -316,8 +380,8 @@ if ($result->num_rows > 0) {
         echo "<tr>
                 <td>" . $row['counselor_name'] . "</td>
                 <td>" . $row['date'] . "</td>
-                <td>" . $row['start_time'] . "</td>
-                <td>" . $row['end_time'] . "</td>
+                <td>" . date('H', strtotime($row['start_time'])) ."</td>
+                <td>" . date('H', strtotime($row['end_time'])) ."</td>
                 <td>" . $row['status'] . "</td>
                 <td>" . $row['student_name'] . "</td>
                 
@@ -335,7 +399,7 @@ if ($result->num_rows > 0) {
 
 <div class="right-f hide">
 
-<input type="search" class ="search_inline" name="search" id="searchStudents" placeholder="search anything">
+<input type="search" style="margin: 0;"class ="search_inline" name="search" id="searchStudents" placeholder="search anything">
 <!-- Students -->
 
 <?php
@@ -351,6 +415,8 @@ $result = $conn->query($sql);
 
 // Check if there are any students
 if ($result->num_rows > 0) {
+    echo "<p style='font-weight: bold; margin-left: 14%;'>Total Number of Students: $result->num_rows </p>";
+    
     // Output table headers
     echo "<table id ='tableStudents' class='table'>
             <tr>
@@ -384,7 +450,7 @@ if ($result->num_rows > 0) {
 <div class="right-g hide">
 <!-- referrals -->
 
-<input type="search" class ="search_inline" name="search" id="searchReferrals" placeholder="search anything">
+<input style='margin:0px;' type="search" class ="search_inline" name="search" id="searchReferrals" placeholder="search anything">
 
 <?php
 
@@ -440,7 +506,7 @@ if ($result->num_rows > 0) {
 <div class="right-h hide">
 <!--Progress Report-->
 
-<input type="search" name="search" id="searchgoals">
+<input style='margin:0px;' class ="search_inline" type="search" name="search" id="searchgoals" placeholder="search goals..">
 <?php
 
 // Query to retrieve goal progress data
@@ -487,10 +553,53 @@ if ($result->num_rows > 0) {
     echo "No goal progress entries found.";
 }
 
+
+?>
+
+</div>
+
+
+
+<div class="right-i hide">
+    <?php 
+
+$sql = "SELECT c.name, c.email, t.termination_date, t.termination_reason
+FROM counselors AS c
+INNER JOIN counselor_terminations AS t ON c.counselor_id = t.counselor_id";
+
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+echo "<table class='table'>
+    <thead>
+        <tr>
+            <th>Counselor Name</th>
+            <th>Email</th>
+            <th>Termination Date</th>
+            <th>Termination Reason</th>
+        </tr>
+    </thead>
+    <tbody>";
+
+while ($row = $result->fetch_assoc()) {
+echo "<tr>
+        <td>" . $row['name'] . "</td>
+        <td>" . $row['email'] . "</td>
+        <td>" . $row['termination_date'] . "</td>
+        <td>" . $row['termination_reason'] . "</td>
+      </tr>";
+}
+
+echo "</tbody></table>";
+} else {
+echo "No terminated counselors found.";
+}
+
+
+
 // Close the database connection
 $conn->close();
 ?>
-
 </div>
 
 

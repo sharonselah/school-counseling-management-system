@@ -1,6 +1,6 @@
 
 const links = document.querySelectorAll('.menu-dashboard ul li a');
-const rightDivs = document.querySelectorAll('.right-c, .right-d, .right-e, .right-f, .right-g, .right-h');
+const rightDivs = document.querySelectorAll('.right-c, .right-d, .right-e, .right-f, .right-g, .right-h, .right-i');
 
 links.forEach((link, index) => {
   link.addEventListener('click', () => {
@@ -429,8 +429,8 @@ var searchCounselors = document.getElementById("searchCounselors");
  
     
    rows.sort((a,b)=>{
-       let tdA = a.getElementsByTagName("td")[2].textContent; 
-       let tdB = b.getElementsByTagName("td")[2].textContent;
+       let tdA = a.getElementsByTagName("td")[1].textContent; 
+       let tdB = b.getElementsByTagName("td")[1].textContent;
        
        return tdB-tdA; 
 
@@ -450,8 +450,8 @@ var searchCounselors = document.getElementById("searchCounselors");
  
     
    rows.sort((a,b)=>{
-       let tdA = a.getElementsByTagName("td")[2].textContent; 
-       let tdB = b.getElementsByTagName("td")[2].textContent;
+       let tdA = a.getElementsByTagName("td")[1].textContent; 
+       let tdB = b.getElementsByTagName("td")[1].textContent;
        
        return tdA-tdB; 
 
