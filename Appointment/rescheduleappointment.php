@@ -93,11 +93,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $reason = $_POST["reason"]; 
   }
   
-  // Reschedule the appointment to the new date and time
-  $stmt = $conn->prepare("UPDATE appointments SET date = ?, start_time = ?, status = 'rescheduled' WHERE id = ?");
-  $stmt->bind_param("ssi", $new_date, $new_time, $id);
-  $stmt->execute();
-  $stmt->close();
 
  
 
@@ -122,6 +117,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $stmt->bind_param("iis", $student_id, $counselor_id, $message);
   $stmt->execute();
   $stmt->close();
+
+    // Reschedule the appointment to the new date and time
+    $stmt = $conn->prepare("UPDATE appointments SET date = ?, start_time = ?, status = 'rescheduled' WHERE id = ?");
+    $stmt->bind_param("ssi", $new_date, $new_time, $id);
+    $stmt->execute();
+    $stmt->close();
+  
 
    //Fill the rescheduling table 
    $stmt = $conn->prepare ("INSERT INTO rescheduling (appointment_id, counselor_id, student_id, triggered_by, reason)

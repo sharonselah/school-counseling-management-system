@@ -1,6 +1,6 @@
 
 const links = document.querySelectorAll('.menu-dashboard ul li a');
-const rightDivs = document.querySelectorAll('.right-c, .right-d, .right-e, .right-f, .right-g, .right-h, .right-i');
+const rightDivs = document.querySelectorAll('.right-c, .right-d, .right-e, .right-f, .right-g, .right-h, .right-i, .right-j');
 
 links.forEach((link, index) => {
   link.addEventListener('click', () => {

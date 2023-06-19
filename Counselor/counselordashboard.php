@@ -233,7 +233,7 @@ $stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_
                             $status_color = 'color: green;';
                             $status_action = $status_app;
                             $currentDate = date("Y-m-d");
-                            $currentDate = date("Y-m-d", strtotime("Tuesday, May 23, 2023"));
+                           
 
                             if ($appointment_date_time == $currentDate) {
                                 // Display buttons to indicate student's attendance

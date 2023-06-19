@@ -52,7 +52,7 @@ if (isset($_GET['delete']) && $_GET['delete']=="failure"){
             width: 25%;     
         }
 
-        .right-c, .right-d, .right-e, .right-f, .right-g, .right-h, .right-i{
+        .right-c, .right-d, .right-e, .right-f, .right-g, .right-h, .right-i, .right-j{
         position: absolute; 
         left: 9%; 
         width: 89%;  
@@ -148,6 +148,10 @@ if (isset($_GET['delete']) && $_GET['delete']=="failure"){
         background-color: #C88550;
         border-radius: 4px;
     }
+    #chart {
+            width: 400px;
+            height: 400px;
+        }
 
     </style>
 </head>
@@ -168,8 +172,9 @@ if (isset($_GET['delete']) && $_GET['delete']=="failure"){
         <p>DASHBOARD</p>
         <ul>
             <li><a href="#">Counselors</a></li>
-            <li><a href="#">Progress</a></li>
-            <li><a href="#">Appointments</a></li>
+            <li><a href="#">Performance</a></li>
+            <li><a href="#">Appointment Log</a></li>
+            <li><a href="#">Appointment Analysis</a></li>
             <li><a href="#">Students</a></li>
             <li><a href="#">Referrals</a></li>
             <li><a href="#">Goals</a></li>
@@ -238,6 +243,8 @@ if (isset($_GET['delete']) && $_GET['delete']=="failure"){
         </table>
 
         </div>
+
+
 
         <div class="right-d hide">    
 
@@ -397,7 +404,59 @@ if ($result->num_rows > 0) {
 
 </div>
 
+
 <div class="right-f hide">
+
+<?php
+    
+// Specify the time frame for the report
+$start_date = '2023-01-01';
+$end_date = '2023-12-31';
+
+
+$sql = "SELECT status, COUNT(*) AS appointment_count
+        FROM appointments
+        WHERE date BETWEEN '$start_date' AND '$end_date'
+        GROUP BY status";
+
+$result = $conn->query($sql); 
+?>
+
+
+
+<table class='table'>
+        <thead>
+            <tr>
+                <th>Status</th>
+                <th>Appointment Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            // Check if there is appointment data
+            if ($result->num_rows > 0) {
+                // Output data of each row
+                while ($row = $result->fetch_assoc()) {
+                    echo "<tr>
+                            <td>" . $row['status'] . "</td>
+                            <td>" . $row['appointment_count'] . "</td>
+                        </tr>";
+                }
+            } else {
+                echo "<tr><td colspan='2'>No appointment data available</td></tr>";
+            }
+            ?>
+        </tbody>
+    </table>
+    
+   
+    <?php
+        include 'draw.php'; 
+    ?>
+
+</div>
+
+<div class="right-g hide">
 
 <input type="search" style="margin: 0;"class ="search_inline" name="search" id="searchStudents" placeholder="search anything">
 <!-- Students -->
@@ -447,7 +506,7 @@ if ($result->num_rows > 0) {
 
 </div>
 
-<div class="right-g hide">
+<div class="right-h hide">
 <!-- referrals -->
 
 <input style='margin:0px;' type="search" class ="search_inline" name="search" id="searchReferrals" placeholder="search anything">
@@ -503,7 +562,7 @@ if ($result->num_rows > 0) {
 ?>
 </div>
 
-<div class="right-h hide">
+<div class="right-i hide">
 <!--Progress Report-->
 
 <input style='margin:0px;' class ="search_inline" type="search" name="search" id="searchgoals" placeholder="search goals..">
@@ -560,7 +619,8 @@ if ($result->num_rows > 0) {
 
 
 
-<div class="right-i hide">
+<div class="right-j hide">
+
     <?php 
 
 $sql = "SELECT c.name, c.email, t.termination_date, t.termination_reason
