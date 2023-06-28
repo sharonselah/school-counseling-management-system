@@ -1,5 +1,5 @@
 
-const links = document.querySelectorAll('.menu-dashboard ul li a');
+/*const links = document.querySelectorAll('.menu-dashboard ul li a');
 const rightDivs = document.querySelectorAll('.right-c, .right-d, .right-e, .right-f, .right-g, .right-h, .right-i, .right-j');
 
 links.forEach((link, index) => {
@@ -13,7 +13,7 @@ function hideAll() {
   rightDivs.forEach((rightDiv) => {
     rightDiv.classList.add('hide');
   });
-}
+}*/
 
         //table 1 searching by name 
 

@@ -1,0 +1,104 @@
+.sort{ 
+    width: 25%;     
+}
+
+.right-c, .right-d, .right-e, .right-f, .right-g, .right-h, .right-i, .right-j{
+position: absolute; 
+left: 9%; 
+width: 89%;  
+padding: 15px 10px 10px 10px;
+height: 100vh; 
+overflow-y: scroll; /* enable vertical scrolling */
+background-color: #FAFAFA;
+}
+
+.hide{
+    display: none;
+}
+
+.header {
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 10px;
+font-size: 14px;
+color: gray;
+}
+
+.add-button {
+padding: 5px 35px;
+background-color: #3F5CA4;
+color: white;
+text-decoration: none;
+border-radius: 3px;
+font-size: 14px;
+height: 30px;
+display: flex;
+align-items: center;
+}
+
+.search-bar input {
+width: 350px;
+height: 40px;
+font-size: 12px;
+padding: 10px;
+border: 1px solid lightgray; 
+border-radius: 6px; 
+color: gray;
+}
+
+.sort-buttons {
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+.sort-buttons p {
+margin: 0;
+}
+
+.sort-buttons button {
+font-size: 14px;
+padding: 5px 25px;
+border-radius: 5px;
+background-color: #FFFFFF;
+border: 1px solid #CC8E58;
+color: #333333;
+height: 40px;
+}
+
+.sort-buttons button:hover {
+background-color: #CC8E58;
+color: #FFFFFF;
+}
+
+td a img{
+    width: 30px;
+    height: 30px;
+}
+
+.search_inline{
+    height: 40px; 
+    width: 300px; 
+    border: 1px solid lightgray; 
+    border-radius: 5px; 
+    margin-left: 10%; 
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.progress {
+width: 100%;
+background-color: #f2f2f2;
+border-radius: 4px;
+}
+
+.progress-bar {
+height: 20px;
+background-color: #C88550;
+border-radius: 4px;
+}
+#chart {
+    width: 400px;
+    height: 400px;
+}
