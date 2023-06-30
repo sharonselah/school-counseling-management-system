@@ -1,17 +1,33 @@
 <!--Progress Report-->
 
-<input style='margin:0px;' class ="search_inline" type="search" name="search" id="searchgoals" placeholder="search goals..">
+
 <?php
 
 // Query to retrieve goal progress data
 $sql = "SELECT goal.goal, COUNT(DISTINCT wg.goal_id) AS goal_count
         FROM weekly_goal_progress AS wg
         INNER JOIN goals AS goal ON wg.goal_id = goal.id
-        GROUP BY goal.goal
-        ORDER BY goal_count DESC";
+        GROUP BY goal.goal";
+
+$sort = isset($_GET['sort']) ? $_GET['sort'] : '';
+
+if ($sort == 'asc') {
+    $orderBy = 'ORDER BY goal_count ASC';
+} elseif ($sort == 'desc') {
+    $orderBy = 'ORDER BY goal_count DESC';
+} else {
+    $orderBy = ''; // No sorting specified, use default ordering
+}
+
+$sql .= ' ' . $orderBy;
 
 
-$result = $conn->query($sql);
+$result = $conn->query($sql); ?>
+
+
+
+
+<?php
 
 // Check if there are any goal progress entries
 if ($result->num_rows > 0) {
@@ -19,13 +35,21 @@ if ($result->num_rows > 0) {
     echo "<table id ='tablegoals' class='table'>
             <tr style='text-align: left;'>
                 <th>Number</th>
-                <th>Goal Name 
-                    <span id='sortArrowNameDown'>&#9660;</span>
-                    <span id='sortArrowNameUp'>&#9650;</span>
-                </th>
-                <th>Goal Count 
-                    <span id='sortArrowCountDown'>&#9660;</span>
-                    <span id='sortArrowCountUp'>&#9650;</span>
+                <th>Goal Name </th>
+                <th>
+                <div style='display:flex;'>
+                Goal Count 
+                    <form method='GET' action='admindashboard.php'>
+                        <input type='hidden' name='page' value='goals.php'>
+                        <button type='submit' name='sort' value='asc'>
+                            &#9650;
+                        </button>
+                        <button type='submit' name='sort' value='desc'>
+                            &#9660;
+                        </button>
+                    </form>
+                </div>
+                
                 </th>
                
             </tr>";

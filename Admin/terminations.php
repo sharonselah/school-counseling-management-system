@@ -4,7 +4,23 @@ $sql = "SELECT c.name, c.email, t.termination_date, t.termination_reason
 FROM counselors AS c
 INNER JOIN counselor_terminations AS t ON c.counselor_id = t.counselor_id";
 
-$result = $conn->query($sql);
+if (isset($_GET["search"])){
+    $searchTerm = $_GET['search'];
+    $sql .= " WHERE c.name LIKE '%$searchTerm%' OR c.email LIKE '%$searchTerm%'";
+}
+
+
+
+$result = $conn->query($sql); ?>
+
+<form method = "GET" action="admindashboard.php">
+    <input type="hidden" name="page" value="terminations.php">
+    <input type="text" name="search" placeholder="Search by Name or Email">
+    <input type="submit" value="Search">
+</form>
+
+
+<?php
 
 if ($result->num_rows > 0) {
 echo "<table class='table'>
@@ -34,3 +50,4 @@ echo "No terminated counselors found.";
 
 
 ?>
+

@@ -1,14 +1,18 @@
+<p style='text-align:center; font-weight:bold;'>Appointment Log</p> <br>
 <form method="POST" action="" style="display: flex; align-items: center;">
+            <input class ="search_inline" style="margin: 0px; margin-right: 120px; width: 450px;"
+            type="search" name="search" id="searchAppointments" 
+            placeholder="Search counselor name, date, status, student name, or anything">
+           
             <label for="start_date" style="margin-right: 10px;">Start Date:</label>
             <input type="date" name="start_date" id="start_date" style="margin-right: 10px; height: 25px; padding: 3px 15px;"><br>
 
             <label for="end_date" style="margin-right: 10px;">End Date:</label>
             <input type="date" name="end_date" id="end_date" style="margin-right: 10px; height: 25px; padding: 3px 15px;"><br>
 
-            <input style ="height: 30px; padding: 3px 20px; "type="submit" value="Search">
+            <input style ="height: 33px; padding: 3px 20px; "type="submit" value="Search">
         
 
-            <input class ="search_inline" style="margin: 0px; margin-left: 150px;"type="search" name="search" id="searchAppointments" placeholder="search anything">
            
         </form>
 
@@ -65,4 +69,42 @@ if ($result->num_rows > 0) {
 }
 
 ?>
+
+<script>
+    //table Appointments 
+      // Get the input element
+      var searchAppointments = document.getElementById("searchAppointments");
+
+// Add event listener for input changes
+        searchAppointments.addEventListener("input", function() {
+        var filter = searchAppointments.value.toUpperCase();
+        var tableAppointments = document.getElementById("tableAppointments");
+        var rows = tableAppointments.getElementsByTagName("tr");
+
+    // Iterate through each row of the table
+    for (var i = 1; i < rows.length; i++) {
+        var cells = rows[i].getElementsByTagName("td");
+        var match = false;
+
+        // Iterate through each cell of the row
+        for (var j = 0; j < cells.length; j++) {
+            var cell = cells[j];
+
+            // Check if the cell content contains the search keyword
+            if (cell.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                match = true;
+                break;
+            }
+        }
+
+        // Show/hide the row based on the match
+        if (match) {
+            rows[i].style.display = "";
+        } else {
+            rows[i].style.display = "none";
+        }
+    }
+});
+
+</script>
 

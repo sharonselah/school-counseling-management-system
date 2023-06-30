@@ -1,5 +1,5 @@
-<div style='width: 650px; height: 500px; border: 1px solid black; margin: auto; position: fixed; right: 30px; bottom: 10px;'>
-    <canvas id="tutorial" width="550" height="400"></canvas>
+<div style='width: 650px; height: 450px; border: 1px solid black; margin: auto; position: fixed; right: 30px; bottom: 10px;'>
+    <canvas id="tutorial" width="550" height="380"></canvas>
 </div>
 
 

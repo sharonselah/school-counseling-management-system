@@ -1,5 +1,5 @@
-<?php
-    
+<p style='text-align:center; font-weight:bold;'>Appointment Analysis</p> <br>
+<?php   
 // Specify the time frame for the report
 $start_date = '2023-01-01';
 $end_date = '2023-12-31';

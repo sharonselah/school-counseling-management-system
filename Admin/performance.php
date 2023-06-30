@@ -1,6 +1,16 @@
-<form method="POST" action="" style="display: flex; align-items: center; margin-left: 10%; padding: 20px;">
 
-        <input style='margin:0px; margin-right: 10px; 'class ="search_inline" type="search" name="search" id="searchCounselors" placeholder="search anything">
+
+
+<p style='text-align:center; font-weight:bold;'>Performance</p>
+
+<form method="POST" action="" style="display: flex; align-items: center; padding-block: 20px;">
+
+
+    <input style='margin:0px; margin-right: 125px; width: 425px;' class="search_inline" type="search" name="search" id="searchCounselors"
+        placeholder="Search counselor name, total count, status, or anything">
+
+
+
             <label for="start_date" style="margin-right: 10px;">Start Date:</label>
             <input type="date" name="start_date" id="start_date" style="margin-right: 10px; height: 25px; padding: 3px 15px;"><br>
 
@@ -8,9 +18,7 @@
             <input type="date" name="end_date" id="end_date" style="margin-right: 10px; height: 25px; padding: 3px 15px;"><br>
 
             <input style ="height: 30px; padding: 3px 20px; "type="submit" value="Search">
-        
-           
-           
+         
         </form>
 
    <?php 
@@ -37,7 +45,7 @@
 // Check if there are any counselors
 if ($result->num_rows > 0) {
     // Output table headers
-    echo "<table id ='tableCounselors' class='table'  style='width: 80%; margin: auto;'>
+    echo "<table id ='tableCounselors' class='table'  style='width: 100%; margin: auto;'>
             <tr style='text-align: left;'>
                 <th>Counselor Name</th>
                 <th>Total Count
@@ -76,3 +84,93 @@ if ($result->num_rows > 0) {
 }
 
 ?>
+<script>
+
+    // Get the input element
+var searchCounselors = document.getElementById("searchCounselors");
+
+// Add event listener for input changes
+        searchCounselors.addEventListener("input", function() {
+        var filter = searchCounselors.value.toUpperCase();
+        var tableCounselors = document.getElementById("tableCounselors");
+        var rows = tableCounselors.getElementsByTagName("tr");
+
+    // Iterate through each row of the table
+    for (var i = 1; i < rows.length; i++) {
+        var cells = rows[i].getElementsByTagName("td");
+        var match = false;
+
+        // Iterate through each cell of the row
+        for (var j = 0; j < cells.length; j++) {
+            var cell = cells[j];
+
+            // Check if the cell content contains the search keyword
+            if (cell.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                match = true;
+                break;
+            }
+        }
+
+        // Show/hide the row based on the match
+        if (match) {
+            rows[i].style.display = "";
+        } else {
+            rows[i].style.display = "none";
+        }
+    }
+});
+
+//table Counselors
+
+ //table goals Count 
+
+ let sortCounselorsUp = document.getElementById("sortUptableCounselors");
+ sortCounselorsUp.addEventListener('click', filterTableCounselorsUp); 
+
+ let sortCounselorsDown = document.getElementById("sortDowntableCounselors");
+ sortCounselorsDown.addEventListener('click', filterTableCounselorsDown); 
+ 
+
+ function filterTableCounselorsUp(){
+    let tableCounselors = document.getElementById("tableCounselors");
+    let tr = tableCounselors.getElementsByTagName("tr");
+    let rows = Array.from(tr).slice(1);
+ 
+    
+   rows.sort((a,b)=>{
+       let tdA = a.getElementsByTagName("td")[1].textContent; 
+       let tdB = b.getElementsByTagName("td")[1].textContent;
+       
+       return tdB-tdA; 
+
+    }); 
+  
+
+    for (let i=0; i<rows.length; i++){
+        tableCounselors.appendChild(rows[i]); 
+        
+    }
+ }
+
+ function filterTableCounselorsDown(){
+    let tableCounselors = document.getElementById("tableCounselors");
+    let tr = tableCounselors.getElementsByTagName("tr");
+    let rows = Array.from(tr).slice(1);
+ 
+    
+   rows.sort((a,b)=>{
+       let tdA = a.getElementsByTagName("td")[1].textContent; 
+       let tdB = b.getElementsByTagName("td")[1].textContent;
+       
+       return tdA-tdB; 
+
+    }); 
+  
+
+    for (let i=0; i<rows.length; i++){
+        tableCounselors.appendChild(rows[i]); 
+        
+    }
+}
+
+</script>

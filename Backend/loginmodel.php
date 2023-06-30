@@ -52,11 +52,17 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
           exit(); 
           break;
       default:
-          die("Invalid user role");
-      }
+          // login failed
+        header("Location:../Login.php?login=error"); 
+        exit();
+      } // role redirecting
       
+      }// if password matches
+      else {
+        header("Location:../Login.php?login=error"); 
+        exit();
       }
-     }
+     }// if email matches
       
       else {
     
@@ -65,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
         exit();
       }
       $stmt-> close(); 
-      } 
+      } // if submitted
 
     
 
