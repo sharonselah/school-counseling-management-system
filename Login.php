@@ -2,14 +2,15 @@
 session_start(); 
 
 include 'sessiondeleting.php'; 
+$message = '';
 
 if (isset($_GET['login'])) {
   if ($_GET['login'] === 'error') {
     $message = 'Incorrect email or password';
   } 
-  echo '<script>alert("' . $message . '");</script>';
-  unset($_GET['login']);
-  header("Refresh:0; Login.php"); //refresh the current page 
+  //echo '<script>alert("' . $message . '");</script>';
+  //unset($_GET['login']);
+  //header("Refresh:0; Login.php"); //refresh the current page 
 }
 ?>
 
@@ -40,6 +41,7 @@ if (isset($_GET['login'])) {
                 <small id ="error_password" style="color:red;"></small><br>
 
                 <button  type="submit" name="submit" id="button_signup">Log In </button>
+                <p style='color:red;'><?php echo $message; ?></p>
 
                 <br>
 

@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="../CSS/style.css">
+<div id="goals">
 <div class="goal_div habits">
           <p style="text-align:center; font-size: 95%; font-weight: bold; margin: 20px 0px;">
           What do you want to track for a Week? </p>
@@ -141,6 +142,7 @@
           }
 
           ?>
+</div>
 </div>
 
 <script>

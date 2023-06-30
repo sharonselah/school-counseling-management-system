@@ -3,11 +3,6 @@ include '../sessiondeleting.php';
 
 include 'functions.php'; 
 
-$page ='snapshot.php';
-if(isset($_GET['page'])){
-  $page = $_GET['page']; 
-}
-
 
 if (isset($_GET['voted'])) {
   if ($_GET['voted'] === 'success') {
@@ -37,7 +32,7 @@ if (isset($_GET['voted'])) {
     <title>Student Dashboard</title>
 
     <style>
-       .main{
+       .right-c{
         position: absolute; 
         left: 9%; 
         width: 89%;  
@@ -68,10 +63,19 @@ if (isset($_GET['voted'])) {
    ?>
 
 
-<div class="main"> 
-<?php include $page; ?>
+   <div id="notificationList" class="notification-list">
 
-</div>
+    <div class="header" 
+        style="display: flex;
+        justify-content: center;
+        border-bottom:2px solid whitesmoke;">
+        <h3>Notifications</h3>  
+    </div>
+    <?php include '../notifications.php';?>    
+
+  </div>
+
+
 </div>
 
  
