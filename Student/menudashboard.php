@@ -9,8 +9,7 @@
             <br><br><p>UNDERSTAND</p>
             <li><a href="?page=articles.php">WebMD</a></li>
             <li><a href="?page=support.php">Support</a></li>
-            <br><br><br><br><br><br><br>
-            <li><a href="../logout.php">Log Out</a></li>  
+            <li style='position: fixed; bottom: 10px;'><a href="../logout.php">Log Out</a></li>  
         </ul>
     
 </div>

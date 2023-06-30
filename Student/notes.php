@@ -1,5 +1,5 @@
 
-<div id="notes" style="margin-top: 10px; min-height: 50vh; box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;">
+<div id="notes" style="margin-top: 10px; min-height: 100vh; box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;">
     <h2>Notes</h2>
     <?php
     // Query the notes table for the student's notes and counselor's name
@@ -30,7 +30,7 @@
 
         echo '</table>';
     } else {
-        echo '<div style="height: 30vh; width: 100%; display: flex; justify-content: center; align-items: center;">
+        echo '<div style="height: 70vh; width: 100%; display: flex; justify-content: center; align-items: center;">
                 <p style="text-align: center;">No notes found. <br>
                 Please book and attend a counseling session to get notes</p>
               </div>';

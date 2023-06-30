@@ -1,3 +1,25 @@
+<?php
+
+  $message = '';
+  if (isset($_GET['voted'])) {
+    if ($_GET['voted'] === 'success') {
+      $message = 'You have voted successfully';
+    } else if ($_GET['voted'] === 'failure') {
+      $message = 'You have voted today. Try again tomorrow!';
+    }else if ($_GET['voted']=== 'maximum'){
+      $message = 'You can only set 3 goals per week. Please try again later.';
+    }else if ($_GET['voted']== 'true'){
+      $message = 'You have added a goal successfully'; 
+    }
+    echo '<script>alert("' . $message . '");</script>';
+    unset($_GET['voted']);
+    header("Refresh:0; studentdashboard.php?page=goals.php"); //refresh the current page 
+  }
+
+
+
+?>
+
 <link rel="stylesheet" href="../CSS/style.css">
 <div id="goals">
 <div class="goal_div habits">

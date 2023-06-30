@@ -13,13 +13,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     $stmt = $conn-> prepare("UPDATE students SET phone = ?, gender =? WHERE student_id =?"); 
     $stmt -> bind_param('isi', $phone, $gender, $id); 
     
-
-    if($stmt-> execute()){
-        header("Location:../Student/studentdashboard.php"); 
-        exit(); 
-    }else {
-        echo "error"; 
+    try {
+        if ($stmt->execute()) {
+            header("Location:../Student/studentdashboard.php");
+            exit();
+        } else {
+            throw new Exception("Failed to execute statement");
+        }
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
     }
+    
 
     $stmt->close(); 
 }

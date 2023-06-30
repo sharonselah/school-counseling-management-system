@@ -9,11 +9,11 @@
 			font-family: 'Times New Roman'; 
 			color: #444444;
 		}
+		
 		h1 {
-			font-size: 30px;
-			font-weight: bold;
-			margin: 50px 0 20px 0;
 			text-align: center;
+			margin-top: 30px;
+			color: #6c757d;
 		}
 		.container-articles {
 			display: grid;
