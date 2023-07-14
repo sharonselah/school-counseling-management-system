@@ -71,6 +71,23 @@ if (isset($_GET['voted'])) {
 <div class="main"> 
 <?php include $page; ?>
 
+<div id="notificationList" class="notification-list">
+
+<div class="header" 
+    style="display: flex;
+    justify-content: center;
+    border-bottom:2px solid whitesmoke;">
+    <h3>Notifications</h3>
+    
+</div>
+
+
+<?php 
+
+include '../notifications.php';?>    
+
+</div>
+
 </div>
 </div>
 

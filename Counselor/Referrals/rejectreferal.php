@@ -22,10 +22,12 @@ if ($stmt->execute()) {
     $message = "Referral rejected by the counselor.";
 
     // Insert the notification for the recipient counselor
-    $query = "INSERT INTO notifications (recipient_id, sender_id, notification_type, message) 
-              VALUES (?, ?, 'referral_reject', ?)";
+    $query = "INSERT INTO notifications (recipient_id, sender_id, recipient_role, sender_role, notification_type, message) 
+              VALUES (?, ?,?,?, 'referral_reject', ?)";
     $stmt = $conn->prepare($query);
-    $stmt->bind_param("iis", $recipient_id, $sender_id, $message);
+    $recipient_role = 'counselor';
+    $sender_role = 'counselor';
+    $stmt->bind_param("iisss", $recipient_id, $sender_id,  $recipient_role, $sender_role, $message);
     $stmt->execute();
 
     // Redirect back to the counselor dashboard

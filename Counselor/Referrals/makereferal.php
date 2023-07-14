@@ -72,10 +72,10 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
     <title>Make a Referral</title>
     <style>
             .referral_form{
-                height: 580px; 
+                height: 380px; 
                 width: 400px; 
                 border-radius: 6px;
-                margin: auto; 
+                margin: 50px auto; 
                 box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
                 padding: 25px; 
                 padding-top: 5px; 
@@ -105,6 +105,10 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
                 color: white; 
                 margin-left: 30%; 
             }
+            .required {
+                color: red;
+            }
+
         
     </style>
 
@@ -112,12 +116,13 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
 <body>
         <form class="referral_form" action="" method="post">
 
-                    <p>Refer a Student</p>
-            <label for="receiving_therapist_email">Receiving Therapist Email:</label>
-            <input type="email" id="receiving_therapist_email" name="receiving_therapist_email">
+            <p style='text-align: center; font-weight: bold;'>Client Referal Form</p>
+            <label for="receiving_therapist_email">Receiving Therapist Email: <span class="required">*</span></label>
+            <input type="email" id="receiving_therapist_email" name="receiving_therapist_email" required>
         
-            <label for="reason">Reason for Referral:</label>
-            <textarea id="reason" name="reason" rows="4" cols="50"></textarea>
+            <label for="reason">Reason for Referral: <span class="required">*</span></label>
+
+            <textarea id="reason" name="reason" rows="4" cols="50" required></textarea>
             
             <button type="submit">Submit</button>
 

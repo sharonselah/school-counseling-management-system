@@ -80,7 +80,7 @@
                     <td><?php echo $panel["email"];  ?></td>  
                     <td><?php echo $panel["appointment_count"];?></td>  
                     <td><a href="viewnotes.php?id=<?php echo $panel["student_id"];?>" class="open-notes">View Notes</a></td>
-                    <td><a href="Referrals/makereview.php?id=<?php echo $panel["student_id"];?>" id="confirm_btn1">Review</a></td>
+                    <td><a href="Referrals/review.php?id=<?php echo $panel["student_id"];?>" id="confirm_btn1">Review</a></td>
                     <td><a href="Referrals/makereferal.php?id=<?php echo $panel["student_id"];?>" id="confirm_btn1">Refer</a></td>
                    
                     </tr> <?php }}?>

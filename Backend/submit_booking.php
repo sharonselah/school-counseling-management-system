@@ -86,11 +86,13 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
     
     //check if the query executed
     if ($execute){
+        $recipient_role = 'counselor';
+        $sender_role ='student';
         
         $recipient_id = $counselor_id;
         $message = "$student_name has requested an appointment for $date and starting at $startTime. Please review and respond.";
-        $query = "INSERT INTO notifications (recipient_id,sender_id,  notification_type, message) 
-          VALUES ('$recipient_id', '$student_id','appointment_request', '$message')";
+        $query = "INSERT INTO notifications (recipient_id,sender_id, recipient_role, sender_role,  notification_type, message) 
+          VALUES ('$recipient_id', '$student_id', '$recipient_role','$sender_role','appointment_request', '$message')";
             mysqli_query($conn, $query);
 
         header("Location: ../Student/studentdashboard.php");

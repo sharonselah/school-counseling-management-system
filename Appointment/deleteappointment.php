@@ -44,8 +44,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $row = $result-> fetch_assoc(); 
                 $counselor_id = $row["counselor_id"];
                 $recipient_id = $counselor_id;
+
+                $recipient_role = 'counselor';
+                $sender_role ='student';
+
             $query = "INSERT INTO notifications (recipient_id, sender_id, notification_type, message) 
-                    VALUES ('$recipient_id', '$student_id', 'appointment_cancel', '$message')";
+                    VALUES ('$recipient_id', '$student_id','$recipient_role','$sender_role', 'appointment_cancel', '$message')";
             mysqli_query($conn, $query);
         }    
 

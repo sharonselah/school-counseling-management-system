@@ -337,7 +337,7 @@ header ul a:hover{
  }
 
  .signupform form, .login form, .reset form, .appointment form{
-    height: 580px; 
+    min-height: 580px; 
     width: 400px; 
     border-radius: 6px;
     margin: 25px auto ; 
@@ -348,7 +348,7 @@ header ul a:hover{
  }
 
  .login form, .reset form{
-    height: 480px; 
+    min-height: 480px; 
     line-height: 1.5; 
  }
 

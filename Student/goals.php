@@ -11,9 +11,12 @@
     }else if ($_GET['voted']== 'true'){
       $message = 'You have added a goal successfully'; 
     }
+    
     echo '<script>alert("' . $message . '");</script>';
     unset($_GET['voted']);
-    header("Refresh:0; studentdashboard.php?page=goals.php"); //refresh the current page 
+    header("Location: studentdashboard.php?page=goals.php"); // Redirect to the desired page
+    exit(); 
+    
   }
 
 
@@ -59,9 +62,9 @@
 
           <input type="submit" value="Set Goal">
 
-          <?php if(isset($error_message)): ?>
-              <p style="color:red; text-align: center; font-size: 80%;"><?php echo $error_message; ?></p>
-          <?php endif; ?>
+          
+             
+          
 
 
           </form>
@@ -71,6 +74,7 @@
 <div class="goal_div"
         style=" width: 40%;">
             <!-- tracking things-->
+        
 
          <?php 
             $stmt = $conn->prepare("SELECT id, goal FROM goals WHERE student_id = ? AND created_at >= DATE_SUB(NOW(), INTERVAL 1 WEEK)");

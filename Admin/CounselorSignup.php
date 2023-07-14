@@ -1,17 +1,4 @@
-<?php
-//check if the superglobal GET variable contains a variable error
-if (isset($_GET['error'])) {
-
-        // if it exists assign its value to variable $error
-        $error = $_GET['error'];
-    
-        // check if its value is equal to email_exists
-        if ($error == 'email_exists') {
-            echo "<script>alert('Email already exists');</script>";
-        }
-}
-
-?>    
+ 
 
 <!DOCTYPE html>
 <html lang="en">
@@ -74,6 +61,23 @@ if (isset($_GET['error'])) {
         <form id ="form" onsubmit="return validateSignUpForm()" action="../Backend/counselorsignupmodel.php" method="post" >
 
                 <p>Add New Counselor</p>
+
+                <?php
+                //check if the superglobal GET variable contains a variable error
+                if (isset($_GET['error'])) {
+
+                        // if it exists assign its value to variable $error
+                        $error = $_GET['error'];
+                
+                        // check if its value is equal to email_exists
+                        if ($error == 'email_exists') {
+                        echo "<p style='color:red; text-align: center;'>
+                        The email address you entered is associated with an existing account</p>";
+                        }
+                }
+
+                ?>   
+
                 <label for="name">Name</label> <br>
                 <input type="text" name ="name" id ="uname" autocomplete="off"> <br>
                 <small style="color:red;" id ="name-error"></small><br>
@@ -95,7 +99,7 @@ if (isset($_GET['error'])) {
 
                 <br>
 
-                <p id="error_message"></p>
+               
 
               
         </form>

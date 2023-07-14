@@ -26,9 +26,17 @@
 
 include 'Backend/db.php';
 
+
+
+$role = $_SESSION['role'];
+
 // Retrieve notifications for the counselor from the database
 
-$query = "SELECT * FROM notifications WHERE recipient_id = $id AND is_read = 0 ORDER BY created_at DESC LIMIT 20";
+$query = "SELECT * FROM notifications WHERE recipient_id = $id 
+AND is_read = 0 
+AND recipient_role = '$role'
+ORDER BY created_at DESC 
+LIMIT 20";
 
 $result = mysqli_query($conn, $query);
 

@@ -12,11 +12,12 @@
                                 include '../Backend/db.php';
 
                                 $id = $_SESSION["user_id"];
+                                $role = $_SESSION['role'];
 
                                 $stmt= $conn->prepare("SELECT COUNT(*) FROM notifications WHERE
-                                is_read = 0 AND recipient_id =?");
+                                is_read = 0 AND recipient_id =? AND recipient_role = ?");
 
-                                $stmt->bind_param('s', $id);
+                                $stmt->bind_param('is', $id, $role);
                                 $stmt->execute();
                                 $stmt->bind_result($count);
 

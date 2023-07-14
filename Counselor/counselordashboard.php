@@ -191,19 +191,7 @@ $stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_
                 <?php
                 while ($row = $result->fetch_assoc()) {
 
-                    //checking status
-
-                    $appointment_date_time = $row['date'];
-                    $time = time();
-                    $current_date_time = (date("Y-m-d",$time));
-
-                    if ($row['status'] == 'pending' && $current_date_time > $appointment_date_time) {
-                        // Update the appointment status to overdue
-                        $stmt = $conn->prepare("UPDATE appointments SET status = 'overdue' WHERE id = ?");
-                        $stmt->bind_param('i', $row['id']); 
-                        $stmt->execute(); 
-                    }
-
+                    
                         //Name of the student 
                         $stmt2 = $conn->prepare("SELECT * FROM students WHERE student_id = ?");
 
@@ -220,6 +208,16 @@ $stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_
 
                     $row['date'] = date_format(date_create($row['date']), 'l j M');
                     $status_app = $row['status'];
+
+                    //checking status
+                    $time = time();
+                    $current_date_time = date("Y-m-d", $time);
+                    
+                    $stmt = $conn->prepare("UPDATE appointments SET status = 'overdue' WHERE status = 'pending' AND date < ?");
+                    $stmt->bind_param('s', $current_date_time); 
+                    $stmt->execute(); 
+                    
+
 
                     switch ($status_app) {
                         case 'pending':
