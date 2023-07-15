@@ -2,6 +2,7 @@
 
 session_start();  
 
+//set session variables
 $student_id =   $_SESSION["user_id"]; 
 $student_name =  $_SESSION["name"]; 
 
@@ -10,6 +11,9 @@ include 'db.php';
 if ($_SERVER["REQUEST_METHOD"]=="POST"){
     $date = $_POST["date"]; 
     $startTime = $_POST["select"]; 
+
+    //convert date/time string into a Unix timestamp (seconds) - supports relative formats
+    //Assume one session takes 1 hour 
     $endTime = date('H:i:s', strtotime('+1 hour', strtotime($startTime)));
 
     //selecting the counselor 
@@ -45,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
                     $prior_app_referral = $result->fetch_assoc(); 
                     $counselor_id = $prior_app_referral['counselor_id'];
                 } else {
-                    $counselor_id = rand(7, 24); 
+                    $counselor_id = rand(7, 31); 
                 }
             }
         }
@@ -54,7 +58,16 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
 
     $status ="pending"; 
 
-    //before inserting check if the student has an already existing appointment
+    /*
+    
+    before inserting check if the student has an already existing appointment
+    
+    filter the results based on the combination of column date and time is greater than now () - date and time currently
+
+    exclude rows with status canceled & overdue
+    
+    */
+
     $stmt = $conn-> prepare ("SELECT * FROM appointments 
     WHERE student_id = ? 
     AND CONCAT(date, ' ', start_time) > NOW() 
@@ -62,6 +75,7 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
     AND status != 'overdue'
     ORDER BY created_at DESC 
     LIMIT 1");
+
     $stmt-> bind_param ("i", $student_id); 
     $stmt ->execute(); 
     $result= $stmt-> get_result(); 

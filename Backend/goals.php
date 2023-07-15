@@ -10,7 +10,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get current date
     $current_date = date("Y-m-d");
 
-    // Count the number of goals added by the student in the past week
+    /*
+    
+    Count the number of goals added by the student in the past week
+    count (*) - all rows even those with null values (precautionary)
+    */
     $stmt = $conn->prepare("SELECT COUNT(*) FROM goals WHERE student_id = ? AND created_at >= ?");
     $week_ago = date('Y-m-d', strtotime('-7 days'));
     $stmt->bind_param('is', $student_id, $week_ago);

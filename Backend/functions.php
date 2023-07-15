@@ -1,6 +1,5 @@
 <?php
 
-
 function processForm($table, $name, $email, $password, $role) {
 
 include 'db.php'; 
@@ -19,7 +18,6 @@ if ($stmt-> fetch()){
     $rolez = $_SESSION["role"];
     
     if ($rolez == 'admin') {
-        
         header('Location: ../Admin/CounselorSignup.php?error=email_exists');
         exit();
     }else {
@@ -39,7 +37,7 @@ $stmt = $conn-> prepare ("INSERT INTO $table (name, email, password) VALUES (?, 
 $stmt->bind_param('sss', $name, $email, $hash);
 $execute = $stmt-> execute(); 
 
-//returns the auto-generated ID that was inserted into a table with an AUTO_INCREMENT column.
+//returns the auto-generated ID that was inserted into a table from the previous insert stmt 
 $id= $stmt-> insert_id; 
 
 $stmt2 = $conn-> prepare ("INSERT INTO users (name, email, password, role, user_id) VALUES (?, ?, ?, ?, ?)"); 

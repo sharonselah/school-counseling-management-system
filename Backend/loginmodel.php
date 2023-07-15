@@ -6,7 +6,7 @@ session_start();
 
 
 if ($_SERVER["REQUEST_METHOD"]=="POST"){
-    $email = $_POST["email"];
+    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL); //remove illegal characters in email
     $password = $_POST["password"];
 
     $stmt = $conn-> prepare ("SELECT * FROM users Where email = ?");

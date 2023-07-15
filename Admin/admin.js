@@ -25,32 +25,32 @@ function hideAll() {
 
             let search = document.getElementById("search");
             let searchValue = search.value.toUpperCase();
-            for (i=2; i< rows.length; i++){
-            td = rows[i].getElementsByTagName("td")[0];
-            tdValue = td.textContent.trim().toUpperCase()
-        
-             if (tdValue.indexOf(searchValue) > -1){
-                    rows[i].style.display= '';
-             }else{
-                rows[i].style.display= 'none';
-             }
 
-        }
+            for (i=1; i< rows.length; i++){
+                td = rows[i].getElementsByTagName("td")[0];
+                //remove whitespace and change to uppercase
+                tdValue = td.textContent.trim().toUpperCase();
+                //find the index of the first appearance of the search value
+                if (tdValue.indexOf(searchValue) > -1){
+                        rows[i].style.display= '';
+                }else{
+                    rows[i].style.display= 'none';
+                }
+
+            }
         } 
-        search.addEventListener('keyup', filterTable);
+        search.addEventListener('keyup', filterTable); //fires up when a key is released
 
         //table 1 sorting 
         let buttonNothing = document.getElementById("Nothing"); 
         let buttonName = document.getElementById ("sortName");
         let buttonSpeciality = document.getElementById("sortSpeciality"); 
 
-        function resetTable(){
-            location.reload(); //reload the page 
-        }
-
+       
 
         function sortName(){
-               rows = Array.from(rows).slice(2); 
+               rows = Array.from(rows).slice(1); //remove the header (1st element)
+
 
                 rows.sort((a,b) =>{
                     let tdA = a.getElementsByTagName("td")[0].textContent;
@@ -65,7 +65,7 @@ function hideAll() {
         }
 
         function sortSpeciality(){
-               rows = Array.from(rows).slice(2); 
+               rows = Array.from(rows).slice(1); 
 
                 rows.sort((a,b) =>{
                     let tdA = a.getElementsByTagName("td")[1].textContent;
@@ -78,6 +78,11 @@ function hideAll() {
                     table.appendChild(rows[i]);
                 }  
         }
+
+        function resetTable(){
+            location.reload(); //reload the current page
+        }
+
 
         buttonNothing.addEventListener('click', resetTable);
         buttonName.addEventListener('click', sortName);

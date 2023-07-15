@@ -4,10 +4,9 @@
 <?php
 
 // Query to retrieve goal progress data
-$sql = "SELECT goal.goal, COUNT(DISTINCT wg.goal_id) AS goal_count
-        FROM weekly_goal_progress AS wg
-        INNER JOIN goals AS goal ON wg.goal_id = goal.id
-        GROUP BY goal.goal";
+$sql = "SELECT goal, COUNT(*) AS goal_count
+        FROM goals
+        GROUP BY goal";
 
 $sort = isset($_GET['sort']) ? $_GET['sort'] : '';
 

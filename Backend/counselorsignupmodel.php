@@ -5,7 +5,7 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
 
     $name = filter_var ($_POST["name"], FILTER_SANITIZE_STRING); 
     $email = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
-    $password = filter_var($_POST["password"], FILTER_SANITIZE_STRING);
+    $password = $_POST["password"];
 
     $role = "counselor"; 
     processForm("counselors", $name, $email, $password, $role);

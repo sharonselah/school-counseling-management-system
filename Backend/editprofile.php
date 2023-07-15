@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         } else {
             throw new Exception("Failed to execute statement");
         }
-    } catch (Exception $e) {
+    } catch (Exception $e) { //type of exception and its name ($e can be anything)
         echo "Error: " . $e->getMessage();
     }
     

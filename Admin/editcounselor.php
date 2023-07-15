@@ -13,22 +13,24 @@ $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 
-$userSpecialties = explode(',', $user['specialty']);
+$userSpecialties = explode(',', $user['specialty']); //break a string into an array
 
 // Check if form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get new name and specialty from form
     $name = $_POST["name"];
-    $userSpecialties = $_POST['specialties'];
+    $userSpecialties = $_POST['specialties']; // stores the data as an array
     $email = $_POST['email'];
 
+
+    //count method - returns the number of elements in an array
     if (count($userSpecialties) > 2) {
         // More than 2 specialties user
         header("Location: admindashboard.php?error=too_many_specialties");
         exit();
     }
 
-    $userSpecialties = implode(',', $_POST['specialties']);
+    $userSpecialties = implode(',', $_POST['specialties']); // change to a string
     
 
     // Update user data in database
@@ -97,7 +99,7 @@ button{
         <label for="specialty">Specialty: (Choose upto 2) </label><br> <br>
 
         <div style="display:flex; justify-content:space-around;">
-
+        <!-- in array -searches an array for a specific value -->
         <div>
             <input type="checkbox" name="specialties[]" value="Substance Abuse Counseling" <?php if (in_array('Substance Abuse Counseling', $userSpecialties)) echo 'checked'; ?>> Substance Abuse Counseling <br><br>
             <input type="checkbox" name="specialties[]" value="Trauma Therapy" <?php if (in_array('Trauma Therapy', $userSpecialties)) echo 'checked'; ?>> Trauma Therapy <br> <br>
@@ -126,10 +128,5 @@ button{
 document.getElementById('edit-button').addEventListener('click', function(){ 
     confirm('Are you Sure you want to update?') });
 
-    //Check if the peron clicked yes or No
-
-    
-
-// The button was clicked!
     
 </script>
