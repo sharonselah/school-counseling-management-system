@@ -1,5 +1,5 @@
 <?php
-
+  include '../Backend/db.php';
   $message = '';
   if (isset($_GET['voted'])) {
     if ($_GET['voted'] === 'success') {

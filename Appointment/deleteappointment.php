@@ -5,13 +5,14 @@ include '../Backend/db.php';
 session_start();
 $name = $_SESSION["name"];
 
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     echo $counselor_id;
   // Check if the cancellation form is submitted
-    if (isset($_POST["appointment_id"]) && isset($_POST["reason"])) {
+    if ($_GET['id']) {
     $student_id = $_POST["student_id"];
-    $appointmentId = $_POST["appointment_id"];
+    $appointmentId = $_GET['id'];
     $reason = $_POST["reason"];
 
     if ($reason == "other"){
@@ -61,6 +62,44 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     exit();
 
   }
+
 }
 ?>
-?>
+
+<style>
+  #cancelForm{
+  margin: 30px auto;
+  width: 25%;
+  border-radius:10px; 
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  padding: 20px; 
+  font-family: 'Times New Roman', Times, serif;
+  text-align: center;
+}
+
+label, input{
+    display: block;
+}
+</style>
+
+
+ <form id="cancelForm" action="" method="POST">
+    <h2>Cancelation Form</h2>
+    <p style="color: red; font-style: italic;">Note: The action cannot be undone</p>
+    <label for="reason">Reason for Cancelation:</label><br>
+    <select name="reason" id="reason">
+      <option value="unforeseen_circumstances">Unforeseen Circumstances</option>
+      <option value="schedule_conflict">Schedule Conflict</option>
+      <option value="medical_emergency">Medical Emergency</option>
+      <option value="other">Other</option>
+    </select><br><br>
+    <label for="other_reason">Other Reason:</label><br>
+    <textarea name="other_reason" id="other_reason" rows="3" cols="35" placeholder="Please specify if you selected 'Other'"></textarea><br>
+    <input type="hidden" name="student_id" id="student_id" value="<?php echo $id;?>">
+    <input type="submit" value="Submit" style="margin-left:40%; margin-top: 10px;" onclick="return confirm('Are you sure you want to cancel the appointment?');">
+   
+</form>
+<div style='text-align: center;'>
+    <a href="../Student/studentdashboard.php">Go back to dashboard</a>
+</div>
+

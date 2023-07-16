@@ -1,20 +1,17 @@
 <?php include 'header.php' ?>
     <div class="call-to-action">
 
-            <div class="emotions">
-                    <p>Depressed? 	&#128531</p>
-                    <p>Scared? &#128552</p>
-                    <p>Confused? &#128528</p>
-            </div>
+        <div class="emotions">
+            <p>Depressed? 	&#128531</p>
+            <p>Scared? &#128552</p>
+            <p>Confused? &#128528</p>
+        </div>
        
-         
-            <h1 style=" font-size: 68px; margin-bottom: 0px; margin-top: 0px; ">Just Breath & Relax</h1>
-            <p style="line-height: 36px; text-align: center; ">The CUEA Counseling team provides high quality mental health services using an<br>
-            evidence-based approach and Christian values. <br> We believe in early identification</p>
+        <h1 style=" font-size: 68px; margin-bottom: 0px; margin-top: 0px; ">Just Breath & Relax</h1>
+        <p style="line-height: 36px; text-align: center; ">The CUEA Counseling team provides high quality mental health services using an<br>
+        evidence-based approach and Christian values. <br> We believe in early identification</p>
 
-       
-
-         <button class="button"><a href="Login.php">Book an Appointment</a></button>
+        <button class="button"><a href="Login.php">Book an Appointment</a></button>
             
     </div>
 

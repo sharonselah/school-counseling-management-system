@@ -106,6 +106,7 @@ $stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_
             <li><a href="#">Appointments</a></li>
             <li><a href="#">Patients</a></li>
             <li><a href="#">Referrals</a></li> 
+            <li><a href="#">Profile</a></li> 
         </ul> 
         <ul>
             <li style="position: absolute; bottom: 130px;"><a href="../logout.php">Log Out</a></li>
@@ -233,7 +234,7 @@ $stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_
                             $currentDate = date("Y-m-d");
                            
 
-                            if ($appointment_date_time == $currentDate) {
+                            if ($row['date'] == $currentDate) {
                                 // Display buttons to indicate student's attendance
                             $checkup= "<a href='../Appointment/confirmshowup.php?id=" . $row['id'] . "'>Show up</a>
                             <a href='../Appointment/rejectshowup.php?id=" . $row['id'] . "'>No show up</a>";
@@ -241,7 +242,7 @@ $stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_
                                 $checkup = "&#10004; or &#10007;";
                             }
                           
-                            $notes = "<a href='notes.php' id='confirm_btn1'>Take Notes</a>";
+                            $notes = "<a href='../notes.php' id='confirm_btn1'>Take Notes</a>";
                             break;
                         case 'canceled':
                             $status_color = 'color: red;';
@@ -305,6 +306,7 @@ $stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_
     
     <div class="right-d hide"> <?php include 'Referrals/referal.php'; ?> </div>
     <div class="right-e hide"> <?php include 'Referrals/acceptreferal.php'; ?></div>
+    <div class="right-f hide"> <?php include 'counselorprofile.php'; ?></div>
   
     <div id="notificationList" class="notification-list">
 

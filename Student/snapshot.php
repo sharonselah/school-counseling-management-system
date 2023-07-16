@@ -3,7 +3,20 @@
     <div class="profile" style=" font-size: 88%;">
       
         <p style="margin-bottom:0px; color: brown;">Your Profile</p>
-            <img src="../Images/user-icon.jpg" alt="">
+            <?php
+                $sql ="SELECT profile_image FROM students WHERE student_id = $id";
+                $result_image= $conn->query($sql);
+
+                if ($result_image->num_rows == 1){
+                  $row_image = $result_image->fetch_assoc();
+                  $imagePath = $row_image['profile_image'];
+                  
+                }
+
+
+            ?>
+            <img src="../Images/<?php echo $imagePath; ?>" alt="Student Image">
+
             <p style="margin-bottom:0px;"><?php echo $_SESSION['name']; ?></p>
             <p style="margin-top:5px; color: gray; font-size: 85%;">Student</p>
 
@@ -47,7 +60,7 @@
     <p style="margin-top: 15%; line-height: 3rem; font-size: 90%; ">"&#127919 Setting goals is the first step in turning the invisible into the visible 
     &#128640."</p>
 
-    <button><a href="goals.php">Manage Goals</a></button>
+    <button><a href="studentdashboard.php?page=goals.php">Manage Goals</a></button>
                               
 </div> <!--end of manage goals-->
 

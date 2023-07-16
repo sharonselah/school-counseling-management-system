@@ -17,7 +17,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
   
 
     if ($stmt-> execute()){
-        header("Location:../counselordashboard.php");
+        header("Location:../Counselor/counselordashboard.php");
         exit(); 
     }else {
         echo "Error". $stmt-> error; 

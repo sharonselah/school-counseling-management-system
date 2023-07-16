@@ -3,11 +3,16 @@ session_start();
 
 include 'sessiondeleting.php'; 
 $message = '';
+$success = '';
 
 if (isset($_GET['login'])) {
   if ($_GET['login'] === 'error') {
     $message = 'Incorrect email or password';
   } 
+
+  if ($_GET['login'] === 'success'){
+    $success = 'Registration successful! You can now log in with your credentials.';
+  }
   //echo '<script>alert("' . $message . '");</script>';
   //unset($_GET['login']);
   //header("Refresh:0; Login.php"); //refresh the current page 
@@ -26,6 +31,7 @@ if (isset($_GET['login'])) {
 </head>
 <body>
     <div class="login">
+      <p style='color:green;'><?php echo $success; ?></p>
         <form onsubmit =" return Validateform()" action="Backend/loginmodel.php" method="post">
 
 

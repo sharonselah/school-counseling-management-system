@@ -7,7 +7,7 @@
         </div>
     </div>
 
-    <p>CUEA Counseling 2023, &copy; All Rights Reserved</p>
+    <p>CUEA Counseling <?php echo date('Y');?>, &copy; All Rights Reserved</p>
 
 </footer>
 

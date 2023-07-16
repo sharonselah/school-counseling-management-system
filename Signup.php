@@ -49,7 +49,7 @@ if (isset($_GET['error'])) {
                 </div>
 
                 <div class="form-control">
-                    <label for="password">Password (8+ characters)</label><br>
+                    <label for="password">Password <span style='color:gray;'>(8+ characters, uppercase, lowercase, & number)</span></label><br>
                     <input type="password" name ="password" id ="password"> <br>
                     <small style="color:red;" id ="pwd-error"></small>
                 </div>

@@ -39,7 +39,7 @@
         $stmt2-> execute(); 
         $result2 = $stmt2->get_result(); 
         $counselor =$result2-> fetch_assoc(); 
-        // Full name of the day of the week; Day of the month; abb name of the month
+        // Full name of the day of the week; Day of the month; abb name of the month - Thu 24 may
         $row['date'] = date_format(date_create($row['date']), 'l j M');
         echo "<tr><td>" . $counselor["name"] . "</td><td>" . $row["date"] . "</td><td>" . $row["start_time"] . "</td>
               <td style='color:blue;'>" .$row["status"]. "</td></tr>";

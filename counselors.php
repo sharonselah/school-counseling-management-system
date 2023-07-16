@@ -17,7 +17,16 @@ if ($result->num_rows > 0){?>
        
             <div class="counselor">
                 <div class= "img_container">
-                    <img src="Images/user.png" alt="image">
+                    <?php 
+                        if ($counselor['profile_image'] == ''){?>
+                            <img src="Images/user.png" alt="image">
+                       <?php
+                       }else {?>
+                        <img src="Images/<?php echo $counselor['profile_image'];?>" alt="image">
+                       <?php
+                       }
+                    ?>
+                   
                 </div>
                 <h3><?php echo $counselor["name"]; ?></h3>
                 <p>Email: <?php echo $counselor["email"]; ?></p>

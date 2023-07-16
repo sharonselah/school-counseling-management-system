@@ -46,7 +46,7 @@ $stmt2-> execute();
 
 //check if the query executed
 if ($execute){
-    header("Location: ../Login.php");
+    header("Location: ../Login.php?login=success");
     exit(); 
 } else {
     echo "Error". $stmt-> error; 

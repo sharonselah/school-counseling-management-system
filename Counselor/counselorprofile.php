@@ -1,8 +1,8 @@
 <?php 
 
-include 'db.php';
+include '../Backend/db.php';
 
-session_start(); 
+
 $id = $_SESSION["user_id"]; 
 $name =  $_SESSION["name"]; 
 $email = $_SESSION["email"]; 
@@ -10,27 +10,23 @@ $email = $_SESSION["email"];
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
     $email = filter_var ($_POST["email"], FILTER_SANITIZE_EMAIL); 
     $phone = filter_var ($_POST["phone"], FILTER_SANITIZE_NUMBER_INT); 
-    $gender = filter_var ($_POST["gender"], FILTER_SANITIZE_STRING); 
     $image = $_POST['image'];
 
     $image_path = pathinfo($image);
     $image_basename = $image_path['basename'];
 
 
-    $stmt = $conn-> prepare("UPDATE students SET email =?, phone = ?, gender =?, profile_image= ? WHERE student_id =?"); 
-    $stmt -> bind_param('sissi', $email, $phone, $gender, $image_basename, $id); 
+    $stmt = $conn-> prepare("UPDATE counselors SET email =?, phone = ?, profile_image= ? WHERE counselor_id =?"); 
+    $stmt -> bind_param('sisi', $email, $phone, $image_basename, $id); 
     
-    try {
+    
         if ($stmt->execute()) {
-            header("Location:../Student/studentdashboard.php");
+            header("Location:../Counselor/counselordashboard.php");
             exit();
         } else {
-            throw new Exception("Failed to execute statement");
+            echo ("Failed to execute statement");
         }
-    } catch (Exception $e) { //type of exception and its name ($e can be anything)
-        echo "Error: " . $e->getMessage();
-    }
-    
+   
 
     $stmt->close(); 
 }
@@ -40,7 +36,7 @@ $conn-> close();
 <head>
     
     <link rel="stylesheet" href="../CSS/style.css">
-    <title>Student Dashboard</title>
+    <title>Counselor Dashboard</title>
 
     <style>
         select{
@@ -79,14 +75,6 @@ $conn-> close();
                     <small id ="uphone_error" style ="color:red;" ></small><br>
                 </div>
 
-                <div class="form-control">
-                    <label for="gender">Gender</label> <br>
-                    <select name="gender" id="gender">
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="not_specified">Prefer Not to Say</option>
-                    </select>
-                </div> <br>
 
                 <div class="form-control">
                     <label for="image">Profile Image</label>

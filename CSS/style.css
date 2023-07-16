@@ -413,7 +413,6 @@ header ul a:hover{
     align-items: center;
     background-color: white; 
 
-    
   }
 
 
@@ -448,6 +447,7 @@ header ul a:hover{
     width: 30%; 
     font-size: 18px;
     font-weight: bold;
+ 
   
   }
 
@@ -692,7 +692,7 @@ align-items: center;
 
 #snapshot .appointment{
   width: 44%; 
-  height: 90vh; 
+  height: 80vh; 
   text-align: center;
  
 }
@@ -700,7 +700,7 @@ align-items: center;
 #snapshot .appointment .division.one{
   background-color: #F4F2F2;
   margin: auto;
-  height: 87%;
+  height: 90%;
   width: 96%; 
   border-radius: 12px;
   display: flex;
@@ -737,7 +737,7 @@ align-items: center;
 #snapshot .appointment .division-two .details p{
   border-left: 12px solid #66CDAA;
   border-right: 12px solid #66CDAA;
-  padding: 14px; 
+  padding: 8px; 
   border-bottom: 1px solid lightgrey; 
 }
 
@@ -799,7 +799,6 @@ align-items: center;
   margin: 30px auto;
   width: 25%;
   border-radius:10px; 
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
   height: 95vh; 
   padding: 20px; 
@@ -811,6 +810,7 @@ align-items: center;
   text-align: center; 
   font-weight: bold; 
   line-height: 1.25 rem; 
+
 }
 
 .form_appointment input[type="date"],.form_appointment input[type="text"], .form_appointment select{
@@ -880,6 +880,7 @@ padding: 10px;
   font-size: 18px;
   font-weight: bold;
   display: flex;
+  
 
   
 }
