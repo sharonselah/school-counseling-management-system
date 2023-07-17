@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+include '../sessiondeleting.php'; 
+
 $page = 'counselors.php';
 
 if (isset($_GET['page'])){

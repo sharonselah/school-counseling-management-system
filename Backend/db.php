@@ -1,9 +1,9 @@
 <?php 
 
-$host = "localhost";
-$uname = "root";
-$pwd = "sharon";
-$dbname ="school-project";
+$host = "localhost"; //local computer that the program is running on
+$uname = "root"; //mysql username
+$pwd = "sharon"; //mysql password
+$dbname ="school-project"; //database to be used
 
 //creates a new instance of the mysqli class and connects to a MySQL database
 

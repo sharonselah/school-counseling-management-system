@@ -24,24 +24,7 @@
               <p>&#10084 For <?php echo $_SESSION["name"]?></p>
               <p style="display: flex; justify-content: space-between;align-items: center;"> 
               <a style="color:blue; font-size: 80%;text-decoration: underline;"href="confirmappointment.php?id=<?php echo $appointment_id;?>">Confirm Appointment</a>
-              <a href="#" style="color:red; font-size: 80%;text-decoration: underline;" onclick="toggleForm(<?php echo $appointment_id; ?>)">Cancel Appointment</a>
-
-                  <form id="cancelForm" action="" method="POST" style="display: none; width: 65%; max-height: 30vh; background-color: white; line-height: 2; ">
-                    <label for="reason">Reason for Cancelation:</label><br>
-                    <select name="reason" id="reason">
-                      <option value="unforeseen_circumstances">Unforeseen Circumstances</option>
-                      <option value="schedule_conflict">Schedule Conflict</option>
-                      <option value="medical_emergency">Medical Emergency</option>
-                      <option value="other">Other</option>
-                    </select><br>
-                    <label for="other_reason">Other Reason:</label><br>
-                    <textarea name="other_reason" id="other_reason" rows="3" cols="25" placeholder="Please specify if you selected 'Other'"></textarea><br>
-                    <input type="hidden" name="student_id" id="student_id" value="<?php echo $id;?>">
-                    <input type="hidden" name="appointment_id" id="appointment_id" value="">
-                    <input type="submit" value="Submit" onclick="return confirm('Are you sure you want to cancel the appointment?');">
-                  </form>
-          
-            </p>
+              <a style ='color:red;  text-decoration: underline; font-size:80%;' href="../Appointment/deleteappointment.php?id=<?php echo $appointment_id;?>">Cancel Appointment</a></p>
           </div>
 
           <div class="confirm"> 

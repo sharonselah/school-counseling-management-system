@@ -1,69 +1,70 @@
 <?php
 
-include '../Backend/db.php'; 
+include '../Backend/db.php';
 
 session_start();
 $name = $_SESSION["name"];
-
+$id = $_SESSION['user_id'];
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // Check if the cancellation form is submitted
+    if (isset($_GET['id'])) {
+        $student_id = $_POST["student_id"];
+        $appointmentId = $_GET['id'];
+        $reason = $_POST["reason"];
 
-    echo $counselor_id;
-  // Check if the cancellation form is submitted
-    if ($_GET['id']) {
-    $student_id = $_POST["student_id"];
-    $appointmentId = $_GET['id'];
-    $reason = $_POST["reason"];
+        if ($reason == "other") {
+            $reason = $_POST["other_reason"];
+        }
 
-    if ($reason == "other"){
-        $reason = $_POST["other_reason"];
-    }
+        // Additional validation and processing code here
 
+        // Update the notifications table if the appointment is rescheduled
+        $stmt_reschedule = $conn->prepare("UPDATE rescheduling SET accepted = 0 WHERE appointment_id = ?");
+        $stmt_reschedule->bind_param("i", $appointmentId);
+        $stmt_reschedule->execute();
 
-    // Additional validation and processing code here
+        // Insert the cancellation record into the database
+        $stmt = $conn->prepare("INSERT INTO cancellations (appointment_id, student_id, reason) 
+                                VALUES (?, ?, ?)");
+        $stmt->bind_param("iis", $appointmentId, $student_id, $reason);
 
-    // Insert the cancellation record into the database
-    $stmt = $conn->prepare("INSERT INTO cancellations (appointment_id, student_id, reason) 
-                            VALUES (?, ?, ?)");
-    $stmt->bind_param("iis", $appointmentId, $student_id, $reason);
+        if ($stmt->execute()) {
+            $stmt->close();
+            // Update the appointment status in the appointments table
+            $stmt2 = $conn->prepare("UPDATE appointments SET status = 'canceled' WHERE id = ?");
+            $stmt2->bind_param("i", $appointmentId);
 
-    if ($stmt->execute()){
-        $stmt->close();
-        // Update the appointment status in the appointments table
-        $stmt2 = $conn->prepare("UPDATE appointments SET status = 'canceled' WHERE id = ?");
-        $stmt2->bind_param("i", $appointmentId);
-
-        if ($stmt2->execute()){
-            $stmt2->close();
+            if ($stmt2->execute()) {
+                $stmt2->close();
                 $message = "$name has canceled a request";
-            
-                $stmt = $conn-> prepare ("SELECT counselor_id FROM appointments where 
-                id = ? LIMIT 1"); 
-                $stmt->bind_param('i',$appointmentId);
-                $stmt-> execute();
-                $result = $stmt-> get_result();
-                $row = $result-> fetch_assoc(); 
+
+                $stmt = $conn->prepare("SELECT counselor_id FROM appointments WHERE id = ? LIMIT 1");
+                $stmt->bind_param('i', $appointmentId);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $row = $result->fetch_assoc();
                 $counselor_id = $row["counselor_id"];
                 $recipient_id = $counselor_id;
 
                 $recipient_role = 'counselor';
-                $sender_role ='student';
+                $sender_role = 'student';
 
-            $query = "INSERT INTO notifications (recipient_id, sender_id, notification_type, message) 
-                    VALUES ('$recipient_id', '$student_id','$recipient_role','$sender_role', 'appointment_cancel', '$message')";
-            mysqli_query($conn, $query);
-        }    
+                $query = "INSERT INTO notifications (recipient_id, sender_id, recipient_role, sender_role, notification_type, message) 
+                          VALUES (?, ?, ?, ?, 'appointment_cancel', ?)";
+                $stmt = $conn->prepare($query);
+                $stmt->bind_param('iisss', $recipient_id, $student_id, $recipient_role, $sender_role, $message);
+                $stmt->execute();
+            }
+        }
 
+        // Redirect back to the user list page
+        header("Location: ../Student/studentdashboard.php");
+        exit();
     }
-    
-  
-    // Redirect back to the user list page
-    header("Location: ../Student/studentdashboard.php");
-    exit();
-
-  }
-
 }
+
+
 ?>
 
 <style>
@@ -96,8 +97,7 @@ label, input{
     <label for="other_reason">Other Reason:</label><br>
     <textarea name="other_reason" id="other_reason" rows="3" cols="35" placeholder="Please specify if you selected 'Other'"></textarea><br>
     <input type="hidden" name="student_id" id="student_id" value="<?php echo $id;?>">
-    <input type="submit" value="Submit" style="margin-left:40%; margin-top: 10px;" onclick="return confirm('Are you sure you want to cancel the appointment?');">
-   
+    <input type="submit" value="Submit" style="margin-left:40%; margin-top: 10px;" onclick="return confirm('Are you sure you want to cancel the appointment?');">  
 </form>
 <div style='text-align: center;'>
     <a href="../Student/studentdashboard.php">Go back to dashboard</a>

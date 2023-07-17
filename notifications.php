@@ -89,7 +89,7 @@ if (mysqli_num_rows($result) > 0) {
           <p>$hoursDifference hours ago</p>
           <button><a href='../markasread.php?id=$rowId'>Mark as Read</a></button>";
           break;
-      case 'referal_reject':
+      case 'referral_reject':
           echo "<p>$message</p>
           <p>$hoursDifference hours ago</p>
           <button><a href='../markasread.php?id=$rowId'>Mark as Read</a></button>";

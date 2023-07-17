@@ -23,9 +23,10 @@
         // Insert a notification for the student
         $recipient_id = $counselor_id;
         $message = "Your appointment has been confirmed";
-        $query = "INSERT INTO notifications (recipient_id, sender_id, notification_type, message) 
-                VALUES ('$recipient_id', '$id', 'appointment_request', '$message')";
+        $query = "INSERT INTO notifications (recipient_id, sender_id, recipient_role, sender_role, notification_type, message) 
+        VALUES ('$recipient_id', '$id', 'counselor', 'student', 'appointment_request', '$message')";
         mysqli_query($conn, $query);
+
 
         
 

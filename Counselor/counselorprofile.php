@@ -10,13 +10,14 @@ $email = $_SESSION["email"];
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
     $email = filter_var ($_POST["email"], FILTER_SANITIZE_EMAIL); 
     $phone = filter_var ($_POST["phone"], FILTER_SANITIZE_NUMBER_INT); 
+    $office = $_POST ["office"]; 
     $image = $_POST['image'];
 
     $image_path = pathinfo($image);
     $image_basename = $image_path['basename'];
 
 
-    $stmt = $conn-> prepare("UPDATE counselors SET email =?, phone = ?, profile_image= ? WHERE counselor_id =?"); 
+    $stmt = $conn-> prepare("UPDATE counselors SET email =?, phone = ?, office =?,  profile_image= ? WHERE counselor_id =?"); 
     $stmt -> bind_param('sisi', $email, $phone, $image_basename, $id); 
     
     
@@ -71,8 +72,14 @@ $conn-> close();
 
                 <div class="form-control">
                     <label for="name">Phone Number</label> <br>
-                    <input type="phone" name ="phone" id ="uphone" placeholder="eg 070000000"> <br>
+                    <input type="number" name ="phone" id ="uphone" placeholder="eg 070000000"> <br>
                     <small id ="uphone_error" style ="color:red;" ></small><br>
+                </div>
+
+                <div class="form-control">
+                    <label for="name">Office Location</label> <br>
+                    <input type="text" name ="office" id ="office" placeholder ="eg JH 01 or Mission Hall"> <br>
+                    
                 </div>
 
 

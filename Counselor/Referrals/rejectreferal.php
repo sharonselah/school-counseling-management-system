@@ -3,7 +3,7 @@
 include '../../Backend/db.php';
 
 $referral_id = $_GET['id'];
-$accept = false;
+$accept = 2;
 
 // Update the referral status to "accept" in the database
 $stmt = $conn->prepare("UPDATE referrals SET Accept = ? WHERE id = ?");
@@ -31,7 +31,7 @@ if ($stmt->execute()) {
     $stmt->execute();
 
     // Redirect back to the counselor dashboard
-    header("Location: ../counselordashboard.php#");
+    header("Location: ../counselordashboard.php");
     exit();
 } else {
     

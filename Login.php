@@ -4,6 +4,7 @@ session_start();
 include 'sessiondeleting.php'; 
 $message = '';
 $success = '';
+$session = '';
 
 if (isset($_GET['login'])) {
   if ($_GET['login'] === 'error') {
@@ -12,6 +13,10 @@ if (isset($_GET['login'])) {
 
   if ($_GET['login'] === 'success'){
     $success = 'Registration successful! You can now log in with your credentials.';
+  }
+
+  if ($_GET['login'] == "session_over"){
+    $session = 'Your session of 30 minutes has expired. Please log in again for security reasons';
   }
   //echo '<script>alert("' . $message . '");</script>';
   //unset($_GET['login']);
@@ -31,6 +36,7 @@ if (isset($_GET['login'])) {
 </head>
 <body>
     <div class="login">
+      <p style='color:red;'><?php echo $session; ?></p>
       <p style='color:green;'><?php echo $success; ?></p>
         <form onsubmit =" return Validateform()" action="Backend/loginmodel.php" method="post">
 

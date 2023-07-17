@@ -12,6 +12,12 @@ if (isset($_POST['submit'])) {
 
     $result = $stmt->get_result(); 
 
+    if ($result->num_rows ==1){
+        echo "<p style='color:green; text-align:center;'>Check Your Email and Click on the link sent to your email</p>";
+    }else {
+        echo "<p style='color:red; text-align:center;'>The email does not exist. Please register a new account.</p>"; 
+    }
+
 }
 ?>
 
@@ -44,11 +50,7 @@ if (isset($_POST['submit'])) {
 
                 <?php
                 
-                if ($result->num_rows ==1){
-                    echo "<p style='color:green;'>Check Your Email and Click on the link sent to your email</p>";
-                }else {
-                    echo "<p style='color:red;'>The email does not exist</p>"; 
-                }
+                
                 ?>
               
         </form>

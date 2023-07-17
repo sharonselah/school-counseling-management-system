@@ -1,6 +1,8 @@
 <?php
 session_start();
+
 include '../sessiondeleting.php'; 
+
 include '../Backend/db.php';
 
 if (!isset($_SESSION['authenticated']) || $_SESSION["role"] !== 'counselor') {
@@ -134,7 +136,7 @@ $stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_
                 <p><?php echo $number["pending_appointments"];?></p>
             </div>
             <div class="box">
-                <h2><span style="background-color: green;" class="bullet"></span>Accepted</h2>
+                <h2><span style="background-color: green;" class="bullet"></span>Confirmed</h2>
                 <p><?php echo $number["confirmed_appointments"];?></p>
             </div>
             <div class="box">
@@ -211,10 +213,10 @@ $stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_
                     $status_app = $row['status'];
 
                     //checking status
-                    $time = time();
+                    $time = time(); //current time measured in seconds
                     $current_date_time = date("Y-m-d", $time);
                     
-                    $stmt = $conn->prepare("UPDATE appointments SET status = 'overdue' WHERE status = 'pending' AND date < ?");
+                    $stmt = $conn->prepare("UPDATE appointments SET status = 'overdue' WHERE status = 'pending' OR status = 'confirmed' AND date < ?");
                     $stmt->bind_param('s', $current_date_time); 
                     $stmt->execute(); 
                     
@@ -270,7 +272,7 @@ $stmt5 = $conn->prepare("SELECT * FROM notes where counselor_id = ? and student_
                             break;
                         default:
                             $status_color = 'color: orange;';
-                            $status_action = $status_app . ' (Lack of confirmation)';
+                            $status_action = $status_app . ' (Lack of confirmation or show up)';
                             $checkup = "&#10007;";
                             $notes = 'No Notes';
                             break;

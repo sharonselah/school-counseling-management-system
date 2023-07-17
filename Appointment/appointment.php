@@ -51,7 +51,7 @@ if (isset($_SESSION["error_message"])){
                         <option value="">Select a counselor</option>
                         <?php
                         // Query your database to fetch counselor names
-                        $sql = "SELECT  name FROM counselors ORDER BY name DESC";
+                        $sql = "SELECT name FROM counselors WHERE status = 'active' ORDER BY name DESC";
                         $result = $conn->query($sql);
 
                         if ($result->num_rows > 0) {

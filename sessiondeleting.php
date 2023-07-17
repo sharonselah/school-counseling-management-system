@@ -13,10 +13,10 @@ function checkSessionTimeout($timeout = 1800) { // 1800 seconds = 30 minutes
         // Destroy the session
         session_unset();
         session_destroy();
-        $_SESSION = array();
+        $_SESSION = array(); //remove all session data
 
         // Redirect to the login page or any other desired action
-        header("Location: ../Login.php");
+        header("Location: ../Login.php?login=session_over");
         exit();
     } else {
         // Update the last activity timestamp

@@ -125,7 +125,7 @@
                     if ($referrals['Accept'] == '') {
                         echo "Pending";
                      
-                    } elseif ($referrals["Accept"] == TRUE) {
+                    } elseif ($referrals["Accept"] == 0) {
                         echo "Accepted";
                     } else {
                         echo "Rejected";

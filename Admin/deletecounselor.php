@@ -1,7 +1,14 @@
 <?php
 
+session_start();
 
 include '../Backend/db.php'; 
+
+if (!isset($_SESSION['authenticated']) || $_SESSION["role"] !== 'admin') {
+  // User is not authenticated or is not a admin, redirect to login page
+  header('Location: ../Login.php');
+  exit();
+}
 
 
 if ($_SERVER["REQUEST_METHOD"]=="POST"){
@@ -49,8 +56,12 @@ if ($stmt->execute()){
 
 ?>
 
+<div style="width: 30%; margin:20px auto; border:1px solid lightgray; border-radius:10px; padding: 30px;  ">
 
-<form method="POST" action="">
+
+<form  method="POST" action="">
+  <h3 style='text-align:center;'>Termination of Counselor Form</h3>
+  <p style="text-align:center; color:red;"> <i>Note: This action cannot be undone</i></p>
 
   <label for="termination_reason">Termination Reason:</label>
 
@@ -68,10 +79,16 @@ if ($stmt->execute()){
     <label for="custom_reason">Specify Other Reason:</label>
     <input type="text" name="custom_reason">
   </div>
-  
-  <input type="submit" value="Submit">
+
+  <div style='display: flex; justify-content: center;'>
+    <input type="submit" value="Submit" onclick="return confirm('Are you sure you want to delete this counselor?');">
+  </div>
+
+ 
 </form>
 
+</div>
+<a style ='margin-left: 45%;' href="admindashboard.php">Go back to dashboard</a>
 
 <script>
   document.querySelector('select[name="termination_reason"]').addEventListener('change', function() {

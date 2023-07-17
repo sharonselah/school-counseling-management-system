@@ -114,13 +114,14 @@ $counselor_id = $_SESSION['user_id'];
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
   // Get the new date and time from the form submission
   $new_date = $_POST["new_date"];
-  $startTime = $_POST["select"]; 
+  $new_time = $_POST["select"]; 
   $reason = $_POST["reason"]; 
 
   if ($_POST["other_reason"]){
     $reason = $_POST["reason"]; 
   }
   
+$new_end_time = date ('H:i',strtotime('+1 hour', strtotime($new_time)) );
 
   // Retrieve the student ID and current appointment details
   $stmt = $conn->prepare("SELECT student_id FROM appointments WHERE id = ?");
@@ -151,8 +152,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     // Reschedule the appointment to the new date and time
-    $stmt = $conn->prepare("UPDATE appointments SET date = ?, start_time = ?, status = 'rescheduled' WHERE id = ?");
-    $stmt->bind_param("ssi", $new_date, $new_time, $id);
+    $stmt = $conn->prepare("UPDATE appointments SET date = ?, start_time = ?, end_time = ? , status = 'rescheduled' WHERE id = ?");
+    $stmt->bind_param("sssi", $new_date, $new_time, $new_end_time, $id);
     $stmt->execute();
     $stmt->close();
   
